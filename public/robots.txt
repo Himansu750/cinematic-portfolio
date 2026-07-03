@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://himanshu-chaudhari.com
+
+# Sitemaps
+Sitemap: https://himanshu-chaudhari.com/sitemap.xml
