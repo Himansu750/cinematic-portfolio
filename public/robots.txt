@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://himanshu-chaudhari.com
+Host: https://portfolio-delta-ten-66.vercel.app
 
 # Sitemaps
-Sitemap: https://himanshu-chaudhari.com/sitemap.xml
+Sitemap: https://portfolio-delta-ten-66.vercel.app/sitemap.xml
