@@ -6,7 +6,6 @@ import UnicornStudioScene from "@/components/effects/UnicornStudioScene";
 import LazyVideo from "@/components/ui/LazyVideo";
 import VisualGrid from "@/components/visual-artist/VisualGrid";
 
-import VisualTransition from "@/components/visual-artist/VisualTransition";
 import { unicornScenes } from "@/data/unicornScenes";
 
 export default function VisualArtistPage() {
@@ -247,8 +246,6 @@ export default function VisualArtistPage() {
           </p>
         </motion.div>
             </section>
-
-      <VisualTransition />
 
       <VisualGrid />
     </main>

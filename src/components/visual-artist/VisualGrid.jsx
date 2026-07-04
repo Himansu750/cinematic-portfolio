@@ -34,76 +34,91 @@ export default function VisualGrid() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ["start start", "end end"],
   });
 
   const smoothScrollYProgress = useSpring(
     scrollYProgress,
     {
-      stiffness: 78,
-      damping: 24,
-      mass: 0.42,
+      stiffness: 66,
+      damping: 21,
+      mass: 0.48,
       restDelta: 0.001,
     }
   );
 
-  const sceneOpacity = useTransform(
+  const promptOpacity = useTransform(
     smoothScrollYProgress,
-    [0, 0.08, 1],
-    [0, 1, 1]
+    [0, 0.08, 0.16],
+    [1, 1, 0]
   );
 
-  const gridZ = useTransform(
+  const sceneOpacity = useTransform(
     smoothScrollYProgress,
-    [0, 0.16, 0.32, 1],
-    isWide
-      ? [-1500, -720, 0, 0]
-      : [-1100, -500, 0, 0]
+    [0, 0.04, 0.94, 1],
+    [1, 1, 1, 0.82]
   );
 
   const gridScale = useTransform(
     smoothScrollYProgress,
-    [0, 0.2, 0.32, 1],
+    [0.08, 0.32, 0.62, 1],
     isWide
-      ? [0.3, 0.68, 0.72, 0.72]
-      : [0.38, 0.68, 0.78, 0.78]
+      ? [0.54, 0.92, 1.04, 0.92]
+      : isMedium
+        ? [0.56, 0.9, 1.02, 0.9]
+        : [0.6, 0.92, 1.04, 0.92]
   );
 
   const gridY = useTransform(
     smoothScrollYProgress,
-    [0, 0.24, 0.32, 1],
+    [0.08, 0.36, 0.7, 1],
     isWide
-      ? [260, 92, 70, 70]
+      ? [220, 120, 96, 140]
       : isMedium
-        ? [120, 20, 235, 235]
-      : [20, -90, 160, 160]
+        ? [190, 104, 92, 136]
+        : [170, 96, 96, 138]
   );
 
   const gridRotateX = useTransform(
     smoothScrollYProgress,
-    [0, 0.32, 1],
-    isWide ? [30, 0, 0] : [24, 0, 0]
+    [0.08, 0.34, 0.72, 1],
+    [18, 8, 0, -1]
   );
 
-  const liquidDistortion = useTransform(
+  const gridZ = useTransform(
     smoothScrollYProgress,
-    [0, 0.08, 0.18, 0.26, 1],
-    [0, isWide ? 22 : 18, isWide ? 9 : 7, 0, 0]
+    [0.08, 0.34, 0.7, 1],
+    isWide ? [-620, -170, 0, 48] : [-460, -140, 0, 42]
   );
 
-  const liquidFrequency = useTransform(
+  const titleY = useTransform(
     smoothScrollYProgress,
-    [0, 0.14, 0.26],
-    [
-      "0.006 0.03",
-      isWide ? "0.012 0.06" : "0.01 0.052",
-      "0.004 0.018",
-    ]
+    [0.08, 0.32, 0.58, 0.78],
+    isWide ? [260, 36, -94, -230] : [220, 34, -76, -190]
+  );
+
+  const titleScale = useTransform(
+    smoothScrollYProgress,
+    [0.08, 0.34, 0.68, 1],
+    isWide ? [1.16, 0.94, 0.9, 0.82] : [1.18, 0.96, 0.9, 0.82]
+  );
+
+  const titleOpacity = useTransform(
+    smoothScrollYProgress,
+    [0.08, 0.18, 0.62, 0.78],
+    [0, 1, 0.92, 0]
+  );
+
+  const remixOpacity = useTransform(
+    smoothScrollYProgress,
+    [0.78, 0.9, 1],
+    [0, 1, 1]
   );
 
   useEffect(() => {
     function updateViewport() {
       const width = window.innerWidth;
+
       setIsWide(width >= 1024);
       setIsMedium(width >= 768 && width < 1024);
     }
@@ -120,7 +135,7 @@ export default function VisualGrid() {
 
     const timeout = window.setTimeout(() => {
       router.push(selectedCategory.link);
-    }, 560);
+    }, 520);
 
     return () => window.clearTimeout(timeout);
   }, [router, selectedCategory]);
@@ -134,21 +149,18 @@ export default function VisualGrid() {
   return (
     <section
       ref={sectionRef}
+      data-visual-grid-section
       className="
         relative
         z-10
-
-        px-5
-        min-h-screen
-        pb-0
-        md:px-10
-        md:min-h-[150vh]
-        md:pb-32
-        lg:min-h-[125vh]
-
-        [perspective:1050px]
-        [perspective-origin:50%_40%]
-        lg:[perspective:1350px]
+        min-h-[245vh]
+        bg-black
+        px-0
+        [perspective:1100px]
+        [perspective-origin:50%_42%]
+        md:min-h-[250vh]
+        lg:min-h-[245vh]
+        lg:[perspective:1500px]
       "
     >
       <AnimatePresence>
@@ -166,20 +178,17 @@ export default function VisualGrid() {
               opacity: 0,
             }}
             transition={{
-              duration: 0.5,
+              duration: 0.48,
               ease,
             }}
             className="
               fixed
               inset-0
               z-[9999]
-
               flex
               items-center
               justify-center
-
               overflow-hidden
-
               bg-black
             "
           >
@@ -189,12 +198,10 @@ export default function VisualGrid() {
               initial={{
                 scale: 0.72,
                 opacity: 0,
-                borderRadius: 24,
               }}
               animate={{
-                scale: 1,
-                opacity: 0.36,
-                borderRadius: 0,
+                scale: 1.04,
+                opacity: 0.34,
               }}
               transition={{
                 duration: 0.56,
@@ -203,54 +210,18 @@ export default function VisualGrid() {
               className="
                 absolute
                 inset-0
-
                 h-full
                 w-full
-
                 object-cover
-
-                blur-[1px]
               "
             />
 
-            <div
-              className="
-                absolute
-                inset-0
-
-                bg-black/62
-              "
-            />
+            <div className="absolute inset-0 bg-black/64" />
 
             <motion.div
               initial={{
                 opacity: 0,
-                scaleX: 0.18,
-              }}
-              animate={{
-                opacity: 1,
-                scaleX: 1,
-              }}
-              transition={{
-                duration: 0.5,
-                ease,
-              }}
-              className="
-                absolute
-                left-1/2
-                top-1/2
-                h-px
-                w-[min(68vw,760px)]
-                origin-center
-                -translate-x-1/2
-                bg-white/18
-              "
-            />
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 26,
+                y: 24,
                 scale: 0.94,
               }}
               animate={{
@@ -266,7 +237,6 @@ export default function VisualGrid() {
               className="
                 relative
                 z-10
-
                 px-6
                 text-center
               "
@@ -274,12 +244,9 @@ export default function VisualGrid() {
               <p
                 className="
                   mb-5
-
                   text-[11px]
                   uppercase
-
                   tracking-[0.45em]
-
                   text-white/45
                 "
               >
@@ -289,15 +256,11 @@ export default function VisualGrid() {
               <h2
                 className="
                   text-[16vw]
-                  md:text-[8vw]
-
                   font-black
-
                   leading-[0.85]
-
                   tracking-[-0.08em]
-
                   text-white
+                  md:text-[8vw]
                 "
               >
                 {selectedCategory.title}
@@ -314,94 +277,105 @@ export default function VisualGrid() {
           top-0
           h-screen
           overflow-hidden
-          rounded-none
+          bg-black
         "
       >
-        <svg
-          aria-hidden="true"
-          className="absolute h-0 w-0"
-        >
-          <filter
-            id="visual-stack-liquid"
-            x="-18%"
-            y="-18%"
-            width="136%"
-            height="136%"
-            colorInterpolationFilters="sRGB"
-          >
-            <motion.feTurbulence
-              type="fractalNoise"
-              baseFrequency={liquidFrequency}
-              numOctaves="2"
-              seed="17"
-              result="noise"
-            />
-            <motion.feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale={liquidDistortion}
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </svg>
-
-        <div
+        <motion.p
+          style={{ opacity: promptOpacity }}
           className="
             absolute
-            inset-x-0
-            top-8
-            z-20
-
-            flex
-            items-center
-            justify-between
-
-            px-1
-            md:px-4
+            left-1/2
+            top-1/2
+            z-30
+            -translate-x-1/2
+            -translate-y-1/2
+            text-[15px]
+            font-medium
+            tracking-[-0.02em]
+            text-white/74
           "
         >
-          <p
-            className="
-              text-[11px]
-              uppercase
-              tracking-[0.34em]
-              text-white/45
-            "
-          >
-            Visual Categories
-          </p>
-
-          <p
-            className="
-              hidden
-              text-[11px]
-              uppercase
-              tracking-[0.24em]
-              text-white/35
-              sm:block
-            "
-          >
-            Scroll
-          </p>
-        </div>
+          Scroll down &darr;
+        </motion.p>
 
         <div
           className="
             absolute
             inset-0
-            bg-[radial-gradient(circle_at_50%_46%,rgba(255,255,255,0.055),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0)_35%,rgba(0,0,0,0.38))]
+            bg-[radial-gradient(circle_at_50%_46%,rgba(255,255,255,0.04),transparent_36%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0)_38%,rgba(0,0,0,0.34))]
           "
         />
 
+        <motion.div
+          style={{
+            opacity: titleOpacity,
+            y: titleY,
+            scale: titleScale,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            top-[45%]
+            z-20
+            -translate-y-1/2
+            select-none
+            text-center
+            text-white
+            mix-blend-screen
+            will-change-transform
+          "
+        >
+          <p
+            className="
+              mb-2
+              font-serif
+              text-[clamp(1.65rem,6vw,4.5rem)]
+              italic
+              leading-none
+              text-white/82
+            "
+          >
+            Himanshu Artspace
+          </p>
+
+          <h2
+            className="
+              mx-auto
+              w-[150vw]
+              -translate-x-[18vw]
+              font-serif
+              text-[clamp(6.7rem,28vw,20rem)]
+              font-normal
+              leading-[0.74]
+              tracking-[-0.095em]
+              text-white
+              md:w-[128vw]
+              md:-translate-x-[12vw]
+              lg:w-[116vw]
+              lg:-translate-x-[6vw]
+            "
+          >
+            Visual
+            <br />
+            Art
+          </h2>
+        </motion.div>
+
         <div
           className="
             absolute
-            inset-0
-            z-10
-            flex
-            items-center
-            justify-center
+            left-1/2
+            top-[96%]
+            z-20
+            w-[122vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            md:w-[102vw]
+            md:top-[84%]
+            lg:w-[92vw]
+            lg:max-w-[1460px]
+            lg:top-[76%]
           "
         >
           <motion.div
@@ -410,23 +384,19 @@ export default function VisualGrid() {
               y: gridY,
               z: gridZ,
               rotateX: gridRotateX,
-              filter: "url(#visual-stack-liquid)",
-              transformPerspective: 1050,
+              transformPerspective: 1200,
               transformStyle: "preserve-3d",
             }}
             className="
               grid
-              w-[min(118vw,1040px)]
+              w-full
               grid-cols-2
-              gap-5
+              gap-3
               will-change-transform
-
-              sm:gap-6
-              md:w-[min(92vw,1160px)]
+              sm:gap-4
               md:grid-cols-3
-              md:gap-8
-              lg:w-[min(118vw,1480px)]
-              lg:gap-7
+              md:gap-5
+              lg:gap-6
             "
           >
             {visualCategories.map(
@@ -445,6 +415,39 @@ export default function VisualGrid() {
             )}
           </motion.div>
         </div>
+
+        <motion.button
+          type="button"
+          style={{ opacity: remixOpacity }}
+          onClick={() =>
+            window.scrollTo({
+              top: sectionRef.current?.offsetTop ?? 0,
+              behavior: "smooth",
+            })
+          }
+          className="
+            absolute
+            left-1/2
+            top-[76%]
+            z-30
+            -translate-x-1/2
+            rounded-full
+            border
+            border-white/[0.08]
+            bg-white/[0.025]
+            px-5
+            py-2.5
+            text-[15px]
+            font-medium
+            text-white/64
+            backdrop-blur-xl
+            transition
+            hover:bg-white/[0.06]
+            hover:text-white
+          "
+        >
+          Remix
+        </motion.button>
       </motion.div>
     </section>
   );
@@ -462,99 +465,81 @@ function VisualStackCard({
   const columnCount = isWide || isMedium ? 3 : 2;
   const columnIndex = index % columnCount;
   const rowIndex = Math.floor(index / columnCount);
-  const revealSide =
-    columnIndex === 0
-      ? "left"
-      : columnIndex === columnCount - 1
-        ? "right"
-        : "center";
-  const direction =
-    revealSide === "left"
-      ? -1
-      : revealSide === "right"
-        ? 1
-        : index % 2 === 0
-          ? -0.35
-          : 0.35;
+  const isLeft = columnIndex === 0;
+  const isRight = columnIndex === columnCount - 1;
+  const direction = isLeft ? -1 : isRight ? 1 : index % 2 ? 0.45 : -0.45;
+
   const revealStart =
-    0.035 + rowIndex * 0.04 + columnIndex * 0.012;
-  const revealMid = revealStart + 0.115;
-  const revealEnd = revealStart + 0.285;
+    0.1 + rowIndex * 0.052 + columnIndex * 0.018;
+  const revealMid = revealStart + 0.18;
+  const revealEnd = revealStart + 0.34;
 
   const cardOpacity = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
-    [0, 0.72, 1]
+    [0, 0.74, 1]
   );
+
   const cardRotateX = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
-    [
-      revealSide === "center"
-        ? isWide
-          ? 26
-          : 24
-        : isWide
-          ? 22
-          : 20,
-      revealSide === "center" ? 8 : 6,
-      0,
-    ]
+    [isWide ? 34 : 30, isWide ? 12 : 10, 0]
   );
+
   const cardRotateY = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
     [
-      direction * (isWide ? 18 : 14),
-      direction * (isWide ? 6 : 4),
+      direction * (isWide ? 24 : 20),
+      direction * (isWide ? 8 : 6),
       0,
     ]
   );
+
   const cardRotateZ = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
     [
-      direction * (isWide ? 3.2 : 2.6),
-      direction * 0.8,
+      direction * (isWide ? 7 : 6),
+      direction * 2,
       0,
     ]
   );
-  const cardY = useTransform(
-    scrollYProgress,
-    [revealStart, revealMid, revealEnd],
-    [
-      (isWide ? 58 : 44) + rowIndex * (isWide ? 10 : 8),
-      (isWide ? 18 : 14) + rowIndex * 2,
-      0,
-    ]
-  );
+
   const cardX = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
     [
-      direction * (isWide ? 48 : 34),
-      direction * (isWide ? 16 : 10),
+      direction * (isWide ? 120 : 74),
+      direction * (isWide ? 34 : 24),
       0,
     ]
   );
+
+  const cardY = useTransform(
+    scrollYProgress,
+    [revealStart, revealMid, revealEnd],
+    [
+      (isWide ? 110 : 76) + rowIndex * 34,
+      (isWide ? 26 : 18) + rowIndex * 10,
+      0,
+    ]
+  );
+
   const cardZ = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
     [
-      (isWide ? -280 : -220) - rowIndex * 28,
-      (isWide ? -70 : -54) - rowIndex * 12,
+      (isWide ? -500 : -340) - rowIndex * 70,
+      (isWide ? -120 : -88) - rowIndex * 26,
       0,
     ]
   );
+
   const cardScale = useTransform(
     scrollYProgress,
     [revealStart, revealMid, revealEnd],
-    [isWide ? 0.86 : 0.84, 0.97, 1]
-  );
-  const cardSkewY = useTransform(
-    scrollYProgress,
-    [revealStart, revealMid, revealEnd],
-    [direction * 0.8, direction * 0.25, 0]
+    [isWide ? 0.76 : 0.72, 0.95, 1]
   );
 
   const isSelected =
@@ -586,13 +571,11 @@ function VisualStackCard({
         rotateX: cardRotateX,
         rotateY: cardRotateY,
         rotateZ: cardRotateZ,
-        skewY: cardSkewY,
         x: cardX,
         y: cardY,
         z: cardZ,
         scale: cardScale,
-        transformOrigin: "50% 50%",
-        transformPerspective: 1100,
+        transformPerspective: 1200,
         transformStyle: "preserve-3d",
       }}
       whileTap={tap}
@@ -601,7 +584,7 @@ function VisualStackCard({
         isSelected
           ? {
               scale: 0.94,
-              opacity: 0.75,
+              opacity: 0.7,
             }
           : undefined
       }
@@ -610,49 +593,53 @@ function VisualStackCard({
         relative
         cursor-pointer
         overflow-hidden
-        rounded-[12px]
-        border
-        border-white/[0.08]
-        bg-black/55
-        shadow-[0_22px_90px_rgba(0,0,0,0.6)]
+        bg-black
         outline-none
-        backdrop-blur-[24px]
         transform-gpu
         will-change-transform
-
-        md:rounded-[18px]
-        lg:rounded-[22px]
       "
     >
       <div
         className="
           relative
-          h-[clamp(128px,30vw,190px)]
+          aspect-[1.04/1]
           overflow-hidden
-          md:h-[clamp(210px,22vw,330px)]
-          lg:h-[clamp(190px,14vw,260px)]
-          "
-        >
+          border
+          border-black
+          bg-zinc-950
+          md:aspect-[1.12/1]
+          lg:aspect-[1.2/1]
+        "
+      >
         <motion.img
           src={category.image}
           alt={category.title}
+          whileHover={{
+            scale: 1.04,
+          }}
+          transition={{
+            duration: 0.7,
+            ease,
+          }}
           className="
             h-full
             w-full
             object-cover
-            brightness-[0.88]
+            brightness-[0.82]
             contrast-[1.08]
+            saturate-[0.95]
             transition
             duration-700
-            group-hover:brightness-105
+            group-hover:brightness-100
           "
-          />
+        />
 
         <div
           className="
             absolute
             inset-0
-            bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.1)_35%,rgba(0,0,0,0.92)),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.13),transparent_34%)]
+            bg-[radial-gradient(circle_at_50%_10%,rgba(255,255,255,0.13),transparent_34%),linear-gradient(to_bottom,transparent,rgba(0,0,0,0.18)_48%,rgba(0,0,0,0.74))]
+            opacity-80
           "
         />
 
@@ -661,53 +648,48 @@ function VisualStackCard({
             absolute
             inset-x-0
             bottom-0
-            p-4
-            md:p-6
+            flex
+            items-end
+            justify-between
+            gap-3
+            p-3
+            opacity-0
+            transition
+            duration-300
+            group-hover:opacity-100
+            md:p-4
           "
         >
           <p
             className="
-              text-[8px]
+              text-[10px]
+              font-medium
               uppercase
-              tracking-[0.28em]
-              text-white/45
-              md:text-[10px]
-            "
-          >
-            Visual Art
-          </p>
-
-          <h3
-            className="
-              mt-2
-              text-[clamp(1.25rem,6vw,2.5rem)]
-              font-semibold
-              leading-[0.92]
-              tracking-[-0.05em]
-              text-white
+              tracking-[0.18em]
+              text-white/78
             "
           >
             {category.title}
-          </h3>
+          </p>
 
-          <div
+          <span
+            aria-hidden="true"
             className="
-              mt-4
               flex
-              h-8
-              w-8
+              h-7
+              w-7
               items-center
               justify-center
               rounded-full
               border
-              border-white/[0.12]
-              bg-white/[0.06]
+              border-white/[0.14]
+              bg-black/34
               text-white/70
               backdrop-blur-xl
             "
           >
             &rarr;
-          </div>
+          </span>
         </div>
       </div>
     </motion.div>
