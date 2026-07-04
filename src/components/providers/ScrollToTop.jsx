@@ -70,10 +70,13 @@ export default function ScrollToTop() {
           return;
         }
 
+        const returnOffset =
+          window.innerWidth >= 1024 ? 270 : 120;
+
         const targetTop =
           target.getBoundingClientRect().top +
           window.scrollY -
-          120;
+          returnOffset;
 
         window.scrollTo({
           top: Math.max(0, targetTop),
