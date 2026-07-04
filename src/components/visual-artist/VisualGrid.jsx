@@ -14,6 +14,7 @@ import {
   useTransform,
 } from "framer-motion";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import {
@@ -49,7 +50,7 @@ export default function VisualGrid() {
 
   const promptOpacity = useTransform(
     smoothScrollYProgress,
-    [0, 0.08, 0.16],
+    [0, 0.04, 0.1],
     [1, 1, 0]
   );
 
@@ -61,22 +62,22 @@ export default function VisualGrid() {
 
   const gridScale = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.32, 0.62, 1],
+    [0.08, 0.24, 0.4, 1],
     isWide
       ? [0.54, 0.92, 1.04, 0.92]
       : isMedium
-        ? [0.48, 0.66, 0.74, 0.7]
-        : [0.46, 0.6, 0.68, 0.64]
+        ? [0.52, 0.68, 0.76, 0.76]
+        : [0.54, 0.66, 0.73, 0.73]
   );
 
   const gridY = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.36, 0.7, 1],
+    [0.08, 0.24, 0.4, 1],
     isWide
       ? [220, 120, 96, 140]
       : isMedium
-        ? [154, 72, 260, 380]
-        : [132, 58, 300, 440]
+        ? [180, 238, 312, 880]
+        : [170, 244, 320, 920]
   );
 
   const gridRotateX = useTransform(
@@ -87,14 +88,14 @@ export default function VisualGrid() {
 
   const gridZ = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.34, 0.7, 1],
-    isWide ? [-620, -170, 0, 48] : [-460, -140, 0, 42]
+    [0.08, 0.26, 0.42, 1],
+    isWide ? [-620, -170, 0, 48] : [-520, -180, 0, 0]
   );
 
   const titleY = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.26, 0.42, 0.56],
-    isWide ? [260, 36, -94, -230] : [220, 18, -120, -240]
+    [0.08, 0.22, 0.34, 0.46],
+    isWide ? [260, 36, -94, -230] : [210, -8, -180, -320]
   );
 
   const titleScale = useTransform(
@@ -105,14 +106,32 @@ export default function VisualGrid() {
 
   const titleOpacity = useTransform(
     smoothScrollYProgress,
-    [0.06, 0.1, 0.18, 0.26],
-    [0, 1, 0.42, 0]
+    [0.06, 0.1, 0.16, 0.24],
+    [0, 1, 0.24, 0]
   );
 
   const remixOpacity = useTransform(
     smoothScrollYProgress,
     [0.78, 0.9, 1],
     [0, 1, 1]
+  );
+
+  const movingGridOpacity = useTransform(
+    smoothScrollYProgress,
+    isWide ? [0, 1] : [0, 0.24, 0.34],
+    isWide ? [1, 1] : [1, 0.78, 0]
+  );
+
+  const mobileWallOpacity = useTransform(
+    smoothScrollYProgress,
+    [0.28, 0.42, 1],
+    [0, 1, 1]
+  );
+
+  const mobileWallY = useTransform(
+    smoothScrollYProgress,
+    [0.28, 0.42, 1],
+    [76, 0, 500]
   );
 
   useEffect(() => {
@@ -366,13 +385,13 @@ export default function VisualGrid() {
           className="
             absolute
             left-1/2
-            top-[61%]
+            top-1/2
             z-20
-            w-[82vw]
+            w-[88vw]
             -translate-x-1/2
             -translate-y-1/2
-            md:w-[78vw]
-            md:top-[60%]
+            md:w-[82vw]
+            md:top-1/2
             lg:w-[92vw]
             lg:max-w-[1460px]
             lg:top-[76%]
@@ -384,6 +403,7 @@ export default function VisualGrid() {
               y: gridY,
               z: gridZ,
               rotateX: gridRotateX,
+              opacity: movingGridOpacity,
               transformPerspective: 1200,
               transformStyle: "preserve-3d",
             }}
@@ -413,6 +433,71 @@ export default function VisualGrid() {
                 />
               )
             )}
+          </motion.div>
+        </div>
+
+        <div
+          className="
+            fixed
+            left-1/2
+            top-[48%]
+            z-30
+            w-[76vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            md:top-1/2
+            md:w-[68vw]
+            lg:hidden
+          "
+        >
+          <motion.div
+            style={{
+              opacity: mobileWallOpacity,
+              y: mobileWallY,
+            }}
+            className="
+              pointer-events-auto
+              grid
+              w-full
+              grid-cols-2
+              gap-2.5
+              md:grid-cols-3
+              md:gap-3
+            "
+          >
+            {visualCategories.map((category) => (
+              <button
+                key={`mobile-${category.link}`}
+                type="button"
+                onClick={() => openCategory(category)}
+                className="
+                  group
+                  relative
+                  aspect-[1.12/1]
+                  overflow-hidden
+                  border
+                  border-black
+                  bg-zinc-950
+                  outline-none
+                "
+              >
+                <Image
+                  src={category.image}
+                  alt={category.title}
+                  fill
+                  sizes="(min-width: 768px) 22vw, 38vw"
+                  className="
+                    object-cover
+                    brightness-[0.84]
+                    contrast-[1.08]
+                  "
+                />
+
+                <span className="sr-only">
+                  Open {category.title}
+                </span>
+              </button>
+            ))}
           </motion.div>
         </div>
 
@@ -521,9 +606,9 @@ function VisualStackCard({
     [revealStart, revealMid, revealEnd],
     [
       (isWide ? 110 : 76) + rowIndex * 34,
-      (isWide ? 26 : isMedium ? 128 : 210) +
+      (isWide ? 26 : isMedium ? 18 : 14) +
         rowIndex * 10,
-      isWide ? 0 : isMedium ? 360 : 520,
+      0,
     ]
   );
 
@@ -603,7 +688,7 @@ function VisualStackCard({
       <div
         className="
           relative
-          aspect-[1.04/1]
+          aspect-[1.12/1]
           overflow-hidden
           border
           border-black
