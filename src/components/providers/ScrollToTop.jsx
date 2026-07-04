@@ -24,22 +24,45 @@ export default function ScrollToTop() {
         "returnToHomeWork"
       );
 
-      window.requestAnimationFrame(() => {
-        const workSection =
-          document.getElementById("work");
+      const scrollToHomeCards = () => {
+        const cardTarget = [
+          ...document.querySelectorAll(
+            "[data-home-card-target]"
+          ),
+        ].find((element) => {
+          const rect =
+            element.getBoundingClientRect();
 
-        if (!workSection) {
+          return (
+            rect.width > 0 &&
+            rect.height > 0
+          );
+        });
+
+        if (!cardTarget) {
           window.scrollTo({
             top: 0,
-            behavior: "instant",
+            behavior: "auto",
           });
           return;
         }
 
-        workSection.scrollIntoView({
-          block: "start",
-          behavior: "instant",
+        const targetTop =
+          cardTarget.getBoundingClientRect().top +
+          window.scrollY -
+          120;
+
+        window.scrollTo({
+          top: Math.max(0, targetTop),
+          behavior: "auto",
         });
+      };
+
+      window.requestAnimationFrame(() => {
+        scrollToHomeCards();
+
+        window.setTimeout(scrollToHomeCards, 120);
+        window.setTimeout(scrollToHomeCards, 360);
       });
 
       return;
@@ -47,7 +70,7 @@ export default function ScrollToTop() {
 
     window.scrollTo({
       top: 0,
-      behavior: "instant",
+      behavior: "auto",
     });
   }, [pathname]);
 

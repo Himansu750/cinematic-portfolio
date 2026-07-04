@@ -222,6 +222,7 @@ export default function HeroSection({
       </motion.button>
 
       <motion.div
+        data-home-card-target
         variants={{
           hidden: {},
           visible: {
@@ -510,6 +511,7 @@ export default function HeroSection({
 
       {/* CARD STACK */}
       <div
+        data-home-card-target
         style={{
           scale: layoutScale,
         }}
