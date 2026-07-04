@@ -65,8 +65,8 @@ export default function VisualGrid() {
     isWide
       ? [0.54, 0.92, 1.04, 0.92]
       : isMedium
-        ? [0.56, 0.9, 1.02, 0.9]
-        : [0.6, 0.92, 1.04, 0.92]
+        ? [0.52, 0.78, 0.88, 0.82]
+        : [0.52, 0.72, 0.82, 0.78]
   );
 
   const gridY = useTransform(
@@ -75,8 +75,8 @@ export default function VisualGrid() {
     isWide
       ? [220, 120, 96, 140]
       : isMedium
-        ? [190, 104, 92, 136]
-        : [170, 96, 96, 138]
+        ? [168, 84, 82, 104]
+        : [150, 78, 82, 96]
   );
 
   const gridRotateX = useTransform(
@@ -93,20 +93,20 @@ export default function VisualGrid() {
 
   const titleY = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.32, 0.58, 0.78],
-    isWide ? [260, 36, -94, -230] : [220, 34, -76, -190]
+    [0.08, 0.26, 0.42, 0.56],
+    isWide ? [260, 36, -94, -230] : [220, 18, -120, -240]
   );
 
   const titleScale = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.34, 0.68, 1],
-    isWide ? [1.16, 0.94, 0.9, 0.82] : [1.18, 0.96, 0.9, 0.82]
+    [0.08, 0.3, 0.56, 1],
+    isWide ? [1.16, 0.94, 0.9, 0.82] : [1.08, 0.88, 0.78, 0.72]
   );
 
   const titleOpacity = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.18, 0.62, 0.78],
-    [0, 1, 0.92, 0]
+    [0.06, 0.1, 0.18, 0.26],
+    [0, 1, 0.42, 0]
   );
 
   const remixOpacity = useTransform(
@@ -366,13 +366,13 @@ export default function VisualGrid() {
           className="
             absolute
             left-1/2
-            top-[96%]
+            top-[76%]
             z-20
-            w-[122vw]
+            w-[96vw]
             -translate-x-1/2
             -translate-y-1/2
-            md:w-[102vw]
-            md:top-[84%]
+            md:w-[88vw]
+            md:top-[68%]
             lg:w-[92vw]
             lg:max-w-[1460px]
             lg:top-[76%]
@@ -521,8 +521,9 @@ function VisualStackCard({
     [revealStart, revealMid, revealEnd],
     [
       (isWide ? 110 : 76) + rowIndex * 34,
-      (isWide ? 26 : 18) + rowIndex * 10,
-      0,
+      (isWide ? 26 : isMedium ? 132 : 220) +
+        rowIndex * 10,
+      isWide ? 0 : isMedium ? 260 : 440,
     ]
   );
 
