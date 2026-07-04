@@ -59,8 +59,11 @@ export default function ScrollToTop() {
           );
         });
 
-        const target =
-          activeCardTarget || cardTarget;
+        const isDesktop =
+          window.innerWidth >= 1024;
+        const target = isDesktop
+          ? activeCardTarget || cardTarget
+          : cardTarget || activeCardTarget;
 
         if (!target) {
           window.scrollTo({
@@ -71,7 +74,7 @@ export default function ScrollToTop() {
         }
 
         const returnOffset =
-          window.innerWidth >= 1024 ? 205 : 120;
+          isDesktop ? 205 : 270;
 
         const targetTop =
           target.getBoundingClientRect().top +
