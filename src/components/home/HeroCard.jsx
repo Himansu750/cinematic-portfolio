@@ -429,44 +429,41 @@ export default function HeroCard({
             justify-center
           "
         >
-          <div
+          <MagneticButton
+            type="button"
+            ariaLabel={`Explore ${card.title.join(" ")}`}
             onClick={(e) => {
               e.stopPropagation();
               openCard();
             }}
+            className="
+              rounded-full
+
+              border
+              border-white/[0.08]
+
+              bg-white/[0.045]
+
+              px-7
+              py-3
+
+              text-[13px]
+              text-white
+
+              transition-all
+              duration-300
+
+              hover:bg-white/[0.08]
+            "
           >
-            <MagneticButton
-              type="button"
-              ariaLabel={`Explore ${card.title.join(" ")}`}
-              className="
-                rounded-full
-
-                border
-                border-white/[0.08]
-
-                bg-white/[0.045]
-
-                px-7
-                py-3
-
-                text-[13px]
-                text-white
-
-                transition-all
-                duration-300
-
-                hover:bg-white/[0.08]
-              "
-            >
-              Explore My Work
-              <ArrowUpRight
-                aria-hidden="true"
-                size={15}
-                strokeWidth={1.7}
-                className="ml-2 inline-block align-[-2px] opacity-70"
-              />
-            </MagneticButton>
-          </div>
+            Explore My Work
+            <ArrowUpRight
+              aria-hidden="true"
+              size={15}
+              strokeWidth={1.7}
+              className="ml-2 inline-block align-[-2px] opacity-70"
+            />
+          </MagneticButton>
         </div>
       </motion.div>
     </motion.div>

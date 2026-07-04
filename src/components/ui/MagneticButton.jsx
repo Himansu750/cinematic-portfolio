@@ -11,6 +11,7 @@ export default function MagneticButton({
   className = "",
   type = "button",
   ariaLabel,
+  onClick,
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -58,6 +59,7 @@ export default function MagneticButton({
         x: springX,
         y: springY,
       }}
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{
