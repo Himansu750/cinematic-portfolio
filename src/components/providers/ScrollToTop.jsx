@@ -74,7 +74,11 @@ export default function ScrollToTop() {
         }
 
         const returnOffset =
-          isDesktop ? 205 : 270;
+          isDesktop
+            ? 205
+            : window.innerWidth < 768
+              ? 250
+              : 220;
 
         const targetTop =
           target.getBoundingClientRect().top +
