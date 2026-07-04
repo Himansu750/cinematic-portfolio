@@ -18,6 +18,8 @@ import { ArrowUpRight } from "lucide-react";
 
 import MagneticButton from "@/components/ui/MagneticButton";
 
+import LazyVideo from "@/components/ui/LazyVideo";
+
 import ParallaxText from "@/components/ui/ParallaxText";
 
 export default function HeroCard({
@@ -324,7 +326,7 @@ export default function HeroCard({
             border-white/[0.055]
           "
         >
-          <motion.video
+          <LazyVideo
             ref={videoRef}
             key={card.video}
             src={card.video}
@@ -333,12 +335,6 @@ export default function HeroCard({
             loop
             playsInline
             preload={isActive ? "auto" : "metadata"}
-            whileHover={{
-              scale: 1.03,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
             className="
               h-[210px]
               w-full

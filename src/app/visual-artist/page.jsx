@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 
 import UnicornStudioScene from "@/components/effects/UnicornStudioScene";
+import LazyVideo from "@/components/ui/LazyVideo";
 import VisualGrid from "@/components/visual-artist/VisualGrid";
 
 import VisualTransition from "@/components/visual-artist/VisualTransition";
@@ -48,12 +49,14 @@ export default function VisualArtistPage() {
             overflow-hidden
           "
         >
-          <video
+          <LazyVideo
+            src="/videos/optimized/visual-artist-hero.mp4"
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
+            rootMargin="640px 0px"
             poster="/images/optimized/personal5.webp"
             className="
               h-full
@@ -63,12 +66,7 @@ export default function VisualArtistPage() {
 
               scale-[1.05]
             "
-          >
-            <source
-              src="/videos/optimized/visual-artist-hero.mp4"
-              type="video/mp4"
-            />
-          </video>
+          />
 
           {unicornScenes.visualArtistHero && (
             <UnicornStudioScene

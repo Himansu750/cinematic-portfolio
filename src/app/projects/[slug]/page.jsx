@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 
 import AmbientBackground from "@/components/effects/AmbientBackground";
 import Mobile3DScrollCard from "@/components/effects/Mobile3DScrollCard";
+import LazyVideo from "@/components/ui/LazyVideo";
 
 import { projects } from "@/data/projects";
 
@@ -175,13 +176,14 @@ export default function ProjectPage({
             shadow-[0_25px_120px_rgba(0,0,0,0.75)]
           "
         >
-          <video
+          <LazyVideo
             src={project.video}
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
+            rootMargin="420px 0px"
             className="
               h-full
               w-full

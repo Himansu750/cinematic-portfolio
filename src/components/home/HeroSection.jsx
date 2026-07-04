@@ -22,6 +22,7 @@ import {
 import HeroCard from "./HeroCard";
 
 import { cards } from "@/data/cardsData";
+import LazyVideo from "@/components/ui/LazyVideo";
 
 export default function HeroSection({
   revealOnScroll = true,
@@ -391,13 +392,14 @@ export default function HeroSection({
                     md:rounded-[24px]
                   "
                 >
-                  <video
+                  <LazyVideo
                     src={card.video}
                     muted
                     loop
                     playsInline
-                    autoPlay
+                    autoPlay={index === 0}
                     preload="metadata"
+                    rootMargin="260px 0px"
                     className="
                       h-[var(--card-media-height)]
                       w-full

@@ -9,17 +9,18 @@ import {
 
 export default function PortfolioIntro() {
   const { scrollY } = useScroll();
-  const [skipIntroOnReturn] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
+  const [hideIntroOnReturn, setHideIntroOnReturn] =
+    useState(() => {
+      if (typeof window === "undefined") {
+        return false;
+      }
 
-    return (
-      window.sessionStorage.getItem(
-        "returnToHomeWork"
-      ) === "true"
-    );
-  });
+      return (
+        window.sessionStorage.getItem(
+          "returnToHomeWork"
+        ) === "true"
+      );
+    });
   const [distance, setDistance] = useState(520);
   const [isCompact, setIsCompact] =
     useState(false);
@@ -53,6 +54,35 @@ export default function PortfolioIntro() {
 
     return () => window.removeEventListener("resize", updateIntro);
   }, []);
+
+  useEffect(() => {
+    if (!hideIntroOnReturn) {
+      return;
+    }
+
+    function revealIntroWhenScrollingBack() {
+      if (window.scrollY < 220) {
+        setHideIntroOnReturn(false);
+      }
+    }
+
+    revealIntroWhenScrollingBack();
+
+    window.addEventListener(
+      "scroll",
+      revealIntroWhenScrollingBack,
+      {
+        passive: true,
+      }
+    );
+
+    return () => {
+      window.removeEventListener(
+        "scroll",
+        revealIntroWhenScrollingBack
+      );
+    };
+  }, [hideIntroOnReturn]);
 
   const stretchY = useTransform(
     scrollY,
@@ -110,7 +140,7 @@ export default function PortfolioIntro() {
       distance * 0.58,
       distance,
     ],
-    [0, isCompact ? 7 : 10, isCompact ? 28 : 38, 0]
+    [0, isCompact ? 0 : 10, isCompact ? 0 : 38, 0]
   );
 
   const liquidFrequency = useTransform(
@@ -171,7 +201,7 @@ export default function PortfolioIntro() {
     [1, 0]
   );
 
-  if (skipIntroOnReturn) {
+  if (hideIntroOnReturn) {
     return null;
   }
 
@@ -333,8 +363,9 @@ export default function PortfolioIntro() {
               scaleY: stretchY,
               rotateX: textRotateX,
               letterSpacing: spacing,
-              filter:
-                "url(#portfolio-scroll-liquid)",
+              filter: isCompact
+                ? "none"
+                : "url(#portfolio-scroll-liquid)",
               transformOrigin: "50% 0%",
               transformStyle: "preserve-3d",
             }}
