@@ -1,9 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import {
+  useEffect,
+  useRef,
+} from "react";
 
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   motion,
@@ -13,9 +16,11 @@ import {
 } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
+import LazyVideo from "@/components/ui/LazyVideo";
 import { visualCategories } from "@/data/visualCategories";
 
 export default function VisualGrid() {
+  const router = useRouter();
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -83,6 +88,12 @@ export default function VisualGrid() {
     [0.86, 0.96, 1],
     [0, 1, 1]
   );
+
+  useEffect(() => {
+    visualCategories.forEach((category) => {
+      router.prefetch(category.link);
+    });
+  }, [router]);
 
   return (
     <section
@@ -172,6 +183,7 @@ export default function VisualGrid() {
                 category={category}
                 index={index}
                 progress={progress}
+                router={router}
               />
             ))}
           </div>
@@ -269,7 +281,12 @@ export default function VisualGrid() {
   );
 }
 
-function VisualStackCard({ category, index, progress }) {
+function VisualStackCard({
+  category,
+  index,
+  progress,
+  router,
+}) {
   const row = Math.floor(index / 3);
   const column = index % 3;
   const side = column === 0 ? -1 : column === 2 ? 1 : index % 2 ? 0.5 : -0.5;
@@ -328,6 +345,18 @@ function VisualStackCard({ category, index, progress }) {
     >
       <Link
         href={category.link}
+        prefetch
+        onClick={(event) => {
+          event.preventDefault();
+          router.push(category.link);
+        }}
+        onPointerDown={() => {
+          const video = document.querySelector(
+            `video[data-stack-video="${category.link}"]`
+          );
+
+          video?.pause();
+        }}
         className="
           group
           relative
@@ -352,13 +381,19 @@ function VisualStackCard({ category, index, progress }) {
             lg:aspect-[1.16/1]
           "
         >
-          <Image
-            src={category.image}
-            alt={category.title}
-            fill
-            sizes="(min-width: 1024px) 27vw, (min-width: 768px) 31vw, 58vw"
-            priority={index < 3}
+          <LazyVideo
+            data-stack-video={category.link}
+            src={category.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            rootMargin="900px 0px"
+            poster={category.image}
             className="
+              h-full
+              w-full
               object-cover
               brightness-[0.82]
               contrast-[1.08]

@@ -44,6 +44,10 @@ const LazyVideo = forwardRef(function LazyVideo(
 
     if (!video) return;
 
+    if (autoPlay || preload === "auto") {
+      setShouldLoad(true);
+    }
+
     if (!("IntersectionObserver" in window)) {
       setShouldLoad(true);
       setIsVisible(true);
@@ -69,7 +73,7 @@ const LazyVideo = forwardRef(function LazyVideo(
     observer.observe(video);
 
     return () => observer.disconnect();
-  }, [rootMargin]);
+  }, [autoPlay, preload, rootMargin]);
 
   useEffect(() => {
     const video = localRef.current;
@@ -82,12 +86,7 @@ const LazyVideo = forwardRef(function LazyVideo(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (
-      autoPlay &&
-      isVisible &&
-      !saveData &&
-      !reduceMotion
-    ) {
+    if (autoPlay && !saveData && !reduceMotion) {
       const playPromise = video.play();
 
       if (playPromise) {

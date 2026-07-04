@@ -398,9 +398,9 @@ export default function HeroSection({
                     muted
                     loop
                     playsInline
-                    autoPlay={index === 0}
-                    preload="metadata"
-                    rootMargin="260px 0px"
+                    autoPlay
+                    preload="auto"
+                    rootMargin="900px 0px"
                     className="
                       h-[var(--card-media-height)]
                       w-full

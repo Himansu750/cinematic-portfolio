@@ -40,6 +40,10 @@ export default function HeroCard({
 
   const router = useRouter();
 
+  useEffect(() => {
+    router.prefetch(card.link);
+  }, [card.link, router]);
+
   /* MOUSE */
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
