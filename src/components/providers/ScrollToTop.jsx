@@ -96,7 +96,7 @@ export default function ScrollToTop() {
             window.scrollY -
             205
           : getDocumentTop(target) +
-            80 -
+            (window.innerWidth < 768 ? 300 : 250) -
             (window.innerWidth < 768 ? 250 : 220);
 
         window.scrollTo({
