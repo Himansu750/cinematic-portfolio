@@ -513,7 +513,7 @@ export default function HeroSection({
                     sm:text-[12px]
                   "
                 >
-                  Open Section
+                  Explore Work
                   <ArrowUpRight
                     aria-hidden="true"
                     size={14}

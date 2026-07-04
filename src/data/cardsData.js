@@ -1,6 +1,6 @@
 export const cards = [
   {
-    title: ["Visual", "Artist"],
+    title: ["Visual", "Art"],
 
     description:
       "Cinematic visuals, experimental edits, and visual stories shaped from personal vision into living frames.",
