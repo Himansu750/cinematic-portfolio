@@ -14,6 +14,7 @@ import {
 } from "framer-motion";
 
 import {
+  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -347,6 +348,10 @@ export default function HeroSection({
                     "activeCard",
                     index
                   );
+                  sessionStorage.setItem(
+                    "returnToHomeWork",
+                    "true"
+                  );
                 }}
                 className="
                   group
@@ -450,7 +455,7 @@ export default function HeroSection({
                   className="
                   px-3
                   pt-4
-                  pb-2
+                  pb-3
                   text-[11px]
                   leading-[1.65]
                   text-zinc-400
@@ -461,6 +466,42 @@ export default function HeroSection({
               >
                   {card.description}
                 </p>
+
+                <span
+                  className="
+                    mx-3
+                    mb-2
+                    inline-flex
+                    min-h-10
+                    items-center
+                    gap-2
+                    rounded-full
+                    border
+                    border-white/[0.08]
+                    bg-white/[0.045]
+                    px-4
+                    text-[11px]
+                    font-medium
+                    text-white/82
+                    shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
+                    backdrop-blur-2xl
+                    transition
+                    duration-300
+                    group-active:scale-[0.98]
+                    group-hover:bg-white/[0.075]
+                    group-hover:text-white
+
+                    sm:text-[12px]
+                  "
+                >
+                  Open Section
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={14}
+                    strokeWidth={1.7}
+                    className="opacity-70"
+                  />
+                </span>
               </Link>
             </motion.article>
           ))}

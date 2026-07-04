@@ -13,6 +13,38 @@ export default function ScrollToTop() {
         "manual";
     }
 
+    const shouldReturnToWork =
+      pathname === "/" &&
+      window.sessionStorage.getItem(
+        "returnToHomeWork"
+      ) === "true";
+
+    if (shouldReturnToWork) {
+      window.sessionStorage.removeItem(
+        "returnToHomeWork"
+      );
+
+      window.requestAnimationFrame(() => {
+        const workSection =
+          document.getElementById("work");
+
+        if (!workSection) {
+          window.scrollTo({
+            top: 0,
+            behavior: "instant",
+          });
+          return;
+        }
+
+        workSection.scrollIntoView({
+          block: "start",
+          behavior: "instant",
+        });
+      });
+
+      return;
+    }
+
     window.scrollTo({
       top: 0,
       behavior: "instant",

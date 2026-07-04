@@ -116,6 +116,10 @@ export default function HeroCard({
       "activeCard",
       index
     );
+    sessionStorage.setItem(
+      "returnToHomeWork",
+      "true"
+    );
 
     router.push(card.link);
   }
