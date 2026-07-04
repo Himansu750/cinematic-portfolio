@@ -260,7 +260,6 @@ export default function HeroCard({
         w-full
 
         max-w-[440px]
-        lg:max-w-[550px]
 
         cursor-pointer
         will-change-transform
@@ -273,7 +272,6 @@ export default function HeroCard({
           overflow-hidden
 
           rounded-[30px]
-          lg:rounded-[34px]
 
           border
           border-white/[0.075]
@@ -284,7 +282,6 @@ export default function HeroCard({
           backdrop-saturate-[125%]
 
           p-5
-          lg:p-7
 
           shadow-[0_28px_110px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.07)]
 
@@ -323,7 +320,6 @@ export default function HeroCard({
             overflow-hidden
 
             rounded-[22px]
-            lg:rounded-[26px]
             border
             border-white/[0.055]
           "
@@ -346,7 +342,6 @@ export default function HeroCard({
             className="
               h-[210px]
               w-full
-              lg:h-[264px]
 
               object-cover
             "
@@ -354,7 +349,7 @@ export default function HeroCard({
         </div>
 
         {/* TEXT */}
-        <div className="mt-5 lg:mt-6">
+        <div className="mt-5">
           <div
             className="
               mb-3
@@ -394,7 +389,6 @@ export default function HeroCard({
                 text-center
 
                 text-[3.75rem]
-                lg:text-[4.85rem]
 
                 font-semibold
 
@@ -422,7 +416,6 @@ export default function HeroCard({
 
               text-[14px]
               leading-[1.65]
-              lg:text-[15px]
 
               text-zinc-400
             "
@@ -458,7 +451,6 @@ export default function HeroCard({
                 bg-white/[0.045]
 
                 px-7
-                lg:px-8
                 py-3
 
                 text-[13px]

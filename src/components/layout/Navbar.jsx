@@ -123,12 +123,6 @@ export default function Navbar({
           backdrop-blur-[26px]
           backdrop-saturate-[95%]
 
-          md:min-h-[94px]
-          md:max-w-[950px]
-          md:rounded-[38px]
-          md:px-10
-          md:py-5
-
           before:absolute
           before:inset-0
           before:rounded-[inherit]
@@ -188,7 +182,6 @@ export default function Navbar({
             text-white
 
             sm:text-[16px]
-            md:text-[18px]
           "
         >
           {siteConfig.name}
@@ -211,9 +204,6 @@ export default function Navbar({
 
             sm:text-[10px]
             sm:tracking-[0.22em]
-            md:mt-[8px]
-            md:text-[12px]
-            md:tracking-[0.28em]
           "
         >
           {siteConfig.role}

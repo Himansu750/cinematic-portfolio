@@ -56,23 +56,11 @@ export default function HeroSection({
     function updateLayout() {
       const width = window.innerWidth;
 
-      const desktopSideOffset =
-        width >= 1500
-          ? 470
-          : width >= 1280
-          ? 420
-          : 360;
-
-      setSideOffset(
-        width >= 1024 ? desktopSideOffset : 280
-      );
+      setSideOffset(280);
       setLayoutScale(
         Math.min(
           1,
-          Math.max(
-            0.86,
-            width >= 1024 ? width / 1540 : width / 860
-          )
+          Math.max(0.82, width / 860)
         )
       );
     }
@@ -143,8 +131,7 @@ export default function HeroSection({
         sm:pb-[280px]
         md:pt-[320px]
         md:pb-[280px]
-        lg:pt-[300px]
-        lg:pb-[170px]
+        lg:pb-[220px]
       "
     >
       {/* LEFT BUTTON */}
@@ -185,9 +172,6 @@ export default function HeroSection({
 
           h-12
           w-12
-
-          lg:h-14
-          lg:w-14
 
           rounded-full
           border
@@ -238,9 +222,6 @@ export default function HeroSection({
 
           h-12
           w-12
-
-          lg:h-14
-          lg:w-14
 
           rounded-full
           border
@@ -549,12 +530,11 @@ export default function HeroSection({
           translate-y-40
           sm:translate-y-16
           md:translate-y-12
-          lg:translate-y-16
 
-          h-[680px]
+          h-[520px]
           w-full
 
-          max-w-[1680px]
+          max-w-[1400px]
 
           hidden
           items-center
