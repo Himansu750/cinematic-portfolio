@@ -1,165 +1,329 @@
 "use client";
 
+import { useRef } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { visualCategories } from "@/data/visualCategories";
 
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 34,
-    scale: 0.96,
-    filter: "blur(10px)",
-  },
-  visible: (index) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      delay: index * 0.055,
-      duration: 0.58,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
 export default function VisualGrid() {
+  const sectionRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 72,
+    damping: 24,
+    mass: 0.42,
+    restDelta: 0.001,
+  });
+
+  const promptOpacity = useTransform(
+    progress,
+    [0, 0.08, 0.15],
+    [1, 1, 0]
+  );
+
+  const titleOpacity = useTransform(
+    progress,
+    [0.08, 0.16, 0.54, 0.72],
+    [0, 1, 1, 0]
+  );
+
+  const titleY = useTransform(
+    progress,
+    [0.08, 0.28, 0.58, 0.78],
+    ["34vh", "6vh", "-8vh", "-22vh"]
+  );
+
+  const titleX = useTransform(
+    progress,
+    [0.08, 0.5, 0.78],
+    ["8vw", "-8vw", "-18vw"]
+  );
+
+  const titleScale = useTransform(
+    progress,
+    [0.08, 0.34, 0.78],
+    [0.9, 1.06, 0.96]
+  );
+
+  const wallOpacity = useTransform(
+    progress,
+    [0.2, 0.34, 0.82, 0.95],
+    [0, 1, 1, 0]
+  );
+
+  const wallY = useTransform(
+    progress,
+    [0.18, 0.5, 0.86],
+    ["28vh", "-4vh", "-20vh"]
+  );
+
+  const wallScale = useTransform(
+    progress,
+    [0.18, 0.5, 0.86],
+    [0.72, 1, 1.08]
+  );
+
+  const remixOpacity = useTransform(
+    progress,
+    [0.86, 0.96, 1],
+    [0, 1, 1]
+  );
+
   return (
     <section
+      ref={sectionRef}
       data-visual-grid-section
       className="
         relative
         z-10
+        min-h-[300vh]
         bg-black
-        px-5
-        pt-20
-        pb-28
         text-white
-        sm:px-8
-        md:px-10
-        lg:px-14
-        lg:pt-28
+        [perspective:1200px]
+        lg:min-h-[285vh]
       "
     >
       <div
         className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.08),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.58))]
-        "
-      />
-
-      <div
-        className="
-          relative
-          mx-auto
-          max-w-[1280px]
+          sticky
+          top-0
+          h-screen
+          overflow-hidden
+          bg-[#020403]
         "
       >
+        <motion.p
+          style={{ opacity: promptOpacity }}
+          className="
+            absolute
+            left-1/2
+            top-1/2
+            z-40
+            -translate-x-1/2
+            -translate-y-1/2
+            text-[13px]
+            font-medium
+            tracking-[-0.02em]
+            text-white/76
+          "
+        >
+          Scroll down &darr;
+        </motion.p>
+
         <div
           className="
-            mb-8
-            flex
-            items-end
-            justify-between
-            gap-5
-            md:mb-11
+            pointer-events-none
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_50%_48%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0)_36%,rgba(0,0,0,0.52))]
           "
-        >
-          <div>
-            <p
-              className="
-                mb-3
-                text-[10px]
-                uppercase
-                tracking-[0.35em]
-                text-white/38
-              "
-            >
-              Browse
-            </p>
-
-            <h2
-              className="
-                font-serif
-                text-[clamp(4.2rem,18vw,13rem)]
-                font-normal
-                leading-[0.78]
-                tracking-[-0.075em]
-                text-white
-              "
-            >
-              Visual
-              <br />
-              Art
-            </h2>
-          </div>
-
-          <span
-            className="
-              mb-2
-              hidden
-              rounded-full
-              border
-              border-white/[0.08]
-              bg-white/[0.04]
-              px-4
-              py-2
-              text-[11px]
-              uppercase
-              tracking-[0.2em]
-              text-white/52
-              backdrop-blur-2xl
-              sm:inline-flex
-            "
-          >
-            2026
-          </span>
-        </div>
+        />
 
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            margin: "-80px",
+          style={{
+            opacity: wallOpacity,
+            y: wallY,
+            scale: wallScale,
           }}
           className="
-            grid
-            grid-cols-2
-            gap-3
-            sm:gap-4
-            md:grid-cols-3
-            md:gap-5
-            lg:gap-6
+            absolute
+            left-1/2
+            top-1/2
+            z-20
+            w-[118vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            transform-gpu
+            will-change-transform
+            sm:w-[104vw]
+            md:w-[92vw]
+            lg:w-[82vw]
+            lg:max-w-[1260px]
           "
         >
-          {visualCategories.map((category, index) => (
-            <VisualStackCard
-              key={category.link}
-              category={category}
-              index={index}
-            />
-          ))}
+          <div
+            className="
+              grid
+              grid-cols-2
+              gap-4
+              md:grid-cols-3
+              md:gap-5
+              lg:gap-6
+            "
+          >
+            {visualCategories.map((category, index) => (
+              <VisualStackCard
+                key={category.link}
+                category={category}
+                index={index}
+                progress={progress}
+              />
+            ))}
+          </div>
         </motion.div>
+
+        <motion.div
+          style={{
+            opacity: titleOpacity,
+            x: titleX,
+            y: titleY,
+            scale: titleScale,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            top-[28%]
+            z-30
+            select-none
+            text-center
+            text-white
+            mix-blend-screen
+            transform-gpu
+            will-change-transform
+          "
+        >
+          <p
+            className="
+              mb-2
+              font-serif
+              text-[clamp(1.6rem,6vw,4.6rem)]
+              italic
+              leading-none
+              text-white/82
+            "
+          >
+            Himanshu Artspace
+          </p>
+
+          <h2
+            className="
+              mx-auto
+              w-[175vw]
+              font-serif
+              text-[clamp(7.4rem,35vw,23rem)]
+              font-normal
+              leading-[0.72]
+              tracking-[-0.095em]
+              text-white
+              sm:w-[150vw]
+              md:w-[124vw]
+              lg:w-[112vw]
+            "
+          >
+            Visual
+            <br />
+            Art
+          </h2>
+        </motion.div>
+
+        <motion.button
+          type="button"
+          style={{ opacity: remixOpacity }}
+          onClick={() => {
+            window.scrollTo({
+              top: sectionRef.current?.offsetTop ?? 0,
+              behavior: "smooth",
+            });
+          }}
+          className="
+            absolute
+            left-1/2
+            top-[70%]
+            z-40
+            -translate-x-1/2
+            rounded-full
+            border
+            border-white/[0.08]
+            bg-white/[0.035]
+            px-5
+            py-2.5
+            text-[15px]
+            font-medium
+            text-white/68
+            backdrop-blur-2xl
+            transition
+            hover:bg-white/[0.07]
+            hover:text-white
+          "
+        >
+          Remix
+        </motion.button>
       </div>
     </section>
   );
 }
 
-function VisualStackCard({ category, index }) {
+function VisualStackCard({ category, index, progress }) {
+  const row = Math.floor(index / 3);
+  const column = index % 3;
+  const side = column === 0 ? -1 : column === 2 ? 1 : index % 2 ? 0.5 : -0.5;
+  const start = 0.22 + row * 0.07 + column * 0.022;
+  const mid = start + 0.16;
+  const end = start + 0.34;
+
+  const opacity = useTransform(
+    progress,
+    [start, mid, end],
+    [0, 0.9, 1]
+  );
+  const y = useTransform(
+    progress,
+    [start, mid, end],
+    [84 + row * 34, 14 + row * 10, 0]
+  );
+  const x = useTransform(
+    progress,
+    [start, mid, end],
+    [side * 74, side * 22, 0]
+  );
+  const rotateX = useTransform(
+    progress,
+    [start, mid, end],
+    [24, 8, 0]
+  );
+  const rotateY = useTransform(
+    progress,
+    [start, mid, end],
+    [side * 16, side * 5, 0]
+  );
+  const scale = useTransform(
+    progress,
+    [start, mid, end],
+    [0.82, 0.96, 1]
+  );
+
   return (
     <motion.article
-      custom={index}
-      variants={cardVariants}
+      style={{
+        opacity,
+        x,
+        y,
+        rotateX,
+        rotateY,
+        scale,
+        transformPerspective: 1100,
+        transformStyle: "preserve-3d",
+      }}
       className="
         min-w-0
+        transform-gpu
+        will-change-transform
       "
     >
       <Link
@@ -169,50 +333,36 @@ function VisualStackCard({ category, index }) {
           relative
           block
           overflow-hidden
-          rounded-[22px]
-          border
-          border-white/[0.08]
-          bg-[rgba(8,8,10,0.72)]
-          p-2
-          shadow-[0_26px_95px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.06)]
+          bg-zinc-950
           outline-none
-          backdrop-blur-[30px]
-          backdrop-saturate-[120%]
           transition
           duration-300
           active:scale-[0.985]
-          hover:border-white/[0.14]
-          hover:bg-white/[0.055]
           focus-visible:ring-2
           focus-visible:ring-white/40
-          sm:rounded-[26px]
-          sm:p-2.5
-          md:rounded-[30px]
-          md:p-3
         "
       >
         <div
           className="
             relative
-            aspect-[1.06/1]
+            aspect-[1.02/1]
             overflow-hidden
-            rounded-[18px]
             bg-zinc-950
-            sm:rounded-[22px]
-            md:rounded-[26px]
-            lg:aspect-[1.18/1]
+            md:aspect-[1.08/1]
+            lg:aspect-[1.16/1]
           "
         >
           <Image
             src={category.image}
             alt={category.title}
             fill
-            sizes="(min-width: 1024px) 31vw, (min-width: 768px) 30vw, 45vw"
+            sizes="(min-width: 1024px) 27vw, (min-width: 768px) 31vw, 58vw"
+            priority={index < 3}
             className="
               object-cover
               brightness-[0.82]
               contrast-[1.08]
-              saturate-[0.95]
+              saturate-[0.92]
               transition
               duration-700
               group-hover:scale-[1.035]
@@ -224,7 +374,7 @@ function VisualStackCard({ category, index }) {
             className="
               absolute
               inset-0
-              bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.13),transparent_34%),linear-gradient(to_bottom,transparent,rgba(0,0,0,0.16)_38%,rgba(0,0,0,0.86))]
+              bg-[linear-gradient(to_bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.12)_40%,rgba(0,0,0,0.62))]
             "
           />
 
@@ -233,70 +383,49 @@ function VisualStackCard({ category, index }) {
               absolute
               inset-x-0
               bottom-0
+              flex
+              items-end
+              justify-between
+              gap-3
               p-3
-              sm:p-4
-              md:p-5
+              opacity-100
+              transition
+              duration-300
             "
           >
             <p
               className="
-                text-[9px]
+                text-[10px]
+                font-medium
                 uppercase
                 tracking-[0.18em]
-                text-white/50
-                sm:text-[10px]
-                sm:tracking-[0.24em]
-              "
-            >
-              Visual Art
-            </p>
-
-            <h3
-              className="
-                mt-2
-                text-[clamp(1.25rem,5.8vw,3.3rem)]
-                font-semibold
-                leading-[0.9]
-                tracking-[-0.06em]
-                text-white
+                text-white/78
               "
             >
               {category.title}
-            </h3>
+            </p>
+
+            <span
+              aria-hidden="true"
+              className="
+                flex
+                h-8
+                w-8
+                shrink-0
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-white/[0.14]
+                bg-black/34
+                text-white/78
+                backdrop-blur-xl
+              "
+            >
+              <ArrowUpRight size={14} strokeWidth={1.7} />
+            </span>
           </div>
         </div>
-
-        <span
-          className="
-            mt-3
-            inline-flex
-            min-h-10
-            items-center
-            gap-2
-            rounded-full
-            border
-            border-white/[0.08]
-            bg-white/[0.045]
-            px-4
-            text-[12px]
-            font-medium
-            text-white/84
-            shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
-            backdrop-blur-2xl
-            transition
-            duration-300
-            group-hover:bg-white/[0.075]
-            group-hover:text-white
-          "
-        >
-          Explore Work
-          <ArrowUpRight
-            aria-hidden="true"
-            size={14}
-            strokeWidth={1.7}
-            className="opacity-70"
-          />
-        </span>
       </Link>
     </motion.article>
   );
