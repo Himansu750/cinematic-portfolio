@@ -3,7 +3,7 @@ export const cards = [
     title: ["Visual", "Artist"],
 
     description:
-      "welcome to my portfolio, where i showcase my passion for visua art ,creating from my vision, to straight into your life.",
+      "Cinematic visuals, experimental edits, and visual stories shaped from personal vision into living frames.",
 
     video: "/videos/optimized/project1.mp4",
 
@@ -14,7 +14,7 @@ export const cards = [
     title: ["Art", "Direction"],
 
     description:
-      "Luxury aesthetics, visual identity systems, creative concepts, and cinematic compositions.",
+      "Luxury aesthetics, visual systems, creative concepts, and cinematic direction with a clean editorial edge.",
 
     video: "/videos/optimized/personal4.mp4",
 
@@ -25,7 +25,7 @@ export const cards = [
     title: ["Music", "Production"],
 
     description:
-      "Atmospheric sound design, cinematic audio production, immersive rhythm, and sonic storytelling.",
+      "Atmospheric sound design, cinematic audio, immersive rhythm, and sonic storytelling for moving images.",
 
     video: "/videos/optimized/personal3.mp4",
 

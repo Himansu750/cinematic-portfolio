@@ -14,6 +14,8 @@ import {
   useTransform,
 } from "framer-motion";
 
+import { ArrowUpRight } from "lucide-react";
+
 import MagneticButton from "@/components/ui/MagneticButton";
 
 import ParallaxText from "@/components/ui/ParallaxText";
@@ -174,14 +176,14 @@ export default function HeroCard({
       whileHover={
         isActive
           ? {
-              y: -14,
+              y: -10,
 
-              scale: 1.035,
+              scale: 1.025,
 
               transition: {
                 type: "spring",
                 stiffness: 420,
-                damping: 12,
+                damping: 16,
                 mass: 0.5,
               },
             }
@@ -273,22 +275,22 @@ export default function HeroCard({
           rounded-[30px]
 
           border
-          border-white/[0.06]
+          border-white/[0.075]
 
-          bg-black/55
+          bg-[rgba(8,8,10,0.72)]
 
-          backdrop-blur-[40px]
-          backdrop-saturate-[180%]
+          backdrop-blur-[34px]
+          backdrop-saturate-[125%]
 
-          p-6
+          p-5
 
-          shadow-[0_24px_90px_rgba(0,0,0,0.68)]
+          shadow-[0_28px_110px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.07)]
 
           before:absolute
           before:inset-0
 
           before:bg-gradient-to-b
-          before:from-white/[0.05]
+          before:from-white/[0.065]
           before:to-transparent
 
           before:pointer-events-none
@@ -319,6 +321,8 @@ export default function HeroCard({
             overflow-hidden
 
             rounded-[22px]
+            border
+            border-white/[0.055]
           "
         >
           <motion.video
@@ -337,7 +341,7 @@ export default function HeroCard({
               duration: 0.6,
             }}
             className="
-              h-[200px]
+              h-[210px]
               w-full
 
               object-cover
@@ -385,13 +389,13 @@ export default function HeroCard({
               className="
                 text-center
 
-                text-[4rem]
+                text-[3.75rem]
 
                 font-semibold
 
                 leading-[0.9]
 
-                tracking-[-3px]
+                tracking-[-0.07em]
 
                 text-white
               "
@@ -445,12 +449,12 @@ export default function HeroCard({
                 border
                 border-white/[0.08]
 
-                bg-white/[0.05]
+                bg-white/[0.045]
 
                 px-7
                 py-3
 
-                text-sm
+                text-[13px]
                 text-white
 
                 transition-all
@@ -460,6 +464,12 @@ export default function HeroCard({
               "
             >
               Explore My Work
+              <ArrowUpRight
+                aria-hidden="true"
+                size={15}
+                strokeWidth={1.7}
+                className="ml-2 inline-block align-[-2px] opacity-70"
+              />
             </MagneticButton>
           </div>
         </div>

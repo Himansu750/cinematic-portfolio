@@ -126,7 +126,7 @@ export default function PortfolioIntro() {
   const liquidGlowOpacity = useTransform(
     scrollY,
     [0, distance * 0.24, distance * 0.76],
-    [0, 0.58, 0]
+    [0, 0.34, 0]
   );
 
   const spacing = useTransform(
@@ -272,8 +272,8 @@ export default function PortfolioIntro() {
               font-black
               leading-none
               tracking-[-0.08em]
-              text-cyan-300/70
-              blur-[1px]
+              text-white/35
+              blur-[2px]
               mix-blend-screen
               will-change-transform
               select-none
@@ -303,8 +303,8 @@ export default function PortfolioIntro() {
               font-black
               leading-none
               tracking-[-0.08em]
-              text-fuchsia-300/60
-              blur-[1px]
+              text-zinc-300/30
+              blur-[2px]
               mix-blend-screen
               will-change-transform
               select-none
@@ -335,7 +335,7 @@ export default function PortfolioIntro() {
               text-white
               will-change-transform
               select-none
-              [text-shadow:0_20px_90px_rgba(255,255,255,0.16),0_0_42px_rgba(255,255,255,0.08)]
+              [text-shadow:0_20px_90px_rgba(255,255,255,0.14),0_0_36px_rgba(255,255,255,0.07)]
             "
           >
             PORTFOLIO
@@ -348,7 +348,7 @@ export default function PortfolioIntro() {
             mt-8
             text-[10px] md:text-[11px]
             uppercase tracking-[0.35em]
-            text-white/45
+            text-white/38
             select-none
           "
         >
@@ -368,7 +368,9 @@ export default function PortfolioIntro() {
             flex items-start justify-center
             h-14 w-8
             rounded-full
-            border border-white/20
+            border border-white/14
+            bg-white/[0.025]
+            backdrop-blur-xl
           "
         >
           <motion.div

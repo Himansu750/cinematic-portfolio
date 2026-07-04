@@ -13,6 +13,11 @@ import {
   useTransform,
 } from "framer-motion";
 
+import {
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
 import HeroCard from "./HeroCard";
 
 import { cards } from "@/data/cardsData";
@@ -98,20 +103,20 @@ export default function HeroSection({
       className="
         relative
         flex
-        min-h-[110vh]
+        min-h-[105vh]
         items-center
         justify-center
         overflow-visible
 
         px-4
-        pt-[220px]
-        pb-[300px]
+        pt-[200px]
+        pb-[260px]
 
-        sm:pt-[300px]
-        sm:pb-[320px]
-        md:pt-[360px]
-        md:pb-[320px]
-        lg:pb-[240px]
+        sm:pt-[260px]
+        sm:pb-[280px]
+        md:pt-[320px]
+        md:pb-[280px]
+        lg:pb-[220px]
       "
     >
       {/* LEFT BUTTON */}
@@ -152,28 +157,17 @@ export default function HeroSection({
 
           h-12
           w-12
+
+          rounded-full
+          border
+          border-white/[0.08]
+          bg-black/40
+          text-white/62
+          shadow-[0_18px_70px_rgba(0,0,0,0.55)]
+          backdrop-blur-2xl
         "
       >
-        <motion.div
-          whileHover={{
-            x: -2,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 500,
-            damping: 18,
-          }}
-          className="
-            h-0
-            w-0
-
-            border-y-[8px]
-            border-y-transparent
-
-            border-r-[12px]
-            border-r-white/55
-          "
-        />
+        <ChevronLeft size={22} strokeWidth={1.6} />
       </motion.button>
 
       {/* RIGHT BUTTON */}
@@ -213,28 +207,17 @@ export default function HeroSection({
 
           h-12
           w-12
+
+          rounded-full
+          border
+          border-white/[0.08]
+          bg-black/40
+          text-white/62
+          shadow-[0_18px_70px_rgba(0,0,0,0.55)]
+          backdrop-blur-2xl
         "
       >
-        <motion.div
-          whileHover={{
-            x: 2,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 500,
-            damping: 18,
-          }}
-          className="
-            h-0
-            w-0
-
-            border-y-[8px]
-            border-y-transparent
-
-            border-l-[12px]
-            border-l-white/55
-          "
-        />
+        <ChevronRight size={22} strokeWidth={1.6} />
       </motion.button>
 
       <motion.div
@@ -255,7 +238,7 @@ export default function HeroSection({
         className="
           w-full
           max-w-[720px]
-          translate-y-24
+          translate-y-20
 
           md:max-w-[860px]
           lg:hidden
@@ -278,7 +261,7 @@ export default function HeroSection({
                 text-[10px]
                 uppercase
                 tracking-[0.28em]
-                text-white/40
+                text-white/38
               "
             >
               Browse
@@ -306,7 +289,7 @@ export default function HeroSection({
               rounded-full
               border
               border-white/[0.08]
-              bg-white/[0.045]
+              bg-white/[0.04]
               px-3
               py-1.5
 
@@ -373,11 +356,11 @@ export default function HeroSection({
                   rounded-[24px]
                   border
                   border-white/[0.08]
-                  bg-black/58
+                  bg-[rgba(8,8,10,0.68)]
                   p-2.5
-                  shadow-[0_24px_90px_rgba(0,0,0,0.62)]
+                  shadow-[0_24px_90px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.06)]
                   backdrop-blur-[34px]
-                  backdrop-saturate-[130%]
+                  backdrop-saturate-[115%]
 
                   sm:rounded-[30px]
                   sm:p-3
@@ -418,7 +401,7 @@ export default function HeroSection({
                     className="
                       absolute
                       inset-0
-                      bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.1)_35%,rgba(0,0,0,0.86))]
+                      bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.12)_36%,rgba(0,0,0,0.9)),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_34%)]
                     "
                   />
 
@@ -492,9 +475,9 @@ export default function HeroSection({
         className="
           relative
           flex
-          translate-y-48
-          sm:translate-y-20
-          md:translate-y-16
+          translate-y-40
+          sm:translate-y-16
+          md:translate-y-12
 
           h-[520px]
           w-full
