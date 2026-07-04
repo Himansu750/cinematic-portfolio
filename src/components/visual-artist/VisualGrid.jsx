@@ -65,8 +65,8 @@ export default function VisualGrid() {
     isWide
       ? [0.54, 0.92, 1.04, 0.92]
       : isMedium
-        ? [0.52, 0.78, 0.88, 0.82]
-        : [0.52, 0.72, 0.82, 0.78]
+        ? [0.48, 0.66, 0.74, 0.7]
+        : [0.46, 0.6, 0.68, 0.64]
   );
 
   const gridY = useTransform(
@@ -75,8 +75,8 @@ export default function VisualGrid() {
     isWide
       ? [220, 120, 96, 140]
       : isMedium
-        ? [168, 84, 82, 104]
-        : [150, 78, 82, 96]
+        ? [154, 72, 260, 380]
+        : [132, 58, 300, 440]
   );
 
   const gridRotateX = useTransform(
@@ -366,13 +366,13 @@ export default function VisualGrid() {
           className="
             absolute
             left-1/2
-            top-[76%]
+            top-[61%]
             z-20
-            w-[96vw]
+            w-[82vw]
             -translate-x-1/2
             -translate-y-1/2
-            md:w-[88vw]
-            md:top-[68%]
+            md:w-[78vw]
+            md:top-[60%]
             lg:w-[92vw]
             lg:max-w-[1460px]
             lg:top-[76%]
@@ -521,9 +521,9 @@ function VisualStackCard({
     [revealStart, revealMid, revealEnd],
     [
       (isWide ? 110 : 76) + rowIndex * 34,
-      (isWide ? 26 : isMedium ? 132 : 220) +
+      (isWide ? 26 : isMedium ? 128 : 210) +
         rowIndex * 10,
-      isWide ? 0 : isMedium ? 260 : 440,
+      isWide ? 0 : isMedium ? 360 : 520,
     ]
   );
 
