@@ -322,11 +322,12 @@ export default function HeroSection({
 
         <div
           className="
-            columns-2
+            grid
+            grid-cols-2
             gap-3
 
-            sm:gap-5
-            md:columns-3
+            sm:gap-4
+            md:gap-5
           "
         >
           {cards.map((card, index) => (
@@ -352,9 +353,7 @@ export default function HeroSection({
                 },
               }}
               className="
-                mb-3
-                break-inside-avoid
-                sm:mb-5
+                min-w-0
               "
             >
               <Link
@@ -367,26 +366,29 @@ export default function HeroSection({
                   relative
                   block
                   overflow-hidden
-                  rounded-[24px]
+                  rounded-[20px]
                   border
                   border-white/[0.08]
                   bg-[rgba(8,8,10,0.68)]
-                  p-2.5
+                  p-2
                   shadow-[0_24px_90px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.06)]
                   backdrop-blur-[34px]
                   backdrop-saturate-[115%]
 
-                  sm:rounded-[30px]
-                  sm:p-3
+                  sm:rounded-[24px]
+                  sm:p-2.5
+                  md:rounded-[28px]
+                  md:p-3
                 "
               >
                 <div
                   className="
                     relative
                     overflow-hidden
-                    rounded-[20px]
+                    rounded-[16px]
 
-                    sm:rounded-[24px]
+                    sm:rounded-[20px]
+                    md:rounded-[24px]
                   "
                 >
                   <video
@@ -403,11 +405,7 @@ export default function HeroSection({
                     "
                     style={{
                       "--card-media-height":
-                        index === 0
-                          ? "clamp(210px, 62vw, 300px)"
-                          : index === 1
-                          ? "clamp(170px, 48vw, 260px)"
-                          : "clamp(190px, 54vw, 280px)",
+                        "clamp(118px, 31vw, 190px)",
                     }}
                   />
 
@@ -424,16 +422,17 @@ export default function HeroSection({
                       absolute
                       inset-x-0
                       bottom-0
-                      p-4
+                      p-3
 
-                      sm:p-5
+                      sm:p-4
+                      md:p-5
                     "
                   >
                     <p
                       className="
                         text-[9px]
                         uppercase
-                        tracking-[0.2em]
+                        tracking-[0.16em]
                         text-white/50
 
                         sm:text-[10px]
@@ -446,9 +445,9 @@ export default function HeroSection({
                     <h2
                       className="
                         mt-2
-                        text-[clamp(1.75rem,8vw,3.75rem)]
+                        text-[clamp(1.15rem,5.7vw,2.7rem)]
                         font-semibold
-                        leading-[0.88]
+                        leading-[0.9]
                         tracking-[-0.06em]
                         text-white
                       "
@@ -462,34 +461,39 @@ export default function HeroSection({
 
                 <p
                   className="
-                  px-3
-                  pt-4
-                  pb-3
-                  text-[11px]
-                  leading-[1.65]
-                  text-zinc-400
+                    hidden
+                    px-2.5
+                    pt-3
+                    pb-2
+                    text-[11px]
+                    leading-[1.55]
+                    text-zinc-400
 
-                  sm:text-[13px]
-                  sm:leading-[1.7]
-                "
-              >
+                    sm:block
+                    sm:px-3
+                    sm:text-[12px]
+                    sm:leading-[1.6]
+                    md:text-[13px]
+                    md:leading-[1.7]
+                  "
+                >
                   {card.description}
                 </p>
 
                 <span
                   className="
-                    mx-3
+                    mx-2.5
                     mb-2
                     inline-flex
-                    min-h-10
+                    min-h-9
                     items-center
                     gap-2
                     rounded-full
                     border
                     border-white/[0.08]
                     bg-white/[0.045]
-                    px-4
-                    text-[11px]
+                    px-3
+                    text-[10px]
                     font-medium
                     text-white/82
                     shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]
@@ -500,6 +504,9 @@ export default function HeroSection({
                     group-hover:bg-white/[0.075]
                     group-hover:text-white
 
+                    sm:mx-3
+                    sm:min-h-10
+                    sm:px-4
                     sm:text-[12px]
                   "
                 >
