@@ -4,6 +4,18 @@ import { useLayoutEffect } from "react";
 
 import { usePathname } from "next/navigation";
 
+function getDocumentTop(element) {
+  let top = 0;
+  let current = element;
+
+  while (current) {
+    top += current.offsetTop;
+    current = current.offsetParent;
+  }
+
+  return top;
+}
+
 export default function ScrollToTop() {
   const pathname = usePathname();
 
@@ -58,12 +70,18 @@ export default function ScrollToTop() {
             rect.height > 0
           );
         });
+        const mobileCardTarget =
+          document.querySelector(
+            "[data-home-mobile-card-target]"
+          );
 
         const isDesktop =
           window.innerWidth >= 1024;
         const target = isDesktop
           ? activeCardTarget || cardTarget
-          : cardTarget || activeCardTarget;
+          : mobileCardTarget ||
+            cardTarget ||
+            activeCardTarget;
 
         if (!target) {
           window.scrollTo({
@@ -73,17 +91,13 @@ export default function ScrollToTop() {
           return;
         }
 
-        const returnOffset =
-          isDesktop
-            ? 205
-            : window.innerWidth < 768
-              ? 250
-              : 220;
-
-        const targetTop =
-          target.getBoundingClientRect().top +
-          window.scrollY -
-          returnOffset;
+        const targetTop = isDesktop
+          ? target.getBoundingClientRect().top +
+            window.scrollY -
+            205
+          : getDocumentTop(target) +
+            80 -
+            (window.innerWidth < 768 ? 250 : 220);
 
         window.scrollTo({
           top: Math.max(0, targetTop),

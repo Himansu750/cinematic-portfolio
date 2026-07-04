@@ -238,6 +238,7 @@ export default function HeroSection({
 
       <motion.div
         data-home-card-target
+        data-home-mobile-card-target
         variants={{
           hidden: {},
           visible: {
