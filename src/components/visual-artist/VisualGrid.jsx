@@ -674,7 +674,7 @@ function VisualStackCard({
               md:text-[10px]
             "
           >
-            Visual Artist
+            Visual Art
           </p>
 
           <h3

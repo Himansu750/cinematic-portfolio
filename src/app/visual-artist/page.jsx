@@ -78,7 +78,7 @@ export default function VisualArtistPage() {
                 inset-0
                 scale-[1.04]
               "
-              ariaLabel="Visual artist interactive background"
+              ariaLabel="Visual art interactive background"
             />
           )}
 
@@ -140,7 +140,7 @@ export default function VisualArtistPage() {
               text-white/45
             "
           >
-            Visual Artist &bull; Director
+            Visual Art &bull; Direction
           </motion.p>
 
           {/* HUGE TITLE */}
@@ -172,7 +172,7 @@ export default function VisualArtistPage() {
           >
             VISUAL
             <br />
-            ARTIST
+            ART
           </motion.h1>
 
           {/* DESCRIPTION */}
@@ -200,12 +200,10 @@ export default function VisualArtistPage() {
               text-white/60
             "
           >
-            Crafting cinematic visuals,
-            emotional storytelling,
-            immersive motion, and artistic
-            atmospheres inspired by modern
-            luxury aesthetics and film
-            culture.
+            Cinematic frames, visual systems,
+            experimental edits, and emotional
+            imagery shaped with a clean premium
+            direction.
           </motion.p>
         </div>
 

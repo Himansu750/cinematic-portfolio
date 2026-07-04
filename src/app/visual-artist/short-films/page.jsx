@@ -24,7 +24,7 @@ const items = [
 export default function ShortFilmsPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="SHORT FILMS"
       description="Narrative-led visual pieces shaped around atmosphere, emotional rhythm, pacing, and cinematic memory."
       items={items}

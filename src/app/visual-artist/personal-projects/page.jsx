@@ -36,7 +36,7 @@ const items = [
 export default function PersonalProjectsPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="PERSONAL PROJECTS"
       description="Self-directed visual experiments exploring atmosphere, street energy, framing, motion, and cinematic identity."
       items={items}

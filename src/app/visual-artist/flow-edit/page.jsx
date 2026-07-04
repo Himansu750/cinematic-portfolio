@@ -24,7 +24,7 @@ const items = [
 export default function FlowEditPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="FLOW EDIT"
       description="Fast-paced edits built on timing, movement, transitions, rhythm, and the feeling of continuous visual energy."
       items={items}

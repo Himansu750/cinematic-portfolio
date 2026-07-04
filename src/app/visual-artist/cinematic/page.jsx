@@ -24,7 +24,7 @@ const items = [
 export default function CinematicPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="CINEMATIC"
       description="Atmospheric visuals built around depth, light, texture, framing, and immersive cinematic emotion."
       items={items}

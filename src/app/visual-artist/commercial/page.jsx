@@ -24,7 +24,7 @@ const items = [
 export default function CommercialPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="COMMERCIAL"
       description="Brand-focused visuals with cinematic pacing, premium lighting, smooth movement, and strong visual identity."
       items={items}

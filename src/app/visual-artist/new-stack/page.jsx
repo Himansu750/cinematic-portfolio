@@ -12,7 +12,7 @@ const items = [
 export default function NewStackPage() {
   return (
     <ShowcasePage
-      eyebrow="Visual Artist"
+      eyebrow="Visual Art"
       title="NEW STACK"
       description="A placeholder visual stack ready to be renamed and shaped into its final category."
       items={items}
