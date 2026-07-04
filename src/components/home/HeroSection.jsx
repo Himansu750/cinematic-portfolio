@@ -80,6 +80,20 @@ export default function HeroSection({
     };
   }, []);
 
+  function prepareHomeReturn(index) {
+    sessionStorage.setItem("activeCard", index);
+    sessionStorage.setItem(
+      "returnToHomeWork",
+      "true"
+    );
+
+    window.history.replaceState(
+      window.history.state,
+      "",
+      "/#home-cards"
+    );
+  }
+
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       const savedCard =
@@ -318,6 +332,7 @@ export default function HeroSection({
           {cards.map((card, index) => (
             <motion.article
               key={card.link}
+              data-home-card-index={index}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -345,14 +360,7 @@ export default function HeroSection({
               <Link
                 href={card.link}
                 onClick={() => {
-                  sessionStorage.setItem(
-                    "activeCard",
-                    index
-                  );
-                  sessionStorage.setItem(
-                    "returnToHomeWork",
-                    "true"
-                  );
+                  prepareHomeReturn(index);
                 }}
                 className="
                   group
@@ -511,6 +519,7 @@ export default function HeroSection({
 
       {/* CARD STACK */}
       <div
+        id="home-cards"
         data-home-card-target
         style={{
           scale: layoutScale,
@@ -550,6 +559,9 @@ export default function HeroSection({
               card={card}
               position={position}
               index={index}
+              onPrepareHomeReturn={
+                prepareHomeReturn
+              }
               setActive={setActive}
               centerHovered={centerHovered}
               setCenterHovered={

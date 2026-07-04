@@ -24,6 +24,7 @@ export default function HeroCard({
   card,
   position,
   index,
+  onPrepareHomeReturn,
   setActive,
   sideOffset = 280,
 
@@ -112,14 +113,7 @@ export default function HeroCard({
   }
 
   function openCard() {
-    sessionStorage.setItem(
-      "activeCard",
-      index
-    );
-    sessionStorage.setItem(
-      "returnToHomeWork",
-      "true"
-    );
+    onPrepareHomeReturn(index);
 
     router.push(card.link);
   }
@@ -127,6 +121,7 @@ export default function HeroCard({
   return (
     <motion.div
       ref={ref}
+      data-home-card-index={index}
       role="button"
       tabIndex={0}
       aria-label={`Open ${card.title.join(" ")} section`}

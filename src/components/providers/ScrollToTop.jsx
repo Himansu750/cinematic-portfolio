@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 import { usePathname } from "next/navigation";
 
 export default function ScrollToTop() {
   const pathname = usePathname();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration =
         "manual";
@@ -25,6 +25,26 @@ export default function ScrollToTop() {
       );
 
       const scrollToHomeCards = () => {
+        const activeCard =
+          window.sessionStorage.getItem(
+            "activeCard"
+          );
+        const activeCardTarget =
+          activeCard !== null
+            ? [
+                ...document.querySelectorAll(
+                  `[data-home-card-index="${activeCard}"]`
+                ),
+              ].find((element) => {
+                const rect =
+                  element.getBoundingClientRect();
+
+                return (
+                  rect.width > 0 &&
+                  rect.height > 0
+                );
+              })
+            : null;
         const cardTarget = [
           ...document.querySelectorAll(
             "[data-home-card-target]"
@@ -39,7 +59,10 @@ export default function ScrollToTop() {
           );
         });
 
-        if (!cardTarget) {
+        const target =
+          activeCardTarget || cardTarget;
+
+        if (!target) {
           window.scrollTo({
             top: 0,
             behavior: "auto",
@@ -48,7 +71,7 @@ export default function ScrollToTop() {
         }
 
         const targetTop =
-          cardTarget.getBoundingClientRect().top +
+          target.getBoundingClientRect().top +
           window.scrollY -
           120;
 
@@ -58,12 +81,10 @@ export default function ScrollToTop() {
         });
       };
 
-      window.requestAnimationFrame(() => {
-        scrollToHomeCards();
+      scrollToHomeCards();
 
-        window.setTimeout(scrollToHomeCards, 120);
-        window.setTimeout(scrollToHomeCards, 360);
-      });
+      window.setTimeout(scrollToHomeCards, 80);
+      window.setTimeout(scrollToHomeCards, 240);
 
       return;
     }
