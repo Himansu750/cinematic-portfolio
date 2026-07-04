@@ -14,7 +14,6 @@ import {
   useTransform,
 } from "framer-motion";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import {
@@ -62,22 +61,22 @@ export default function VisualGrid() {
 
   const gridScale = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.24, 0.4, 1],
+    [0.08, 0.26, 0.48, 0.78, 1],
     isWide
-      ? [0.54, 0.92, 1.04, 0.92]
+      ? [0.54, 0.92, 1.04, 0.98, 0.92]
       : isMedium
-        ? [0.52, 0.68, 0.76, 0.76]
-        : [0.54, 0.66, 0.73, 0.73]
+        ? [0.46, 0.72, 0.9, 0.94, 0.88]
+        : [0.48, 0.78, 0.96, 0.98, 0.9]
   );
 
   const gridY = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.24, 0.4, 1],
+    [0.08, 0.26, 0.48, 0.78, 1],
     isWide
-      ? [220, 120, 96, 140]
+      ? [220, 120, 96, 112, 140]
       : isMedium
-        ? [180, 238, 312, 880]
-        : [170, 244, 320, 920]
+        ? [210, 92, 8, -18, 80]
+        : [205, 78, -6, -42, 70]
   );
 
   const gridRotateX = useTransform(
@@ -88,8 +87,10 @@ export default function VisualGrid() {
 
   const gridZ = useTransform(
     smoothScrollYProgress,
-    [0.08, 0.26, 0.42, 1],
-    isWide ? [-620, -170, 0, 48] : [-520, -180, 0, 0]
+    [0.08, 0.28, 0.5, 0.78, 1],
+    isWide
+      ? [-620, -170, 0, 22, 48]
+      : [-640, -220, 0, 32, 64]
   );
 
   const titleY = useTransform(
@@ -118,20 +119,8 @@ export default function VisualGrid() {
 
   const movingGridOpacity = useTransform(
     smoothScrollYProgress,
-    isWide ? [0, 1] : [0, 0.24, 0.34],
-    isWide ? [1, 1] : [1, 0.78, 0]
-  );
-
-  const mobileWallOpacity = useTransform(
-    smoothScrollYProgress,
-    [0.28, 0.42, 1],
-    [0, 1, 1]
-  );
-
-  const mobileWallY = useTransform(
-    smoothScrollYProgress,
-    [0.28, 0.42, 1],
-    [76, 0, 500]
+    isWide ? [0, 1] : [0, 0.74, 0.9, 1],
+    isWide ? [1, 1] : [1, 1, 0.24, 0]
   );
 
   useEffect(() => {
@@ -172,12 +161,12 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[245vh]
+        min-h-[205vh]
         bg-black
         px-0
         [perspective:1100px]
         [perspective-origin:50%_42%]
-        md:min-h-[250vh]
+        md:min-h-[215vh]
         lg:min-h-[245vh]
         lg:[perspective:1500px]
       "
@@ -387,10 +376,10 @@ export default function VisualGrid() {
             left-1/2
             top-1/2
             z-20
-            w-[88vw]
+            w-[128vw]
             -translate-x-1/2
             -translate-y-1/2
-            md:w-[82vw]
+            md:w-[116vw]
             md:top-1/2
             lg:w-[92vw]
             lg:max-w-[1460px]
@@ -433,71 +422,6 @@ export default function VisualGrid() {
                 />
               )
             )}
-          </motion.div>
-        </div>
-
-        <div
-          className="
-            fixed
-            left-1/2
-            top-[48%]
-            z-30
-            w-[76vw]
-            -translate-x-1/2
-            -translate-y-1/2
-            md:top-1/2
-            md:w-[68vw]
-            lg:hidden
-          "
-        >
-          <motion.div
-            style={{
-              opacity: mobileWallOpacity,
-              y: mobileWallY,
-            }}
-            className="
-              pointer-events-auto
-              grid
-              w-full
-              grid-cols-2
-              gap-2.5
-              md:grid-cols-3
-              md:gap-3
-            "
-          >
-            {visualCategories.map((category) => (
-              <button
-                key={`mobile-${category.link}`}
-                type="button"
-                onClick={() => openCategory(category)}
-                className="
-                  group
-                  relative
-                  aspect-[1.12/1]
-                  overflow-hidden
-                  border
-                  border-black
-                  bg-zinc-950
-                  outline-none
-                "
-              >
-                <Image
-                  src={category.image}
-                  alt={category.title}
-                  fill
-                  sizes="(min-width: 768px) 22vw, 38vw"
-                  className="
-                    object-cover
-                    brightness-[0.84]
-                    contrast-[1.08]
-                  "
-                />
-
-                <span className="sr-only">
-                  Open {category.title}
-                </span>
-              </button>
-            ))}
           </motion.div>
         </div>
 
