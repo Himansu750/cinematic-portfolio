@@ -90,7 +90,7 @@ export default function HeroSection({
     window.history.replaceState(
       window.history.state,
       "",
-      "/#home-cards"
+      "/"
     );
   }
 

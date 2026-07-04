@@ -9,6 +9,17 @@ import {
 
 export default function PortfolioIntro() {
   const { scrollY } = useScroll();
+  const [skipIntroOnReturn] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return (
+      window.sessionStorage.getItem(
+        "returnToHomeWork"
+      ) === "true"
+    );
+  });
   const [distance, setDistance] = useState(520);
   const [isCompact, setIsCompact] =
     useState(false);
@@ -159,6 +170,10 @@ export default function PortfolioIntro() {
     [0, distance * 0.22],
     [1, 0]
   );
+
+  if (skipIntroOnReturn) {
+    return null;
+  }
 
   return (
     <motion.section
