@@ -138,7 +138,14 @@ export default function HeroCard({
         }
       }}
       onMouseLeave={handleMouseLeave}
-      onClick={() => setActive(index)}
+      onClick={() => {
+        if (isActive) {
+          openCard();
+          return;
+        }
+
+        setActive(index);
+      }}
       onKeyDown={(event) => {
         if (
           event.key !== "Enter" &&

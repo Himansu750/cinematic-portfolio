@@ -43,50 +43,44 @@ export default function VisualGrid() {
 
   const titleOpacity = useTransform(
     progress,
-    [0.08, 0.16, 0.54, 0.72],
+    [0.06, 0.14, 0.42, 0.56],
     [0, 1, 1, 0]
   );
 
   const titleY = useTransform(
     progress,
-    [0.08, 0.28, 0.58, 0.78],
-    ["34vh", "6vh", "-8vh", "-22vh"]
+    [0.06, 0.26, 0.52, 0.68],
+    ["28vh", "4vh", "-8vh", "-18vh"]
   );
 
   const titleX = useTransform(
     progress,
-    [0.08, 0.5, 0.78],
-    ["8vw", "-8vw", "-18vw"]
+    [0.06, 0.46, 0.68],
+    ["8vw", "-6vw", "-14vw"]
   );
 
   const titleScale = useTransform(
     progress,
-    [0.08, 0.34, 0.78],
-    [0.9, 1.06, 0.96]
+    [0.06, 0.3, 0.68],
+    [0.9, 1.04, 0.98]
   );
 
   const wallOpacity = useTransform(
     progress,
-    [0.2, 0.34, 0.82, 0.95],
-    [0, 1, 1, 0]
+    [0.16, 0.3, 1],
+    [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.18, 0.5, 0.86],
-    ["28vh", "-4vh", "-20vh"]
+    [0.16, 0.48, 1],
+    ["24vh", "-3vh", "-10vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.18, 0.5, 0.86],
-    [0.72, 1, 1.08]
-  );
-
-  const remixOpacity = useTransform(
-    progress,
-    [0.86, 0.96, 1],
-    [0, 1, 1]
+    [0.16, 0.48, 1],
+    [0.76, 1, 1.02]
   );
 
   useEffect(() => {
@@ -102,11 +96,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[300vh]
+        min-h-[210vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[285vh]
+        lg:min-h-[220vh]
       "
     >
       <div
@@ -244,38 +238,6 @@ export default function VisualGrid() {
           </h2>
         </motion.div>
 
-        <motion.button
-          type="button"
-          style={{ opacity: remixOpacity }}
-          onClick={() => {
-            window.scrollTo({
-              top: sectionRef.current?.offsetTop ?? 0,
-              behavior: "smooth",
-            });
-          }}
-          className="
-            absolute
-            left-1/2
-            top-[70%]
-            z-40
-            -translate-x-1/2
-            rounded-full
-            border
-            border-white/[0.08]
-            bg-white/[0.035]
-            px-5
-            py-2.5
-            text-[15px]
-            font-medium
-            text-white/68
-            backdrop-blur-2xl
-            transition
-            hover:bg-white/[0.07]
-            hover:text-white
-          "
-        >
-          Remix
-        </motion.button>
       </div>
     </section>
   );

@@ -2,11 +2,8 @@
 
 import { motion } from "framer-motion";
 
-import UnicornStudioScene from "@/components/effects/UnicornStudioScene";
 import LazyVideo from "@/components/ui/LazyVideo";
 import VisualGrid from "@/components/visual-artist/VisualGrid";
-
-import { unicornScenes } from "@/data/unicornScenes";
 
 export default function VisualArtistPage() {
   return (
@@ -66,20 +63,6 @@ export default function VisualArtistPage() {
               scale-[1.05]
             "
           />
-
-          {unicornScenes.visualArtistHero && (
-            <UnicornStudioScene
-              projectId={
-                unicornScenes.visualArtistHero
-              }
-              className="
-                absolute
-                inset-0
-                scale-[1.04]
-              "
-              ariaLabel="Visual art interactive background"
-            />
-          )}
 
           {/* DARK OVERLAY */}
           <div

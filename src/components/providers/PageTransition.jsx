@@ -24,7 +24,7 @@ export default function PageTransition({
         opacity: 0,
       }}
       transition={{
-        duration: 0.36,
+        duration: 0.16,
         ease,
       }}
     >
