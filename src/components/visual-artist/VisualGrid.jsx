@@ -56,7 +56,7 @@ export default function VisualGrid() {
   const titleX = useTransform(
     progress,
     [0.04, 0.28, 0.46],
-    ["8vw", "-4vw", "-10vw"]
+    ["0vw", "-2vw", "-4vw"]
   );
 
   const titleScale = useTransform(
@@ -150,12 +150,12 @@ export default function VisualGrid() {
             left-1/2
             top-1/2
             z-20
-            w-[84vw]
+            w-[82vw]
             -translate-x-1/2
             -translate-y-1/2
             transform-gpu
             will-change-transform
-            sm:w-[82vw]
+            sm:w-[80vw]
             md:w-[88vw]
             lg:w-[82vw]
             lg:max-w-[1260px]
@@ -249,7 +249,7 @@ function VisualStackCard({
 }) {
   const row = Math.floor(index / 3);
   const column = index % 3;
-  const side = column === 0 ? -1 : column === 2 ? 1 : index % 2 ? 0.5 : -0.5;
+  const side = column === 0 ? -1 : column === 2 ? 1 : 0;
   const start = 0.2 + row * 0.045 + column * 0.014;
   const mid = start + 0.12;
   const end = start + 0.24;
@@ -267,7 +267,7 @@ function VisualStackCard({
   const x = useTransform(
     progress,
     [start, mid, end],
-    [side * 34, side * 12, 0]
+    [side * 22, side * 8, 0]
   );
   const rotateX = useTransform(
     progress,
