@@ -139,12 +139,7 @@ export default function VisualGrid() {
           "
         />
 
-        <motion.div
-          style={{
-            opacity: wallOpacity,
-            y: wallY,
-            scale: wallScale,
-          }}
+        <div
           className="
             absolute
             left-1/2
@@ -161,11 +156,18 @@ export default function VisualGrid() {
             lg:max-w-[1260px]
           "
         >
-          <div
+          <motion.div
+            style={{
+              opacity: wallOpacity,
+              y: wallY,
+              scale: wallScale,
+            }}
             className="
               grid
               grid-cols-2
               gap-2.5
+              transform-gpu
+              will-change-transform
               md:grid-cols-3
               md:gap-4
               lg:gap-6
@@ -179,8 +181,8 @@ export default function VisualGrid() {
                 progress={progress}
               />
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <motion.div
           style={{
