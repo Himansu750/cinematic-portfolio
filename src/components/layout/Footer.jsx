@@ -4,21 +4,18 @@ import { motion } from "framer-motion";
 
 import { siteConfig } from "@/data/siteConfig";
 
-export default function Footer() {
+export default function Footer({
+  compact = false,
+}) {
   return (
     <footer
       id="contact"
-      className="
+      className={`
         relative
         z-10
-
-        mt-[120px]
-
         px-6
-        pb-32
-
-        lg:pb-16
-      "
+        ${compact ? "mt-8 pb-24 lg:pb-12" : "mt-[120px] pb-32 lg:pb-16"}
+      `}
     >
       {/* LINE */}
       <div

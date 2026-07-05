@@ -37,25 +37,49 @@ export default function VisualGrid() {
 
   const promptOpacity = useTransform(
     progress,
-    [0, 0.08, 0.15],
+    [0, 0.04, 0.14],
     [1, 1, 0]
+  );
+
+  const burnOpacity = useTransform(
+    progress,
+    [0, 0.04, 0.18, 0.28],
+    [0, 1, 1, 0]
+  );
+
+  const burnY = useTransform(
+    progress,
+    [0, 0.22],
+    ["0%", "-64%"]
+  );
+
+  const burnScaleY = useTransform(
+    progress,
+    [0, 0.22],
+    [1, 0.78]
+  );
+
+  const burnBlur = useTransform(
+    progress,
+    [0, 0.16, 0.28],
+    ["blur(0px)", "blur(2px)", "blur(10px)"]
   );
 
   const wallOpacity = useTransform(
     progress,
-    [0.04, 0.18, 1],
+    [0.08, 0.2, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.04, 0.22, 1],
-    ["12vh", "3vh", "3vh"]
+    [0.08, 0.24, 1],
+    ["10vh", "3vh", "3vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.04, 0.22, 1],
+    [0.08, 0.24, 1],
     [0.92, 1, 1]
   );
 
@@ -72,11 +96,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[132vh]
+        min-h-[118vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[148vh]
+        lg:min-h-[128vh]
       "
     >
       <div
@@ -107,6 +131,30 @@ export default function VisualGrid() {
         >
           Scroll down &darr;
         </motion.p>
+
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: burnOpacity,
+            y: burnY,
+            scaleY: burnScaleY,
+            filter: burnBlur,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            inset-x-0
+            top-0
+            z-30
+            h-[62vh]
+            origin-top
+            bg-[radial-gradient(ellipse_at_50%_92%,rgba(255,179,94,0.36),rgba(255,90,48,0.18)_24%,rgba(255,255,255,0.06)_44%,rgba(0,0,0,0)_66%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(17,8,4,0.88)_72%,rgba(0,0,0,0))]
+            mix-blend-screen
+            shadow-[0_28px_80px_rgba(255,84,35,0.18)]
+            will-change-transform
+            [clip-path:polygon(0_0,100%_0,100%_78%,92%_80%,82%_74%,72%_83%,61%_77%,50%_86%,38%_78%,27%_84%,16%_76%,7%_82%,0_77%)]
+          "
+        />
 
         <div
           className="

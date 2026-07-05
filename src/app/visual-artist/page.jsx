@@ -232,7 +232,7 @@ export default function VisualArtistPage() {
             </section>
 
       <VisualGrid />
-      <Footer />
+      <Footer compact />
     </main>
   );
 }
