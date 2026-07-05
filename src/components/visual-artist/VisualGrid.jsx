@@ -43,44 +43,44 @@ export default function VisualGrid() {
 
   const titleOpacity = useTransform(
     progress,
-    [0.04, 0.12, 0.36, 0.5],
+    [0.04, 0.1, 0.22, 0.32],
     [0, 1, 1, 0]
   );
 
   const titleY = useTransform(
     progress,
-    [0.04, 0.22, 0.46, 0.62],
-    ["25vh", "3vh", "-8vh", "-16vh"]
+    [0.04, 0.18, 0.32, 0.46],
+    ["22vh", "2vh", "-12vh", "-22vh"]
   );
 
   const titleX = useTransform(
     progress,
-    [0.04, 0.4, 0.62],
-    ["8vw", "-5vw", "-12vw"]
+    [0.04, 0.28, 0.46],
+    ["8vw", "-4vw", "-10vw"]
   );
 
   const titleScale = useTransform(
     progress,
-    [0.04, 0.26, 0.62],
-    [0.9, 1.04, 0.98]
+    [0.04, 0.2, 0.46],
+    [0.9, 1.02, 0.94]
   );
 
   const wallOpacity = useTransform(
     progress,
-    [0.14, 0.26, 1],
+    [0.18, 0.3, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.14, 0.42, 1],
-    ["21vh", "-2vh", "-8vh"]
+    [0.18, 0.42, 1],
+    ["18vh", "0vh", "0vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.14, 0.42, 1],
-    [0.8, 1, 1.01]
+    [0.18, 0.42, 1],
+    [0.86, 0.98, 0.98]
   );
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[175vh]
+        min-h-[165vh]
         bg-black
         text-white
         [perspective:1200px]
@@ -150,13 +150,13 @@ export default function VisualGrid() {
             left-1/2
             top-1/2
             z-20
-            w-[118vw]
+            w-[84vw]
             -translate-x-1/2
             -translate-y-1/2
             transform-gpu
             will-change-transform
-            sm:w-[104vw]
-            md:w-[92vw]
+            sm:w-[82vw]
+            md:w-[88vw]
             lg:w-[82vw]
             lg:max-w-[1260px]
           "
@@ -165,9 +165,9 @@ export default function VisualGrid() {
             className="
               grid
               grid-cols-2
-              gap-4
+              gap-2.5
               md:grid-cols-3
-              md:gap-5
+              md:gap-4
               lg:gap-6
             "
           >
@@ -193,7 +193,7 @@ export default function VisualGrid() {
             pointer-events-none
             absolute
             inset-x-0
-            top-[28%]
+            top-[25%]
             z-30
             select-none
             text-center
@@ -219,14 +219,14 @@ export default function VisualGrid() {
           <h2
             className="
               mx-auto
-              w-[175vw]
+              w-[162vw]
               font-serif
-              text-[clamp(7.4rem,35vw,23rem)]
+              text-[clamp(6.6rem,31vw,23rem)]
               font-normal
               leading-[0.72]
               tracking-[-0.095em]
               text-white
-              sm:w-[150vw]
+              sm:w-[140vw]
               md:w-[124vw]
               lg:w-[112vw]
             "
@@ -250,9 +250,9 @@ function VisualStackCard({
   const row = Math.floor(index / 3);
   const column = index % 3;
   const side = column === 0 ? -1 : column === 2 ? 1 : index % 2 ? 0.5 : -0.5;
-  const start = 0.22 + row * 0.07 + column * 0.022;
-  const mid = start + 0.16;
-  const end = start + 0.34;
+  const start = 0.2 + row * 0.045 + column * 0.014;
+  const mid = start + 0.12;
+  const end = start + 0.24;
 
   const opacity = useTransform(
     progress,
@@ -262,27 +262,27 @@ function VisualStackCard({
   const y = useTransform(
     progress,
     [start, mid, end],
-    [84 + row * 34, 14 + row * 10, 0]
+    [38 + row * 16, 8 + row * 5, 0]
   );
   const x = useTransform(
     progress,
     [start, mid, end],
-    [side * 74, side * 22, 0]
+    [side * 34, side * 12, 0]
   );
   const rotateX = useTransform(
     progress,
     [start, mid, end],
-    [24, 8, 0]
+    [12, 4, 0]
   );
   const rotateY = useTransform(
     progress,
     [start, mid, end],
-    [side * 16, side * 5, 0]
+    [side * 8, side * 3, 0]
   );
   const scale = useTransform(
     progress,
     [start, mid, end],
-    [0.82, 0.96, 1]
+    [0.9, 0.98, 1]
   );
 
   return (
@@ -323,7 +323,7 @@ function VisualStackCard({
         <div
           className="
             relative
-            aspect-[1.02/1]
+            aspect-[1.04/1]
             overflow-hidden
             bg-zinc-950
             md:aspect-[1.08/1]
