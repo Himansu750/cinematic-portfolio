@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 
+import Footer from "@/components/layout/Footer";
 import LazyVideo from "@/components/ui/LazyVideo";
 import VisualGrid from "@/components/visual-artist/VisualGrid";
 
@@ -231,6 +232,7 @@ export default function VisualArtistPage() {
             </section>
 
       <VisualGrid />
+      <Footer />
     </main>
   );
 }

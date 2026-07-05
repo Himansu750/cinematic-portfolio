@@ -35,6 +35,12 @@ export default function VisualGrid() {
     restDelta: 0.001,
   });
 
+  const promptOpacity = useTransform(
+    progress,
+    [0, 0.08, 0.15],
+    [1, 1, 0]
+  );
+
   const wallOpacity = useTransform(
     progress,
     [0.04, 0.18, 1],
@@ -82,6 +88,26 @@ export default function VisualGrid() {
           bg-[#020403]
         "
       >
+        <motion.p
+          style={{ opacity: promptOpacity }}
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/2
+            z-40
+            -translate-x-1/2
+            -translate-y-1/2
+            select-none
+            text-[13px]
+            font-medium
+            tracking-[-0.02em]
+            text-white/76
+          "
+        >
+          Scroll down &darr;
+        </motion.p>
+
         <div
           className="
             pointer-events-none
