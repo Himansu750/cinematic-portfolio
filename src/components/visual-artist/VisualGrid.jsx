@@ -41,28 +41,28 @@ export default function VisualGrid() {
     [1, 1, 0]
   );
 
-  const burnOpacity = useTransform(
+  const burnSheetOpacity = useTransform(
     progress,
-    [0, 0.04, 0.18, 0.28],
+    [0, 0.03, 0.2, 0.32],
     [0, 1, 1, 0]
   );
 
-  const burnY = useTransform(
+  const burnSheetY = useTransform(
     progress,
-    [0, 0.22],
-    ["0%", "-64%"]
+    [0.02, 0.28],
+    ["0%", "-88%"]
   );
 
-  const burnScaleY = useTransform(
+  const burnSheetScaleY = useTransform(
     progress,
-    [0, 0.22],
-    [1, 0.78]
+    [0.02, 0.28],
+    [1, 0.86]
   );
 
-  const burnBlur = useTransform(
+  const burnSheetBlur = useTransform(
     progress,
-    [0, 0.16, 0.28],
-    ["blur(0px)", "blur(2px)", "blur(10px)"]
+    [0, 0.18, 0.32],
+    ["blur(0px)", "blur(0.6px)", "blur(6px)"]
   );
 
   const wallOpacity = useTransform(
@@ -96,11 +96,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[118vh]
+        min-h-[108vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[128vh]
+        lg:min-h-[118vh]
       "
     >
       <div
@@ -135,10 +135,10 @@ export default function VisualGrid() {
         <motion.div
           aria-hidden="true"
           style={{
-            opacity: burnOpacity,
-            y: burnY,
-            scaleY: burnScaleY,
-            filter: burnBlur,
+            opacity: burnSheetOpacity,
+            y: burnSheetY,
+            scaleY: burnSheetScaleY,
+            filter: burnSheetBlur,
           }}
           className="
             pointer-events-none
@@ -146,15 +146,40 @@ export default function VisualGrid() {
             inset-x-0
             top-0
             z-30
-            h-[62vh]
+            h-[72vh]
             origin-top
-            bg-[radial-gradient(ellipse_at_50%_92%,rgba(255,179,94,0.36),rgba(255,90,48,0.18)_24%,rgba(255,255,255,0.06)_44%,rgba(0,0,0,0)_66%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(17,8,4,0.88)_72%,rgba(0,0,0,0))]
-            mix-blend-screen
-            shadow-[0_28px_80px_rgba(255,84,35,0.18)]
+            overflow-visible
+            bg-[linear-gradient(180deg,rgba(235,235,232,0.2),rgba(130,130,124,0.16)_48%,rgba(38,38,36,0.72)_100%)]
+            shadow-[0_22px_90px_rgba(255,255,255,0.07)]
             will-change-transform
             [clip-path:polygon(0_0,100%_0,100%_78%,92%_80%,82%_74%,72%_83%,61%_77%,50%_86%,38%_78%,27%_84%,16%_76%,7%_82%,0_77%)]
           "
-        />
+        >
+          <div
+            className="
+              absolute
+              inset-x-0
+              bottom-[13%]
+              h-[22px]
+              bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.92)_12%,rgba(255,199,133,0.9)_20%,rgba(255,255,255,0.85)_32%,rgba(255,159,77,0.8)_46%,rgba(255,255,255,0.94)_60%,rgba(255,187,111,0.88)_75%,rgba(255,255,255,0))]
+              opacity-90
+              blur-[5px]
+              [clip-path:polygon(0_48%,6%_70%,13%_24%,20%_64%,28%_34%,36%_70%,44%_20%,52%_66%,61%_28%,70%_72%,80%_26%,90%_68%,100%_38%,100%_100%,0_100%)]
+            "
+          />
+          <div
+            className="
+              absolute
+              inset-x-0
+              bottom-[13%]
+              h-[4px]
+              bg-white
+              opacity-95
+              shadow-[0_0_18px_rgba(255,255,255,0.9),0_0_34px_rgba(255,116,48,0.45)]
+              [clip-path:polygon(0_46%,6%_68%,13%_18%,20%_62%,28%_32%,36%_78%,44%_24%,52%_68%,61%_30%,70%_74%,80%_22%,90%_70%,100%_40%,100%_100%,0_100%)]
+            "
+          />
+        </motion.div>
 
         <div
           className="
