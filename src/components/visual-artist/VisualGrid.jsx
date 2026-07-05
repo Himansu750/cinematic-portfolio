@@ -5,6 +5,7 @@ import {
   useRef,
 } from "react";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -16,7 +17,6 @@ import {
 } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-import LazyVideo from "@/components/ui/LazyVideo";
 import { visualCategories } from "@/data/visualCategories";
 
 export default function VisualGrid() {
@@ -29,9 +29,9 @@ export default function VisualGrid() {
   });
 
   const progress = useSpring(scrollYProgress, {
-    stiffness: 72,
-    damping: 24,
-    mass: 0.42,
+    stiffness: 90,
+    damping: 26,
+    mass: 0.35,
     restDelta: 0.001,
   });
 
@@ -43,44 +43,44 @@ export default function VisualGrid() {
 
   const titleOpacity = useTransform(
     progress,
-    [0.06, 0.14, 0.42, 0.56],
+    [0.04, 0.12, 0.36, 0.5],
     [0, 1, 1, 0]
   );
 
   const titleY = useTransform(
     progress,
-    [0.06, 0.26, 0.52, 0.68],
-    ["28vh", "4vh", "-8vh", "-18vh"]
+    [0.04, 0.22, 0.46, 0.62],
+    ["25vh", "3vh", "-8vh", "-16vh"]
   );
 
   const titleX = useTransform(
     progress,
-    [0.06, 0.46, 0.68],
-    ["8vw", "-6vw", "-14vw"]
+    [0.04, 0.4, 0.62],
+    ["8vw", "-5vw", "-12vw"]
   );
 
   const titleScale = useTransform(
     progress,
-    [0.06, 0.3, 0.68],
+    [0.04, 0.26, 0.62],
     [0.9, 1.04, 0.98]
   );
 
   const wallOpacity = useTransform(
     progress,
-    [0.16, 0.3, 1],
+    [0.14, 0.26, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.16, 0.48, 1],
-    ["24vh", "-3vh", "-10vh"]
+    [0.14, 0.42, 1],
+    ["21vh", "-2vh", "-8vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.16, 0.48, 1],
-    [0.76, 1, 1.02]
+    [0.14, 0.42, 1],
+    [0.8, 1, 1.01]
   );
 
   useEffect(() => {
@@ -96,11 +96,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[210vh]
+        min-h-[175vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[220vh]
+        lg:min-h-[185vh]
       "
     >
       <div
@@ -177,7 +177,6 @@ export default function VisualGrid() {
                 category={category}
                 index={index}
                 progress={progress}
-                router={router}
               />
             ))}
           </div>
@@ -247,7 +246,6 @@ function VisualStackCard({
   category,
   index,
   progress,
-  router,
 }) {
   const row = Math.floor(index / 3);
   const column = index % 3;
@@ -308,17 +306,6 @@ function VisualStackCard({
       <Link
         href={category.link}
         prefetch
-        onClick={(event) => {
-          event.preventDefault();
-          router.push(category.link);
-        }}
-        onPointerDown={() => {
-          const video = document.querySelector(
-            `video[data-stack-video="${category.link}"]`
-          );
-
-          video?.pause();
-        }}
         className="
           group
           relative
@@ -343,19 +330,13 @@ function VisualStackCard({
             lg:aspect-[1.16/1]
           "
         >
-          <LazyVideo
-            data-stack-video={category.link}
-            src={category.video}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            rootMargin="900px 0px"
-            poster={category.image}
+          <Image
+            src={category.image}
+            alt={category.title}
+            fill
+            sizes="(min-width: 1024px) 27vw, (min-width: 768px) 31vw, 58vw"
+            priority={index < 3}
             className="
-              h-full
-              w-full
               object-cover
               brightness-[0.82]
               contrast-[1.08]
