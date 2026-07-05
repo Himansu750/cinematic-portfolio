@@ -35,52 +35,22 @@ export default function VisualGrid() {
     restDelta: 0.001,
   });
 
-  const promptOpacity = useTransform(
-    progress,
-    [0, 0.08, 0.15],
-    [1, 1, 0]
-  );
-
-  const titleOpacity = useTransform(
-    progress,
-    [0.04, 0.1, 0.22, 0.32],
-    [0, 1, 1, 0]
-  );
-
-  const titleY = useTransform(
-    progress,
-    [0.04, 0.18, 0.32, 0.46],
-    ["22vh", "2vh", "-12vh", "-22vh"]
-  );
-
-  const titleX = useTransform(
-    progress,
-    [0.04, 0.28, 0.46],
-    ["0vw", "-2vw", "-4vw"]
-  );
-
-  const titleScale = useTransform(
-    progress,
-    [0.04, 0.2, 0.46],
-    [0.9, 1.02, 0.94]
-  );
-
   const wallOpacity = useTransform(
     progress,
-    [0.18, 0.3, 1],
+    [0.04, 0.18, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.18, 0.42, 1],
-    ["18vh", "0vh", "0vh"]
+    [0.04, 0.22, 1],
+    ["12vh", "3vh", "3vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.18, 0.42, 1],
-    [0.86, 0.98, 0.98]
+    [0.04, 0.22, 1],
+    [0.92, 1, 1]
   );
 
   useEffect(() => {
@@ -96,11 +66,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[165vh]
+        min-h-[132vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[185vh]
+        lg:min-h-[148vh]
       "
     >
       <div
@@ -112,24 +82,6 @@ export default function VisualGrid() {
           bg-[#020403]
         "
       >
-        <motion.p
-          style={{ opacity: promptOpacity }}
-          className="
-            absolute
-            left-1/2
-            top-1/2
-            z-40
-            -translate-x-1/2
-            -translate-y-1/2
-            text-[13px]
-            font-medium
-            tracking-[-0.02em]
-            text-white/76
-          "
-        >
-          Scroll down &darr;
-        </motion.p>
-
         <div
           className="
             pointer-events-none
@@ -143,7 +95,7 @@ export default function VisualGrid() {
           className="
             absolute
             left-1/2
-            top-1/2
+            top-[54%]
             z-20
             w-[82vw]
             -translate-x-1/2
@@ -184,61 +136,6 @@ export default function VisualGrid() {
           </motion.div>
         </div>
 
-        <motion.div
-          style={{
-            opacity: titleOpacity,
-            x: titleX,
-            y: titleY,
-            scale: titleScale,
-          }}
-          className="
-            pointer-events-none
-            absolute
-            inset-x-0
-            top-[25%]
-            z-30
-            select-none
-            text-center
-            text-white
-            mix-blend-screen
-            transform-gpu
-            will-change-transform
-          "
-        >
-          <p
-            className="
-              mb-2
-              font-serif
-              text-[clamp(1.6rem,6vw,4.6rem)]
-              italic
-              leading-none
-              text-white/82
-            "
-          >
-            Himanshu Artspace
-          </p>
-
-          <h2
-            className="
-              mx-auto
-              w-[162vw]
-              font-serif
-              text-[clamp(6.6rem,31vw,23rem)]
-              font-normal
-              leading-[0.72]
-              tracking-[-0.095em]
-              text-white
-              sm:w-[140vw]
-              md:w-[124vw]
-              lg:w-[112vw]
-            "
-          >
-            Visual
-            <br />
-            Art
-          </h2>
-        </motion.div>
-
       </div>
     </section>
   );
@@ -252,9 +149,9 @@ function VisualStackCard({
   const row = Math.floor(index / 3);
   const column = index % 3;
   const side = column === 0 ? -1 : column === 2 ? 1 : 0;
-  const start = 0.2 + row * 0.045 + column * 0.014;
-  const mid = start + 0.12;
-  const end = start + 0.24;
+  const start = 0.06 + row * 0.036 + column * 0.012;
+  const mid = start + 0.1;
+  const end = start + 0.2;
 
   const opacity = useTransform(
     progress,
@@ -313,7 +210,11 @@ function VisualStackCard({
           relative
           block
           overflow-hidden
+          rounded-[18px]
+          border
+          border-white/[0.1]
           bg-zinc-950
+          shadow-[0_18px_60px_rgba(0,0,0,0.42)]
           outline-none
           transition
           duration-300
@@ -327,6 +228,7 @@ function VisualStackCard({
             relative
             aspect-[1.04/1]
             overflow-hidden
+            rounded-[18px]
             bg-zinc-950
             md:aspect-[1.08/1]
             lg:aspect-[1.16/1]
