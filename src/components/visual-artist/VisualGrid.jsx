@@ -43,26 +43,32 @@ export default function VisualGrid() {
 
   const burnSheetOpacity = useTransform(
     progress,
-    [0, 0.03, 0.2, 0.32],
+    [0, 0.03, 0.22, 0.34],
     [0, 1, 1, 0]
   );
 
   const burnSheetY = useTransform(
     progress,
-    [0.02, 0.28],
-    ["0%", "-88%"]
+    [0.02, 0.3],
+    ["0%", "-90%"]
   );
 
   const burnSheetScaleY = useTransform(
     progress,
-    [0.02, 0.28],
+    [0.02, 0.3],
     [1, 0.86]
   );
 
   const burnSheetBlur = useTransform(
     progress,
-    [0, 0.18, 0.32],
+    [0, 0.2, 0.34],
     ["blur(0px)", "blur(0.6px)", "blur(6px)"]
+  );
+
+  const flameOpacity = useTransform(
+    progress,
+    [0.03, 0.1, 0.26, 0.36],
+    [0, 1, 0.86, 0]
   );
 
   const wallOpacity = useTransform(
@@ -149,34 +155,64 @@ export default function VisualGrid() {
             h-[72vh]
             origin-top
             overflow-visible
-            bg-[linear-gradient(180deg,rgba(235,235,232,0.2),rgba(130,130,124,0.16)_48%,rgba(38,38,36,0.72)_100%)]
-            shadow-[0_22px_90px_rgba(255,255,255,0.07)]
+            bg-[linear-gradient(180deg,rgba(205,205,198,0.15),rgba(116,116,108,0.18)_50%,rgba(21,19,17,0.88)_100%)]
+            shadow-[0_22px_90px_rgba(255,210,160,0.08)]
             will-change-transform
-            [clip-path:polygon(0_0,100%_0,100%_78%,92%_80%,82%_74%,72%_83%,61%_77%,50%_86%,38%_78%,27%_84%,16%_76%,7%_82%,0_77%)]
+            [clip-path:polygon(0_0,100%_0,100%_82%,96%_84%,91%_81%,85%_86%,79%_83%,73%_87%,66%_82%,59%_86%,52%_83%,45%_88%,38%_84%,31%_87%,24%_82%,17%_86%,10%_83%,0_85%)]
           "
         >
+          <motion.div
+            style={{ opacity: flameOpacity }}
+            className="
+              burn-flicker
+              absolute
+              inset-x-[-8%]
+              bottom-[10%]
+              h-[86px]
+              bg-[radial-gradient(ellipse_at_9%_68%,rgba(255,246,205,0.85),transparent_13%),radial-gradient(ellipse_at_18%_62%,rgba(255,96,27,0.88),transparent_22%),radial-gradient(ellipse_at_31%_76%,rgba(255,205,116,0.88),transparent_15%),radial-gradient(ellipse_at_46%_58%,rgba(255,85,22,0.9),transparent_24%),radial-gradient(ellipse_at_58%_74%,rgba(255,236,180,0.9),transparent_14%),radial-gradient(ellipse_at_71%_62%,rgba(255,105,24,0.86),transparent_21%),radial-gradient(ellipse_at_86%_74%,rgba(255,218,136,0.82),transparent_15%),linear-gradient(90deg,transparent,rgba(255,118,42,0.55)_18%,rgba(255,246,216,0.5)_50%,rgba(255,102,33,0.52)_82%,transparent)]
+              opacity-90
+              blur-[10px]
+              mix-blend-screen
+              [clip-path:polygon(0_70%,7%_44%,13%_76%,20%_34%,26%_78%,35%_40%,43%_82%,52%_31%,60%_78%,69%_42%,76%_82%,86%_38%,94%_72%,100%_48%,100%_100%,0_100%)]
+            "
+          />
+
+          <motion.div
+            style={{ opacity: flameOpacity }}
+            className="
+              ember-drift
+              absolute
+              inset-x-[-4%]
+              bottom-[14%]
+              h-[92px]
+              bg-[radial-gradient(circle_at_11%_72%,rgba(255,234,166,0.9)_0_2px,transparent_5px),radial-gradient(circle_at_24%_52%,rgba(255,104,35,0.72)_0_2px,transparent_5px),radial-gradient(circle_at_43%_68%,rgba(255,205,108,0.82)_0_1px,transparent_4px),radial-gradient(circle_at_57%_42%,rgba(255,118,41,0.72)_0_2px,transparent_5px),radial-gradient(circle_at_74%_64%,rgba(255,224,148,0.74)_0_2px,transparent_5px),radial-gradient(circle_at_88%_50%,rgba(255,94,24,0.7)_0_1px,transparent_4px)]
+              mix-blend-screen
+            "
+          />
+
           <div
             className="
               absolute
               inset-x-0
-              bottom-[13%]
-              h-[22px]
-              bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,0.92)_12%,rgba(255,199,133,0.9)_20%,rgba(255,255,255,0.85)_32%,rgba(255,159,77,0.8)_46%,rgba(255,255,255,0.94)_60%,rgba(255,187,111,0.88)_75%,rgba(255,255,255,0))]
+              bottom-[14%]
+              h-[30px]
+              bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(255,249,218,0.9)_9%,rgba(255,150,64,0.78)_18%,rgba(255,255,255,0.92)_31%,rgba(255,103,36,0.72)_47%,rgba(255,255,255,0.94)_60%,rgba(255,171,79,0.78)_78%,rgba(255,255,255,0))]
               opacity-90
-              blur-[5px]
-              [clip-path:polygon(0_48%,6%_70%,13%_24%,20%_64%,28%_34%,36%_70%,44%_20%,52%_66%,61%_28%,70%_72%,80%_26%,90%_68%,100%_38%,100%_100%,0_100%)]
+              blur-[8px]
+              mix-blend-screen
+              [clip-path:polygon(0_54%,7%_62%,14%_42%,21%_58%,29%_46%,36%_64%,44%_40%,53%_60%,62%_44%,71%_66%,81%_41%,91%_62%,100%_48%,100%_100%,0_100%)]
             "
           />
           <div
             className="
               absolute
               inset-x-0
-              bottom-[13%]
-              h-[4px]
-              bg-white
+              bottom-[15%]
+              h-[5px]
+              bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.95)_8%,rgba(255,238,192,1)_22%,rgba(255,255,255,1)_38%,rgba(255,211,143,0.96)_54%,rgba(255,255,255,1)_74%,transparent)]
               opacity-95
-              shadow-[0_0_18px_rgba(255,255,255,0.9),0_0_34px_rgba(255,116,48,0.45)]
-              [clip-path:polygon(0_46%,6%_68%,13%_18%,20%_62%,28%_32%,36%_78%,44%_24%,52%_68%,61%_30%,70%_74%,80%_22%,90%_70%,100%_40%,100%_100%,0_100%)]
+              shadow-[0_0_18px_rgba(255,255,255,0.92),0_0_42px_rgba(255,104,32,0.68)]
+              [clip-path:polygon(0_48%,7%_60%,14%_39%,21%_56%,29%_43%,36%_64%,44%_38%,53%_59%,62%_42%,71%_65%,81%_39%,91%_61%,100%_45%,100%_100%,0_100%)]
             "
           />
         </motion.div>
