@@ -44,13 +44,13 @@ export default function VisualGrid() {
   const rippleScale = useTransform(
     progress,
     [0, 0.14],
-    [0.86, 1.16]
+    [0.82, 1.08]
   );
 
   const rippleY = useTransform(
     progress,
     [0, 0.14],
-    ["0vh", "-3vh"]
+    ["0vh", "-2vh"]
   );
 
   const wallOpacity = useTransform(
@@ -279,14 +279,14 @@ function LiquidScrollRipple({
         left-1/2
         top-1/2
         z-30
-        h-[170px]
-        w-[170px]
+        h-[270px]
+        w-[270px]
         -translate-x-1/2
         -translate-y-1/2
         transform-gpu
         will-change-transform
-        md:h-[220px]
-        md:w-[220px]
+        md:h-[360px]
+        md:w-[360px]
       "
     >
       <svg
@@ -307,32 +307,51 @@ function LiquidScrollRipple({
           >
             <feTurbulence
               type="fractalNoise"
-              baseFrequency="0.012 0.036"
-              numOctaves="3"
-              seed="9"
+              baseFrequency="0.009 0.028"
+              numOctaves="4"
+              seed="12"
               result="liquidNoise"
             >
               <animate
                 attributeName="baseFrequency"
-                dur="7s"
+                dur="8s"
                 repeatCount="indefinite"
-                values="0.012 0.036;0.02 0.052;0.012 0.036"
+                values="0.009 0.028;0.018 0.05;0.011 0.034;0.009 0.028"
               />
             </feTurbulence>
             <feDisplacementMap
               in="SourceGraphic"
               in2="liquidNoise"
-              scale="18"
+              scale="24"
               xChannelSelector="R"
               yChannelSelector="G"
             />
           </filter>
 
-          <radialGradient id="liquid-scroll-fill">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
-            <stop offset="42%" stopColor="rgba(255,255,255,0.08)" />
-            <stop offset="76%" stopColor="rgba(255,255,255,0.02)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          <filter
+            id="liquid-scroll-glow"
+            x="-45%"
+            y="-45%"
+            width="190%"
+            height="190%"
+          >
+            <feGaussianBlur stdDeviation="5" result="softGlow" />
+            <feMerge>
+              <feMergeNode in="softGlow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <radialGradient
+            id="liquid-scroll-fill"
+            cx="46%"
+            cy="50%"
+            r="58%"
+          >
+            <stop offset="0%" stopColor="rgba(90,230,255,0.34)" />
+            <stop offset="38%" stopColor="rgba(33,181,255,0.24)" />
+            <stop offset="72%" stopColor="rgba(13,87,189,0.16)" />
+            <stop offset="100%" stopColor="rgba(0,12,48,0)" />
           </radialGradient>
 
           <linearGradient
@@ -342,64 +361,93 @@ function LiquidScrollRipple({
             y1="0"
             y2="1"
           >
-            <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
-            <stop offset="45%" stopColor="rgba(255,255,255,0.42)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.04)" />
+            <stop offset="0%" stopColor="rgba(99,239,255,0.1)" />
+            <stop offset="45%" stopColor="rgba(99,239,255,0.78)" />
+            <stop offset="100%" stopColor="rgba(37,111,255,0.12)" />
           </linearGradient>
+
+          <radialGradient id="liquid-scroll-core">
+            <stop offset="0%" stopColor="rgba(204,255,255,0.86)" />
+            <stop offset="42%" stopColor="rgba(77,228,255,0.34)" />
+            <stop offset="100%" stopColor="rgba(0,28,84,0)" />
+          </radialGradient>
         </defs>
 
-        <motion.circle
-          cx="110"
-          cy="110"
-          r="78"
+        <motion.path
+          d="M109 28C145 27 177 54 187 88C200 132 168 177 123 188C79 199 36 175 27 131C17 83 60 29 109 28Z"
           fill="url(#liquid-scroll-fill)"
           filter="url(#liquid-scroll-distortion)"
           initial={false}
           animate={{
-            r: [72, 84, 76, 82, 72],
-            opacity: [0.38, 0.74, 0.42, 0.64, 0.38],
+            rotate: [0, 7, -5, 0],
+            scale: [0.96, 1.04, 0.98, 1.02, 0.96],
+            opacity: [0.58, 0.82, 0.68, 0.78, 0.58],
           }}
           transition={{
-            duration: 5.8,
+            duration: 7.6,
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{
+            transformOrigin: "110px 110px",
+          }}
         />
 
-        <motion.circle
-          cx="110"
-          cy="110"
-          r="62"
+        <motion.path
+          d="M111 36C143 36 168 57 178 89C191 130 160 165 122 176C82 187 46 164 38 128C29 86 66 37 111 36Z"
           fill="none"
           stroke="url(#liquid-scroll-stroke)"
-          strokeWidth="1"
+          strokeWidth="2.2"
+          filter="url(#liquid-scroll-glow)"
+          initial={false}
+          animate={{
+            rotate: [0, -8, 6, 0],
+            opacity: [0.38, 0.78, 0.48, 0.7, 0.38],
+          }}
+          transition={{
+            duration: 6.2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            transformOrigin: "110px 110px",
+          }}
+        />
+
+        <motion.path
+          d="M67 124C84 92 123 88 146 108C130 103 114 111 104 128C94 145 77 145 67 124Z"
+          fill="url(#liquid-scroll-core)"
           filter="url(#liquid-scroll-distortion)"
           initial={false}
           animate={{
-            r: [56, 72, 60, 68, 56],
-            opacity: [0.18, 0.58, 0.2, 0.42, 0.18],
+            rotate: [0, 42, -28, 0],
+            scale: [0.78, 1.15, 0.92, 1.08, 0.78],
+            opacity: [0.22, 0.66, 0.34, 0.56, 0.22],
           }}
           transition={{
-            duration: 4.6,
+            duration: 4.2,
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{
+            transformOrigin: "110px 116px",
+          }}
         />
 
-        <motion.circle
-          cx="110"
-          cy="110"
-          r="34"
+        <motion.path
+          d="M51 112C80 88 117 73 164 91M58 138C93 125 127 125 162 146M85 54C93 82 90 115 75 158M137 48C124 83 122 127 143 164"
           fill="none"
-          stroke="rgba(255,255,255,0.2)"
-          strokeWidth="1"
+          stroke="rgba(141,243,255,0.3)"
+          strokeLinecap="round"
+          strokeWidth="1.2"
+          filter="url(#liquid-scroll-distortion)"
           initial={false}
           animate={{
-            r: [28, 44, 30, 40, 28],
-            opacity: [0.12, 0.48, 0.16, 0.34, 0.12],
+            opacity: [0.18, 0.54, 0.24, 0.42, 0.18],
+            pathLength: [0.68, 1, 0.78, 0.92, 0.68],
           }}
           transition={{
-            duration: 3.7,
+            duration: 5.4,
             repeat: Infinity,
             ease: "easeInOut",
           }}
