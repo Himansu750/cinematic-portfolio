@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 import {
   motion,
+  useMotionValue,
   useScroll,
   useSpring,
   useTransform,
@@ -22,6 +23,8 @@ import { visualCategories } from "@/data/visualCategories";
 export default function VisualGrid() {
   const router = useRouter();
   const sectionRef = useRef(null);
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -35,64 +38,81 @@ export default function VisualGrid() {
     restDelta: 0.001,
   });
 
+  const rippleX = useSpring(pointerX, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.28,
+  });
+  const ripplePointerY = useSpring(pointerY, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.28,
+  });
+
   const promptOpacity = useTransform(
     progress,
-    [0, 0.04, 0.14],
-    [1, 1, 0]
+    [0, 0.12, 0.42, 0.52],
+    [1, 1, 1, 0]
   );
 
   const rippleScale = useTransform(
     progress,
-    [0, 0.14],
-    [0.82, 1.08]
+    [0, 0.3, 0.52],
+    [0.88, 1.18, 0.96]
   );
 
   const rippleY = useTransform(
     progress,
-    [0, 0.14],
-    ["0vh", "-2vh"]
+    [0, 0.42, 0.58],
+    ["0vh", "-4vh", "-14vh"]
+  );
+
+  const rippleOpacity = useTransform(
+    progress,
+    [0, 0.12, 0.46, 0.58],
+    [1, 1, 1, 0]
   );
 
   const wallOpacity = useTransform(
     progress,
-    [0.06, 0.18, 1],
+    [0.54, 0.68, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.06, 0.24, 1],
-    ["14vh", "3vh", "3vh"]
+    [0.54, 0.72, 1],
+    ["18vh", "3vh", "3vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.06, 0.24, 1],
-    [0.88, 1, 1]
+    [0.54, 0.72, 1],
+    [0.9, 1, 1]
   );
 
   const haloOpacity = useTransform(
     progress,
-    [0, 0.08, 0.28, 1],
-    [0.26, 0.72, 0.34, 0.2]
+    [0, 0.18, 0.52, 0.72, 1],
+    [0.28, 0.76, 0.42, 0.24, 0.18]
   );
 
   const haloScale = useTransform(
     progress,
-    [0, 0.24, 1],
-    [0.78, 1.08, 1.18]
+    [0, 0.5, 1],
+    [0.78, 1.16, 1.22]
   );
 
   const glassOpacity = useTransform(
     progress,
-    [0, 0.12, 0.36],
-    [0.42, 0.18, 0]
+    [0, 0.22, 0.54],
+    [0.42, 0.28, 0]
   );
 
   const glassY = useTransform(
     progress,
-    [0, 0.36],
-    ["0vh", "-18vh"]
+    [0, 0.54],
+    ["0vh", "-22vh"]
   );
 
   useEffect(() => {
@@ -101,6 +121,20 @@ export default function VisualGrid() {
     });
   }, [router]);
 
+  function handlePointerMove(event) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - bounds.left - bounds.width / 2;
+    const y = event.clientY - bounds.top - bounds.height / 2;
+
+    pointerX.set((x / bounds.width) * 92);
+    pointerY.set((y / bounds.height) * 70);
+  }
+
+  function handlePointerLeave() {
+    pointerX.set(0);
+    pointerY.set(0);
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -108,14 +142,16 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[108vh]
+        min-h-[235vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[118vh]
+        lg:min-h-[245vh]
       "
     >
       <div
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
         className="
           sticky
           top-0
@@ -125,9 +161,11 @@ export default function VisualGrid() {
         "
       >
         <LiquidScrollRipple
-          opacity={promptOpacity}
+          opacity={rippleOpacity}
           scale={rippleScale}
           y={rippleY}
+          pointerX={rippleX}
+          pointerY={ripplePointerY}
         />
 
         <motion.p
@@ -264,39 +302,161 @@ function LiquidScrollRipple({
   opacity,
   scale,
   y,
+  pointerX,
+  pointerY,
 }) {
   return (
-    <motion.div
-      aria-hidden="true"
-      style={{
-        opacity,
-        scale,
-        y,
-      }}
+    <div
+      aria-label="Interactive liquid distortion preview"
       className="
         pointer-events-none
         absolute
         left-1/2
         top-1/2
         z-30
-        h-[270px]
-        w-[270px]
+        h-[360px]
+        w-[360px]
         -translate-x-1/2
         -translate-y-1/2
         transform-gpu
         will-change-transform
-        md:h-[360px]
-        md:w-[360px]
+        md:h-[500px]
+        md:w-[500px]
       "
     >
-      <svg
+      <motion.div
+        style={{
+          opacity,
+          scale,
+          y,
+        }}
         className="
-          h-full
-          w-full
-          overflow-visible
+          absolute
+          inset-0
+          transform-gpu
+          will-change-transform
         "
-        viewBox="0 0 220 220"
       >
+        <motion.div
+          style={{
+            x: pointerX,
+            y: pointerY,
+          }}
+          className="
+            absolute
+            inset-0
+            transform-gpu
+            will-change-transform
+          "
+        >
+          <svg
+            aria-hidden="true"
+            className="absolute h-0 w-0"
+          >
+            <defs>
+              <filter
+                id="liquid-media-distortion"
+                x="-28%"
+                y="-28%"
+                width="156%"
+                height="156%"
+              >
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.014 0.044"
+                  numOctaves="4"
+                  seed="4"
+                  result="mediaNoise"
+                >
+                  <animate
+                    attributeName="baseFrequency"
+                    dur="5.8s"
+                    repeatCount="indefinite"
+                    values="0.014 0.044;0.028 0.068;0.018 0.052;0.014 0.044"
+                  />
+                </feTurbulence>
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="mediaNoise"
+                  scale="46"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
+              </filter>
+            </defs>
+          </svg>
+
+          <motion.div
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              h-[54%]
+              w-[54%]
+              -translate-x-1/2
+              -translate-y-1/2
+              overflow-hidden
+              rounded-[46%_54%_48%_52%/52%_45%_55%_48%]
+              border
+              border-cyan-200/20
+              bg-cyan-950/20
+              shadow-[0_0_44px_rgba(24,204,255,0.24),inset_0_0_38px_rgba(154,244,255,0.16)]
+              [filter:url(#liquid-media-distortion)]
+            "
+            initial={false}
+            animate={{
+              borderRadius: [
+                "46% 54% 48% 52% / 52% 45% 55% 48%",
+                "54% 46% 56% 44% / 44% 56% 46% 54%",
+                "48% 52% 43% 57% / 57% 42% 58% 43%",
+                "46% 54% 48% 52% / 52% 45% 55% 48%",
+              ],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <video
+              className="
+                h-full
+                w-full
+                scale-125
+                object-cover
+                opacity-80
+                mix-blend-screen
+                saturate-[1.2]
+              "
+              src={visualCategories[0].video}
+              poster={visualCategories[0].image}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+
+            <div
+              className="
+                absolute
+                inset-0
+                bg-[radial-gradient(circle_at_48%_48%,rgba(157,246,255,0.32),rgba(24,161,255,0.12)_42%,rgba(0,0,0,0.34)_74%)]
+                mix-blend-screen
+              "
+            />
+          </motion.div>
+
+          <svg
+            className="
+              absolute
+              inset-0
+              h-full
+              w-full
+              overflow-visible
+            "
+            viewBox="0 0 220 220"
+          >
         <defs>
           <filter
             id="liquid-scroll-distortion"
@@ -322,7 +482,7 @@ function LiquidScrollRipple({
             <feDisplacementMap
               in="SourceGraphic"
               in2="liquidNoise"
-              scale="24"
+              scale="34"
               xChannelSelector="R"
               yChannelSelector="G"
             />
@@ -381,7 +541,7 @@ function LiquidScrollRipple({
           animate={{
             rotate: [0, 7, -5, 0],
             scale: [0.96, 1.04, 0.98, 1.02, 0.96],
-            opacity: [0.58, 0.82, 0.68, 0.78, 0.58],
+            opacity: [0.62, 0.88, 0.7, 0.82, 0.62],
           }}
           transition={{
             duration: 7.6,
@@ -402,7 +562,7 @@ function LiquidScrollRipple({
           initial={false}
           animate={{
             rotate: [0, -8, 6, 0],
-            opacity: [0.38, 0.78, 0.48, 0.7, 0.38],
+            opacity: [0.48, 0.92, 0.56, 0.78, 0.48],
           }}
           transition={{
             duration: 6.2,
@@ -421,8 +581,8 @@ function LiquidScrollRipple({
           initial={false}
           animate={{
             rotate: [0, 42, -28, 0],
-            scale: [0.78, 1.15, 0.92, 1.08, 0.78],
-            opacity: [0.22, 0.66, 0.34, 0.56, 0.22],
+            scale: [0.82, 1.28, 0.94, 1.14, 0.82],
+            opacity: [0.28, 0.78, 0.4, 0.62, 0.28],
           }}
           transition={{
             duration: 4.2,
@@ -452,8 +612,10 @@ function LiquidScrollRipple({
             ease: "easeInOut",
           }}
         />
-      </svg>
-    </motion.div>
+          </svg>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
