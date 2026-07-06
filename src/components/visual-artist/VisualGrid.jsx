@@ -22,12 +22,12 @@ import { visualCategories } from "@/data/visualCategories";
 
 export default function VisualGrid() {
   const router = useRouter();
-  const sectionRef = useRef(null);
+  const liquidRef = useRef(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: liquidRef,
     offset: ["start start", "end end"],
   });
 
@@ -57,62 +57,44 @@ export default function VisualGrid() {
 
   const rippleScale = useTransform(
     progress,
-    [0, 0.3, 0.52],
-    [0.88, 1.18, 0.96]
+    [0, 0.34, 0.72],
+    [0.82, 1.08, 0.92]
   );
 
   const rippleY = useTransform(
     progress,
-    [0, 0.42, 0.58],
-    ["0vh", "-4vh", "-14vh"]
+    [0, 0.5, 0.74],
+    ["0vh", "-3vh", "-10vh"]
   );
 
   const rippleOpacity = useTransform(
     progress,
-    [0, 0.12, 0.46, 0.58],
-    [1, 1, 1, 0]
-  );
-
-  const wallOpacity = useTransform(
-    progress,
-    [0.54, 0.68, 1],
-    [0, 1, 1]
-  );
-
-  const wallY = useTransform(
-    progress,
-    [0.54, 0.72, 1],
-    ["18vh", "3vh", "3vh"]
-  );
-
-  const wallScale = useTransform(
-    progress,
-    [0.54, 0.72, 1],
-    [0.9, 1, 1]
+    [0, 0.18, 0.58, 0.78],
+    [1, 1, 0.9, 0]
   );
 
   const haloOpacity = useTransform(
     progress,
-    [0, 0.18, 0.52, 0.72, 1],
-    [0.28, 0.76, 0.42, 0.24, 0.18]
+    [0, 0.22, 0.72],
+    [0.22, 0.52, 0]
   );
 
   const haloScale = useTransform(
     progress,
-    [0, 0.5, 1],
-    [0.78, 1.16, 1.22]
+    [0, 0.56],
+    [0.8, 1.08]
   );
 
   const glassOpacity = useTransform(
     progress,
-    [0, 0.22, 0.54],
-    [0.42, 0.28, 0]
+    [0, 0.3, 0.68],
+    [0.28, 0.2, 0]
   );
 
   const glassY = useTransform(
     progress,
-    [0, 0.54],
-    ["0vh", "-22vh"]
+    [0, 0.68],
+    ["0vh", "-14vh"]
   );
 
   useEffect(() => {
@@ -126,8 +108,8 @@ export default function VisualGrid() {
     const x = event.clientX - bounds.left - bounds.width / 2;
     const y = event.clientY - bounds.top - bounds.height / 2;
 
-    pointerX.set((x / bounds.width) * 92);
-    pointerY.set((y / bounds.height) * 70);
+    pointerX.set((x / bounds.width) * 54);
+    pointerY.set((y / bounds.height) * 42);
   }
 
   function handlePointerLeave() {
@@ -136,17 +118,18 @@ export default function VisualGrid() {
   }
 
   return (
+    <>
     <section
-      ref={sectionRef}
+      ref={liquidRef}
       data-visual-grid-section
       className="
         relative
         z-10
-        min-h-[235vh]
+        min-h-[150vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[245vh]
+        lg:min-h-[162vh]
       "
     >
       <div
@@ -248,53 +231,46 @@ export default function VisualGrid() {
           "
         />
 
-        <div
-          className="
-            absolute
-            left-1/2
-            top-[54%]
-            z-20
-            w-[82vw]
-            -translate-x-1/2
-            -translate-y-1/2
-            transform-gpu
-            will-change-transform
-            sm:w-[80vw]
-            md:w-[88vw]
-            lg:w-[82vw]
-            lg:max-w-[1260px]
-          "
-        >
-          <motion.div
-            style={{
-              opacity: wallOpacity,
-              y: wallY,
-              scale: wallScale,
-            }}
-            className="
-              grid
-              grid-cols-2
-              gap-2.5
-              transform-gpu
-              will-change-transform
-              md:grid-cols-3
-              md:gap-4
-              lg:gap-6
-            "
-          >
-            {visualCategories.map((category, index) => (
-              <VisualStackCard
-                key={category.link}
-                category={category}
-                index={index}
-                progress={progress}
-              />
-            ))}
-          </motion.div>
-        </div>
-
       </div>
     </section>
+
+    <section
+      className="
+        relative
+        z-20
+        bg-black
+        px-5
+        pt-10
+        pb-14
+        text-white
+        md:px-10
+        md:pt-14
+        lg:px-16
+      "
+    >
+      <div
+        className="
+          mx-auto
+          grid
+          w-full
+          max-w-[1180px]
+          grid-cols-2
+          gap-3
+          md:grid-cols-3
+          md:gap-5
+          lg:gap-6
+        "
+      >
+        {visualCategories.map((category, index) => (
+          <VisualStackCard
+            key={category.link}
+            category={category}
+            index={index}
+          />
+        ))}
+      </div>
+    </section>
+    </>
   );
 }
 
@@ -622,57 +598,29 @@ function LiquidScrollRipple({
 function VisualStackCard({
   category,
   index,
-  progress,
 }) {
-  const row = Math.floor(index / 3);
-  const column = index % 3;
-  const side = column === 0 ? -1 : column === 2 ? 1 : 0;
-  const start = 0.06 + row * 0.036 + column * 0.012;
-  const mid = start + 0.1;
-  const end = start + 0.2;
-
-  const opacity = useTransform(
-    progress,
-    [start, mid, end],
-    [0, 0.9, 1]
-  );
-  const y = useTransform(
-    progress,
-    [start, mid, end],
-    [38 + row * 16, 8 + row * 5, 0]
-  );
-  const x = useTransform(
-    progress,
-    [start, mid, end],
-    [side * 22, side * 8, 0]
-  );
-  const rotateX = useTransform(
-    progress,
-    [start, mid, end],
-    [12, 4, 0]
-  );
-  const rotateY = useTransform(
-    progress,
-    [start, mid, end],
-    [side * 8, side * 3, 0]
-  );
-  const scale = useTransform(
-    progress,
-    [start, mid, end],
-    [0.9, 0.98, 1]
-  );
-
   return (
     <motion.article
-      style={{
-        opacity,
-        x,
-        y,
-        rotateX,
-        rotateY,
-        scale,
-        transformPerspective: 1100,
-        transformStyle: "preserve-3d",
+      initial={{
+        opacity: 0,
+        y: 34,
+        scale: 0.94,
+        rotateX: 8,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotateX: 0,
+      }}
+      viewport={{
+        once: true,
+        margin: "-10% 0px -8% 0px",
+      }}
+      transition={{
+        duration: 0.72,
+        delay: Math.min(index * 0.055, 0.24),
+        ease: [0.22, 1, 0.36, 1],
       }}
       className="
         min-w-0
