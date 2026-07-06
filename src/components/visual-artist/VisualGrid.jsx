@@ -41,6 +41,18 @@ export default function VisualGrid() {
     [1, 1, 0]
   );
 
+  const rippleScale = useTransform(
+    progress,
+    [0, 0.14],
+    [0.86, 1.16]
+  );
+
+  const rippleY = useTransform(
+    progress,
+    [0, 0.14],
+    ["0vh", "-3vh"]
+  );
+
   const wallOpacity = useTransform(
     progress,
     [0.06, 0.18, 1],
@@ -112,6 +124,12 @@ export default function VisualGrid() {
           bg-[#020403]
         "
       >
+        <LiquidScrollRipple
+          opacity={promptOpacity}
+          scale={rippleScale}
+          y={rippleY}
+        />
+
         <motion.p
           style={{ opacity: promptOpacity }}
           className="
@@ -239,6 +257,155 @@ export default function VisualGrid() {
 
       </div>
     </section>
+  );
+}
+
+function LiquidScrollRipple({
+  opacity,
+  scale,
+  y,
+}) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{
+        opacity,
+        scale,
+        y,
+      }}
+      className="
+        pointer-events-none
+        absolute
+        left-1/2
+        top-1/2
+        z-30
+        h-[170px]
+        w-[170px]
+        -translate-x-1/2
+        -translate-y-1/2
+        transform-gpu
+        will-change-transform
+        md:h-[220px]
+        md:w-[220px]
+      "
+    >
+      <svg
+        className="
+          h-full
+          w-full
+          overflow-visible
+        "
+        viewBox="0 0 220 220"
+      >
+        <defs>
+          <filter
+            id="liquid-scroll-distortion"
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012 0.036"
+              numOctaves="3"
+              seed="9"
+              result="liquidNoise"
+            >
+              <animate
+                attributeName="baseFrequency"
+                dur="7s"
+                repeatCount="indefinite"
+                values="0.012 0.036;0.02 0.052;0.012 0.036"
+              />
+            </feTurbulence>
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="liquidNoise"
+              scale="18"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+
+          <radialGradient id="liquid-scroll-fill">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+            <stop offset="42%" stopColor="rgba(255,255,255,0.08)" />
+            <stop offset="76%" stopColor="rgba(255,255,255,0.02)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </radialGradient>
+
+          <linearGradient
+            id="liquid-scroll-stroke"
+            x1="0"
+            x2="1"
+            y1="0"
+            y2="1"
+          >
+            <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
+            <stop offset="45%" stopColor="rgba(255,255,255,0.42)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.04)" />
+          </linearGradient>
+        </defs>
+
+        <motion.circle
+          cx="110"
+          cy="110"
+          r="78"
+          fill="url(#liquid-scroll-fill)"
+          filter="url(#liquid-scroll-distortion)"
+          initial={false}
+          animate={{
+            r: [72, 84, 76, 82, 72],
+            opacity: [0.38, 0.74, 0.42, 0.64, 0.38],
+          }}
+          transition={{
+            duration: 5.8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        <motion.circle
+          cx="110"
+          cy="110"
+          r="62"
+          fill="none"
+          stroke="url(#liquid-scroll-stroke)"
+          strokeWidth="1"
+          filter="url(#liquid-scroll-distortion)"
+          initial={false}
+          animate={{
+            r: [56, 72, 60, 68, 56],
+            opacity: [0.18, 0.58, 0.2, 0.42, 0.18],
+          }}
+          transition={{
+            duration: 4.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
+        <motion.circle
+          cx="110"
+          cy="110"
+          r="34"
+          fill="none"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="1"
+          initial={false}
+          animate={{
+            r: [28, 44, 30, 40, 28],
+            opacity: [0.12, 0.48, 0.16, 0.34, 0.12],
+          }}
+          transition={{
+            duration: 3.7,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </svg>
+    </motion.div>
   );
 }
 
