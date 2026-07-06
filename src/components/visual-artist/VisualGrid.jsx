@@ -97,6 +97,36 @@ export default function VisualGrid() {
     ["0vh", "-14vh"]
   );
 
+  const { scrollYProgress: tunnelScroll } = useScroll({
+    target: liquidRef,
+    offset: ["0.48 start", "end end"],
+  });
+
+  const tunnelProgress = useSpring(tunnelScroll, {
+    stiffness: 82,
+    damping: 24,
+    mass: 0.34,
+    restDelta: 0.001,
+  });
+
+  const tunnelOpacity = useTransform(
+    tunnelProgress,
+    [0, 0.12, 1],
+    [0, 1, 1]
+  );
+
+  const tunnelY = useTransform(
+    tunnelProgress,
+    [0, 0.28, 1],
+    ["18vh", "2vh", "2vh"]
+  );
+
+  const tunnelScale = useTransform(
+    tunnelProgress,
+    [0, 0.34, 1],
+    [0.86, 1, 1]
+  );
+
   useEffect(() => {
     visualCategories.forEach((category) => {
       router.prefetch(category.link);
@@ -125,11 +155,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[150vh]
+        min-h-[245vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[162vh]
+        lg:min-h-[255vh]
       "
     >
       <div
@@ -231,43 +261,51 @@ export default function VisualGrid() {
           "
         />
 
-      </div>
-    </section>
+        <div
+          className="
+            absolute
+            left-1/2
+            top-[55%]
+            z-20
+            w-[82vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            transform-gpu
+            will-change-transform
+            sm:w-[80vw]
+            md:w-[88vw]
+            lg:w-[82vw]
+            lg:max-w-[1260px]
+          "
+        >
+          <motion.div
+            style={{
+              opacity: tunnelOpacity,
+              y: tunnelY,
+              scale: tunnelScale,
+            }}
+            className="
+              grid
+              grid-cols-2
+              gap-2.5
+              transform-gpu
+              will-change-transform
+              md:grid-cols-3
+              md:gap-4
+              lg:gap-6
+            "
+          >
+            {visualCategories.map((category, index) => (
+              <VisualStackCard
+                key={category.link}
+                category={category}
+                index={index}
+                progress={tunnelProgress}
+              />
+            ))}
+          </motion.div>
+        </div>
 
-    <section
-      className="
-        relative
-        z-20
-        bg-black
-        px-5
-        pt-10
-        pb-14
-        text-white
-        md:px-10
-        md:pt-14
-        lg:px-16
-      "
-    >
-      <div
-        className="
-          mx-auto
-          grid
-          w-full
-          max-w-[1180px]
-          grid-cols-2
-          gap-3
-          md:grid-cols-3
-          md:gap-5
-          lg:gap-6
-        "
-      >
-        {visualCategories.map((category, index) => (
-          <VisualStackCard
-            key={category.link}
-            category={category}
-            index={index}
-          />
-        ))}
       </div>
     </section>
     </>
@@ -325,104 +363,6 @@ function LiquidScrollRipple({
             will-change-transform
           "
         >
-          <svg
-            aria-hidden="true"
-            className="absolute h-0 w-0"
-          >
-            <defs>
-              <filter
-                id="liquid-media-distortion"
-                x="-28%"
-                y="-28%"
-                width="156%"
-                height="156%"
-              >
-                <feTurbulence
-                  type="fractalNoise"
-                  baseFrequency="0.014 0.044"
-                  numOctaves="4"
-                  seed="4"
-                  result="mediaNoise"
-                >
-                  <animate
-                    attributeName="baseFrequency"
-                    dur="5.8s"
-                    repeatCount="indefinite"
-                    values="0.014 0.044;0.028 0.068;0.018 0.052;0.014 0.044"
-                  />
-                </feTurbulence>
-                <feDisplacementMap
-                  in="SourceGraphic"
-                  in2="mediaNoise"
-                  scale="46"
-                  xChannelSelector="R"
-                  yChannelSelector="G"
-                />
-              </filter>
-            </defs>
-          </svg>
-
-          <motion.div
-            className="
-              absolute
-              left-1/2
-              top-1/2
-              h-[54%]
-              w-[54%]
-              -translate-x-1/2
-              -translate-y-1/2
-              overflow-hidden
-              rounded-[46%_54%_48%_52%/52%_45%_55%_48%]
-              border
-              border-cyan-200/20
-              bg-cyan-950/20
-              shadow-[0_0_44px_rgba(24,204,255,0.24),inset_0_0_38px_rgba(154,244,255,0.16)]
-              [filter:url(#liquid-media-distortion)]
-            "
-            initial={false}
-            animate={{
-              borderRadius: [
-                "46% 54% 48% 52% / 52% 45% 55% 48%",
-                "54% 46% 56% 44% / 44% 56% 46% 54%",
-                "48% 52% 43% 57% / 57% 42% 58% 43%",
-                "46% 54% 48% 52% / 52% 45% 55% 48%",
-              ],
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <video
-              className="
-                h-full
-                w-full
-                scale-125
-                object-cover
-                opacity-80
-                mix-blend-screen
-                saturate-[1.2]
-              "
-              src={visualCategories[0].video}
-              poster={visualCategories[0].image}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-
-            <div
-              className="
-                absolute
-                inset-0
-                bg-[radial-gradient(circle_at_48%_48%,rgba(157,246,255,0.32),rgba(24,161,255,0.12)_42%,rgba(0,0,0,0.34)_74%)]
-                mix-blend-screen
-              "
-            />
-          </motion.div>
-
           <svg
             className="
               absolute
@@ -598,29 +538,57 @@ function LiquidScrollRipple({
 function VisualStackCard({
   category,
   index,
+  progress,
 }) {
+  const row = Math.floor(index / 3);
+  const column = index % 3;
+  const side = column === 0 ? -1 : column === 2 ? 1 : 0;
+  const start = 0.08 + row * 0.052 + column * 0.018;
+  const mid = start + 0.13;
+  const end = start + 0.28;
+
+  const opacity = useTransform(
+    progress,
+    [start, mid, end],
+    [0, 0.86, 1]
+  );
+  const y = useTransform(
+    progress,
+    [start, mid, end],
+    [46 + row * 18, 12 + row * 4, 0]
+  );
+  const x = useTransform(
+    progress,
+    [start, mid, end],
+    [side * 42, side * 14, 0]
+  );
+  const rotateX = useTransform(
+    progress,
+    [start, mid, end],
+    [18, 6, 0]
+  );
+  const rotateY = useTransform(
+    progress,
+    [start, mid, end],
+    [side * 13, side * 4, 0]
+  );
+  const scale = useTransform(
+    progress,
+    [start, mid, end],
+    [0.78, 0.94, 1]
+  );
+
   return (
     <motion.article
-      initial={{
-        opacity: 0,
-        y: 34,
-        scale: 0.94,
-        rotateX: 8,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotateX: 0,
-      }}
-      viewport={{
-        once: true,
-        margin: "-10% 0px -8% 0px",
-      }}
-      transition={{
-        duration: 0.72,
-        delay: Math.min(index * 0.055, 0.24),
-        ease: [0.22, 1, 0.36, 1],
+      style={{
+        opacity,
+        x,
+        y,
+        rotateX,
+        rotateY,
+        scale,
+        transformPerspective: 1100,
+        transformStyle: "preserve-3d",
       }}
       className="
         min-w-0
