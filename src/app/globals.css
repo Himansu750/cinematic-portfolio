@@ -172,45 +172,6 @@ button:active {
   border: 0;
 }
 
-@keyframes burn-flicker {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scaleX(1);
-    opacity: 0.72;
-  }
-
-  35% {
-    transform: translate3d(-1.4%, -5px, 0) scaleX(1.03);
-    opacity: 0.96;
-  }
-
-  68% {
-    transform: translate3d(1.2%, 3px, 0) scaleX(0.98);
-    opacity: 0.82;
-  }
-}
-
-@keyframes ember-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0.34;
-  }
-
-  50% {
-    transform: translate3d(2%, -10px, 0);
-    opacity: 0.72;
-  }
-}
-
-.burn-flicker {
-  animation: burn-flicker 1.15s ease-in-out infinite;
-}
-
-.ember-drift {
-  animation: ember-drift 1.8s ease-in-out infinite;
-}
-
 @media (max-width: 768px) {
   body::before {
     opacity: 0.58;

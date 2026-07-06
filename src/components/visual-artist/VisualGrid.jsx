@@ -41,52 +41,46 @@ export default function VisualGrid() {
     [1, 1, 0]
   );
 
-  const burnSheetOpacity = useTransform(
-    progress,
-    [0, 0.03, 0.22, 0.34],
-    [0, 1, 1, 0]
-  );
-
-  const burnSheetY = useTransform(
-    progress,
-    [0.02, 0.3],
-    ["0%", "-90%"]
-  );
-
-  const burnSheetScaleY = useTransform(
-    progress,
-    [0.02, 0.3],
-    [1, 0.86]
-  );
-
-  const burnSheetBlur = useTransform(
-    progress,
-    [0, 0.2, 0.34],
-    ["blur(0px)", "blur(0.6px)", "blur(6px)"]
-  );
-
-  const burnEdgeOpacity = useTransform(
-    progress,
-    [0.03, 0.1, 0.26, 0.36],
-    [0, 1, 0.86, 0]
-  );
-
   const wallOpacity = useTransform(
     progress,
-    [0.08, 0.2, 1],
+    [0.06, 0.18, 1],
     [0, 1, 1]
   );
 
   const wallY = useTransform(
     progress,
-    [0.08, 0.24, 1],
-    ["10vh", "3vh", "3vh"]
+    [0.06, 0.24, 1],
+    ["14vh", "3vh", "3vh"]
   );
 
   const wallScale = useTransform(
     progress,
-    [0.08, 0.24, 1],
-    [0.92, 1, 1]
+    [0.06, 0.24, 1],
+    [0.88, 1, 1]
+  );
+
+  const haloOpacity = useTransform(
+    progress,
+    [0, 0.08, 0.28, 1],
+    [0.26, 0.72, 0.34, 0.2]
+  );
+
+  const haloScale = useTransform(
+    progress,
+    [0, 0.24, 1],
+    [0.78, 1.08, 1.18]
+  );
+
+  const glassOpacity = useTransform(
+    progress,
+    [0, 0.12, 0.36],
+    [0.42, 0.18, 0]
+  );
+
+  const glassY = useTransform(
+    progress,
+    [0, 0.36],
+    ["0vh", "-18vh"]
   );
 
   useEffect(() => {
@@ -138,20 +132,63 @@ export default function VisualGrid() {
           Scroll down &darr;
         </motion.p>
 
-        <BurnReveal
-          edgeOpacity={burnEdgeOpacity}
-          opacity={burnSheetOpacity}
-          y={burnSheetY}
-          scaleY={burnSheetScaleY}
-          blur={burnSheetBlur}
-        />
-
         <div
           className="
             pointer-events-none
             absolute
             inset-0
-            bg-[radial-gradient(circle_at_50%_48%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0)_36%,rgba(0,0,0,0.52))]
+            bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.06),transparent_34%),linear-gradient(180deg,rgba(0,0,0,0.28),rgba(0,0,0,0)_35%,rgba(0,0,0,0.56))]
+          "
+        />
+
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: haloOpacity,
+            scale: haloScale,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-1/2
+            z-10
+            h-[46vh]
+            w-[78vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-full
+            bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.18),rgba(160,160,150,0.08)_38%,rgba(0,0,0,0)_68%)]
+            blur-2xl
+            will-change-transform
+          "
+        />
+
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: glassOpacity,
+            y: glassY,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-[46%]
+            z-30
+            h-[42vh]
+            w-[82vw]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-[999px]
+            border
+            border-white/[0.08]
+            bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.02)_42%,rgba(255,255,255,0.06))]
+            shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_30px_120px_rgba(0,0,0,0.55)]
+            backdrop-blur-[2px]
+            will-change-transform
+            md:w-[70vw]
+            lg:w-[54vw]
           "
         />
 
@@ -202,164 +239,6 @@ export default function VisualGrid() {
 
       </div>
     </section>
-  );
-}
-
-function BurnReveal({
-  edgeOpacity,
-  opacity,
-  y,
-  scaleY,
-  blur,
-}) {
-  return (
-    <motion.div
-      aria-hidden="true"
-      style={{
-        opacity,
-        y,
-        scaleY,
-        filter: blur,
-      }}
-      className="
-        pointer-events-none
-        absolute
-        inset-x-0
-        top-0
-        z-30
-        h-[74vh]
-        origin-top
-        overflow-visible
-        will-change-transform
-      "
-    >
-      <svg
-        className="
-          absolute
-          inset-x-[-9%]
-          top-0
-          h-full
-          w-[118%]
-          overflow-visible
-        "
-        viewBox="0 0 1200 740"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <filter
-            id="visual-burn-displace"
-            x="-6%"
-            y="-12%"
-            width="112%"
-            height="130%"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.012 0.052"
-              numOctaves="4"
-              seed="7"
-              result="noise"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale="22"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-
-          <linearGradient
-            id="burn-sheet"
-            x1="0"
-            x2="0"
-            y1="0"
-            y2="1"
-          >
-            <stop offset="0%" stopColor="rgba(214,214,205,0.2)" />
-            <stop offset="45%" stopColor="rgba(100,100,94,0.22)" />
-            <stop offset="100%" stopColor="rgba(13,12,10,0.94)" />
-          </linearGradient>
-
-          <linearGradient
-            id="burn-core"
-            x1="0"
-            x2="1"
-            y1="0"
-            y2="0"
-          >
-            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-            <stop offset="12%" stopColor="rgba(255,246,210,0.95)" />
-            <stop offset="24%" stopColor="rgba(255,130,46,0.9)" />
-            <stop offset="38%" stopColor="rgba(255,255,255,0.98)" />
-            <stop offset="52%" stopColor="rgba(255,183,76,0.96)" />
-            <stop offset="68%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="84%" stopColor="rgba(255,112,34,0.82)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-          </linearGradient>
-
-          <filter
-            id="burn-glow"
-            x="-10%"
-            y="-300%"
-            width="120%"
-            height="700%"
-          >
-            <feGaussianBlur stdDeviation="10" />
-          </filter>
-        </defs>
-
-        <motion.path
-          d="M 0 0 H 1200 V 594 C 1130 622 1082 566 1018 604 C 952 642 914 565 850 598 C 786 631 735 585 682 612 C 612 648 578 560 506 600 C 436 638 391 571 326 604 C 257 639 220 584 156 615 C 94 645 54 586 0 606 Z"
-          fill="url(#burn-sheet)"
-          filter="url(#visual-burn-displace)"
-        />
-
-        <motion.path
-          d="M 0 606 C 54 586 94 645 156 615 C 220 584 257 639 326 604 C 391 571 436 638 506 600 C 578 560 612 648 682 612 C 735 585 786 631 850 598 C 914 565 952 642 1018 604 C 1082 566 1130 622 1200 594"
-          fill="none"
-          stroke="rgba(0,0,0,0.72)"
-          strokeWidth="42"
-          filter="url(#visual-burn-displace)"
-        />
-
-        <motion.path
-          style={{ opacity: edgeOpacity }}
-          className="burn-flicker"
-          d="M 0 606 C 54 586 94 645 156 615 C 220 584 257 639 326 604 C 391 571 436 638 506 600 C 578 560 612 648 682 612 C 735 585 786 631 850 598 C 914 565 952 642 1018 604 C 1082 566 1130 622 1200 594"
-          fill="none"
-          stroke="url(#burn-core)"
-          strokeLinecap="round"
-          strokeWidth="28"
-          filter="url(#burn-glow)"
-        />
-
-        <motion.path
-          style={{ opacity: edgeOpacity }}
-          d="M 0 606 C 54 586 94 645 156 615 C 220 584 257 639 326 604 C 391 571 436 638 506 600 C 578 560 612 648 682 612 C 735 585 786 631 850 598 C 914 565 952 642 1018 604 C 1082 566 1130 622 1200 594"
-          fill="none"
-          stroke="rgba(255,255,244,0.95)"
-          strokeLinecap="round"
-          strokeWidth="4"
-          filter="url(#visual-burn-displace)"
-        />
-
-        <motion.g
-          style={{ opacity: edgeOpacity }}
-          className="ember-drift"
-          fill="rgba(255,167,64,0.9)"
-        >
-          <circle cx="148" cy="582" r="2.2" />
-          <circle cx="264" cy="626" r="1.5" />
-          <circle cx="391" cy="590" r="2" />
-          <circle cx="532" cy="625" r="1.8" />
-          <circle cx="672" cy="586" r="1.5" />
-          <circle cx="812" cy="618" r="2.1" />
-          <circle cx="1014" cy="585" r="1.7" />
-          <circle cx="1106" cy="613" r="2.4" />
-        </motion.g>
-      </svg>
-    </motion.div>
   );
 }
 
