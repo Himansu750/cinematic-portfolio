@@ -295,6 +295,74 @@ export default function VisualGrid() {
           "
         />
 
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: tunnelOpacity,
+            scale: tunnelScale,
+          }}
+          animate={{
+            borderRadius: [
+              "42% 58% 52% 48% / 50% 42% 58% 50%",
+              "58% 42% 38% 62% / 43% 61% 39% 57%",
+              "47% 53% 61% 39% / 62% 44% 56% 38%",
+              "42% 58% 52% 48% / 50% 42% 58% 50%",
+            ],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            pointer-events-none
+            absolute
+            left-[-24vw]
+            top-[12vh]
+            z-10
+            h-[48vh]
+            w-[70vw]
+            bg-white/[0.045]
+            blur-[1px]
+            md:w-[48vw]
+          "
+        />
+
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: tunnelOpacity,
+            y: tunnelY,
+          }}
+          animate={{
+            borderRadius: [
+              "56% 44% 48% 52% / 44% 56% 40% 60%",
+              "39% 61% 57% 43% / 60% 40% 58% 42%",
+              "62% 38% 43% 57% / 48% 64% 36% 52%",
+              "56% 44% 48% 52% / 44% 56% 40% 60%",
+            ],
+          }}
+          transition={{
+            duration: 7.2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="
+            pointer-events-none
+            absolute
+            right-[-28vw]
+            bottom-[8vh]
+            z-10
+            h-[46vh]
+            w-[76vw]
+            border
+            border-white/[0.055]
+            bg-white/[0.025]
+            shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]
+            md:w-[52vw]
+          "
+        />
+
         <div
           className="
             absolute
@@ -610,6 +678,7 @@ function VisualStackCard({
     [start, mid, end],
     [0.78, 0.94, 1]
   );
+  const reverseWipe = index % 2 === 1;
 
   return (
     <motion.article
@@ -629,33 +698,78 @@ function VisualStackCard({
         will-change-transform
       "
     >
-      <Link
-        href={category.link}
-        prefetch
-        className="
-          group
-          relative
-          block
-          overflow-hidden
-          rounded-[18px]
-          border
-          border-white/[0.1]
-          bg-zinc-950
-          shadow-[0_18px_60px_rgba(0,0,0,0.42)]
-          outline-none
-          transition
-          duration-300
-          active:scale-[0.985]
-          focus-visible:ring-2
-          focus-visible:ring-white/40
-        "
+      <motion.div
+        whileHover={{
+          y: -10,
+          rotateX: -4,
+          rotateY: reverseWipe ? -5 : 5,
+          scale: 1.035,
+        }}
+        whileTap={{
+          scale: 0.98,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 22,
+        }}
+        className="transform-gpu"
+        style={{
+          transformPerspective: 900,
+          transformStyle: "preserve-3d",
+        }}
       >
+        <Link
+          href={category.link}
+          prefetch
+          className="
+            group
+            relative
+            block
+            overflow-hidden
+            rounded-[20px]
+            border
+            border-white/[0.1]
+            bg-zinc-950
+            shadow-[0_18px_60px_rgba(0,0,0,0.42)]
+            outline-none
+            transition
+            duration-300
+            focus-visible:ring-2
+            focus-visible:ring-white/40
+          "
+        >
+        <motion.div
+          aria-hidden="true"
+          initial={{ x: reverseWipe ? "100%" : "-100%", opacity: 0 }}
+          whileInView={{ x: reverseWipe ? "-100%" : "100%", opacity: [0, 0.8, 0] }}
+          viewport={{ once: true, margin: "-18% 0px -18% 0px" }}
+          transition={{
+            duration: 0.95,
+            delay: Math.min(index * 0.045, 0.18),
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className={`
+            pointer-events-none
+            absolute
+            top-0
+            z-30
+            h-full
+            w-[72%]
+            skew-x-[-10deg]
+            ${reverseWipe ? "right-[-18%]" : "left-[-18%]"}
+            bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),transparent)]
+            blur-[1px]
+            mix-blend-screen
+          `}
+        />
+
         <div
           className="
             relative
             aspect-[1.04/1]
             overflow-hidden
-            rounded-[18px]
+            rounded-[20px]
             bg-zinc-950
             md:aspect-[1.08/1]
             lg:aspect-[1.16/1]
@@ -676,6 +790,38 @@ function VisualStackCard({
               duration-700
               group-hover:scale-[1.035]
               group-hover:brightness-100
+            "
+          />
+
+          <motion.div
+            aria-hidden="true"
+            animate={{
+              borderRadius: [
+                "50% 50% 50% 50% / 50% 50% 50% 50%",
+                "43% 57% 48% 52% / 60% 42% 58% 40%",
+                "58% 42% 55% 45% / 43% 61% 39% 57%",
+                "50% 50% 50% 50% / 50% 50% 50% 50%",
+              ],
+            }}
+            transition={{
+              duration: 5.8 + index * 0.3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="
+              absolute
+              -right-[20%]
+              -top-[22%]
+              h-[56%]
+              w-[56%]
+              border
+              border-white/[0.08]
+              bg-white/[0.045]
+              opacity-0
+              blur-[0.5px]
+              transition
+              duration-500
+              group-hover:opacity-100
             "
           />
 
@@ -735,7 +881,8 @@ function VisualStackCard({
             </span>
           </div>
         </div>
-      </Link>
+        </Link>
+      </motion.div>
     </motion.article>
   );
 }
