@@ -19,6 +19,19 @@ npm run dev:network
 
 Then open `http://YOUR_LAPTOP_IP:3000` on the phone or tablet.
 
+## Creative Motion Stack
+
+This project is already set up for premium UI, UX, and motion work:
+
+- Framer Motion for smooth interface transitions and scroll effects.
+- GSAP for cinematic timelines and match cuts.
+- Three.js / React Three Fiber / Drei for custom 3D.
+- Spline and Rive support for imported interactive animations.
+- Lenis for smooth scrolling.
+- 21st.dev MCP config in `.mcp.json`.
+
+See `docs/creative-workflow.md` for the full workflow and setup commands.
+
 ## Production Check
 
 Run this before publishing:
