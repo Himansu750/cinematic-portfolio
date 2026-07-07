@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import {
   motion,
   useMotionValue,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -22,6 +23,7 @@ import { visualCategories } from "@/data/visualCategories";
 
 export default function VisualGrid() {
   const router = useRouter();
+  const shouldReduceMotion = useReducedMotion();
   const liquidRef = useRef(null);
   const tunnelRef = useRef(null);
   const pointerX = useMotionValue(0);
@@ -180,6 +182,7 @@ export default function VisualGrid() {
           y={rippleY}
           pointerX={rippleX}
           pointerY={ripplePointerY}
+          reduced={shouldReduceMotion}
         />
 
         <motion.p
@@ -297,18 +300,26 @@ export default function VisualGrid() {
 
         <motion.div
           aria-hidden="true"
-          style={{
-            opacity: tunnelOpacity,
-            scale: tunnelScale,
-          }}
-          animate={{
-            borderRadius: [
-              "42% 58% 52% 48% / 50% 42% 58% 50%",
-              "58% 42% 38% 62% / 43% 61% 39% 57%",
-              "47% 53% 61% 39% / 62% 44% 56% 38%",
-              "42% 58% 52% 48% / 50% 42% 58% 50%",
-            ],
-          }}
+          style={
+            shouldReduceMotion
+              ? { opacity: 1, scale: 1 }
+              : {
+                  opacity: tunnelOpacity,
+                  scale: tunnelScale,
+                }
+          }
+          animate={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  borderRadius: [
+                    "42% 58% 52% 48% / 50% 42% 58% 50%",
+                    "58% 42% 38% 62% / 43% 61% 39% 57%",
+                    "47% 53% 61% 39% / 62% 44% 56% 38%",
+                    "42% 58% 52% 48% / 50% 42% 58% 50%",
+                  ],
+                }
+          }
           transition={{
             duration: 8,
             repeat: Infinity,
@@ -330,18 +341,26 @@ export default function VisualGrid() {
 
         <motion.div
           aria-hidden="true"
-          style={{
-            opacity: tunnelOpacity,
-            y: tunnelY,
-          }}
-          animate={{
-            borderRadius: [
-              "56% 44% 48% 52% / 44% 56% 40% 60%",
-              "39% 61% 57% 43% / 60% 40% 58% 42%",
-              "62% 38% 43% 57% / 48% 64% 36% 52%",
-              "56% 44% 48% 52% / 44% 56% 40% 60%",
-            ],
-          }}
+          style={
+            shouldReduceMotion
+              ? { opacity: 1, y: 0 }
+              : {
+                  opacity: tunnelOpacity,
+                  y: tunnelY,
+                }
+          }
+          animate={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  borderRadius: [
+                    "56% 44% 48% 52% / 44% 56% 40% 60%",
+                    "39% 61% 57% 43% / 60% 40% 58% 42%",
+                    "62% 38% 43% 57% / 48% 64% 36% 52%",
+                    "56% 44% 48% 52% / 44% 56% 40% 60%",
+                  ],
+                }
+          }
           transition={{
             duration: 7.2,
             repeat: Infinity,
@@ -381,11 +400,15 @@ export default function VisualGrid() {
           "
         >
           <motion.div
-            style={{
-              opacity: tunnelOpacity,
-              y: tunnelY,
-              scale: tunnelScale,
-            }}
+            style={
+              shouldReduceMotion
+                ? { opacity: 1, y: 0, scale: 1 }
+                : {
+                    opacity: tunnelOpacity,
+                    y: tunnelY,
+                    scale: tunnelScale,
+                  }
+            }
             className="
               grid
               grid-cols-2
@@ -403,6 +426,7 @@ export default function VisualGrid() {
                 category={category}
                 index={index}
                 progress={tunnelProgress}
+                reduced={shouldReduceMotion}
               />
             ))}
           </motion.div>
@@ -419,7 +443,12 @@ function LiquidScrollRipple({
   y,
   pointerX,
   pointerY,
+  reduced,
 }) {
+  if (reduced) {
+    return null;
+  }
+
   return (
     <div
       aria-label="Interactive liquid distortion preview"
@@ -640,6 +669,7 @@ function VisualStackCard({
   category,
   index,
   progress,
+  reduced,
 }) {
   const row = Math.floor(index / 3);
   const column = index % 3;
@@ -682,16 +712,23 @@ function VisualStackCard({
 
   return (
     <motion.article
-      style={{
-        opacity,
-        x,
-        y,
-        rotateX,
-        rotateY,
-        scale,
-        transformPerspective: 1100,
-        transformStyle: "preserve-3d",
-      }}
+      style={
+        reduced
+          ? {
+              opacity: 1,
+              transformStyle: "preserve-3d",
+            }
+          : {
+              opacity,
+              x,
+              y,
+              rotateX,
+              rotateY,
+              scale,
+              transformPerspective: 1100,
+              transformStyle: "preserve-3d",
+            }
+      }
       className="
         min-w-0
         transform-gpu

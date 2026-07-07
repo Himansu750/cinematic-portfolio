@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 
+import MagneticButton from "@/components/ui/MagneticButton";
+
 import { siteConfig } from "@/data/siteConfig";
 
 export default function Footer({
@@ -92,12 +94,13 @@ export default function Footer({
         >
           {siteConfig.email && (
             <>
-              <a
+              <MagneticButton
                 href={`mailto:${siteConfig.email}`}
+                intensity={0.08}
                 className="hover:text-white"
               >
                 Email
-              </a>
+              </MagneticButton>
 
               <span aria-hidden="true">/</span>
             </>
@@ -105,23 +108,25 @@ export default function Footer({
 
           {siteConfig.phone && (
             <>
-              <a
+              <MagneticButton
                 href={`tel:${siteConfig.phone}`}
+                intensity={0.08}
                 className="hover:text-white"
               >
                 Call
-              </a>
+              </MagneticButton>
 
               <span aria-hidden="true">/</span>
             </>
           )}
 
-          <a
+          <MagneticButton
             href="#work"
+            intensity={0.08}
             className="hover:text-white"
           >
             Work
-          </a>
+          </MagneticButton>
         </div>
 
         {/* COPYRIGHT */}

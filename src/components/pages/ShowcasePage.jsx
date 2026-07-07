@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import AmbientBackground from "@/components/effects/AmbientBackground";
 import Mobile3DScrollCard from "@/components/effects/Mobile3DScrollCard";
 import Footer from "@/components/layout/Footer";
+import MagneticButton from "@/components/ui/MagneticButton";
 import {
   cardReveal,
   ease,
@@ -107,8 +108,7 @@ export default function ShowcasePage({
           {description}
         </motion.p>
 
-        <motion.a
-          href="#project-grid"
+        <motion.div
           variants={pageReveal}
           initial="hidden"
           animate="visible"
@@ -117,30 +117,34 @@ export default function ShowcasePage({
             duration: 0.7,
             ease,
           }}
-          className="
-            mt-10
-            inline-flex
-            w-fit
-            items-center
-            gap-3
-            rounded-full
-            border
-            border-white/[0.08]
-            bg-white/[0.045]
-            px-5
-            py-3
-            text-[11px]
-            uppercase
-            tracking-[0.24em]
-            text-white/70
-            backdrop-blur-2xl
-            hover:bg-white/[0.075]
-            hover:text-white
-          "
+          className="mt-10 w-fit"
         >
-          View Projects
-          <span aria-hidden="true">&darr;</span>
-        </motion.a>
+          <MagneticButton
+            href="#project-grid"
+            className="
+              inline-flex
+              w-fit
+              items-center
+              gap-3
+              rounded-full
+              border
+              border-white/[0.08]
+              bg-white/[0.045]
+              px-5
+              py-3
+              text-[11px]
+              uppercase
+              tracking-[0.24em]
+              text-white/70
+              backdrop-blur-2xl
+              hover:bg-white/[0.075]
+              hover:text-white
+            "
+          >
+            View Projects
+            <span aria-hidden="true">&darr;</span>
+          </MagneticButton>
+        </motion.div>
       </section>
 
       <motion.section

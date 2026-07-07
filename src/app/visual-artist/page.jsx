@@ -38,7 +38,8 @@ export default function VisualArtistPage() {
         "
       >
         {/* VIDEO */}
-        <div
+        <motion.div
+          layoutId="hero-media-/visual-artist"
           className="
             absolute
             inset-0
@@ -87,7 +88,7 @@ export default function VisualArtistPage() {
               to-transparent
             "
           />
-        </div>
+        </motion.div>
 
         {/* CONTENT */}
         <div

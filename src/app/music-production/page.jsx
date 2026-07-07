@@ -11,6 +11,7 @@ import { ArrowUpRight, Disc3, Headphones, Radio } from "lucide-react";
 
 import Footer from "@/components/layout/Footer";
 import LazyVideo from "@/components/ui/LazyVideo";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 const records = [
   {
@@ -230,7 +231,7 @@ export default function MusicProductionPage() {
                 transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1] }}
                 className="
                   max-w-[760px]
-                  text-[clamp(4rem,16vw,10.5rem)]
+                  text-[clamp(2.75rem,12vw,10.5rem)]
                   font-black
                   leading-[0.78]
                   tracking-[-0.085em]
@@ -547,7 +548,7 @@ function MusicPanel({
             {record.copy}
           </p>
 
-          <button
+          <MagneticButton
             type="button"
             className="
               mt-7
@@ -572,7 +573,7 @@ function MusicPanel({
           >
             Listen Study
             <ArrowUpRight size={15} strokeWidth={1.6} />
-          </button>
+          </MagneticButton>
         </div>
       </div>
     </motion.article>

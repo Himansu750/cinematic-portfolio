@@ -327,7 +327,8 @@ export default function HeroCard({
         />
 
         {/* VIDEO */}
-        <div
+        <motion.div
+          layoutId={`hero-media-${card.link}`}
           className="
             relative
             overflow-hidden
@@ -353,7 +354,7 @@ export default function HeroCard({
               object-cover
             "
           />
-        </div>
+        </motion.div>
 
         {/* TEXT */}
         <div className="mt-5">

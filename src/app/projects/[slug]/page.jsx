@@ -1,5 +1,7 @@
 "use client";
 
+import { use } from "react";
+
 import { notFound } from "next/navigation";
 
 import { motion } from "framer-motion";
@@ -15,8 +17,10 @@ import { projects } from "@/data/projects";
 export default function ProjectPage({
   params,
 }) {
+  const { slug } = use(params);
+
   const project = projects.find(
-    (item) => item.slug === params.slug
+    (item) => item.slug === slug
   );
 
   if (!project) {

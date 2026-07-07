@@ -12,6 +12,9 @@ export default function MagneticButton({
   type = "button",
   ariaLabel,
   onClick,
+  href,
+  intensity = 0.2,
+  ...rest
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -37,10 +40,10 @@ export default function MagneticButton({
       rect.top + rect.height / 2;
 
     const moveX =
-      (e.clientX - centerX) * 0.2;
+      (e.clientX - centerX) * intensity;
 
     const moveY =
-      (e.clientY - centerY) * 0.2;
+      (e.clientY - centerY) * intensity;
 
     x.set(moveX);
     y.set(moveY);
@@ -51,27 +54,40 @@ export default function MagneticButton({
     y.set(0);
   }
 
+  const sharedProps = {
+    "aria-label": ariaLabel,
+    style: {
+      x: springX,
+      y: springY,
+    },
+    onClick,
+    onMouseMove: handleMouseMove,
+    onMouseLeave: handleMouseLeave,
+    whileTap: {
+      scale: 0.96,
+    },
+    whileFocus: {
+      scale: 1.03,
+    },
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 18,
+    },
+    className,
+    ...rest,
+  };
+
+  if (href) {
+    return (
+      <motion.a href={href} {...sharedProps}>
+        {children}
+      </motion.a>
+    );
+  }
+
   return (
-    <motion.button
-      type={type}
-      aria-label={ariaLabel}
-      style={{
-        x: springX,
-        y: springY,
-      }}
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      whileTap={{
-        scale: 0.96,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 400,
-        damping: 18,
-      }}
-      className={className}
-    >
+    <motion.button type={type} {...sharedProps}>
       {children}
     </motion.button>
   );

@@ -59,3 +59,29 @@ export const tap = {
   scale: 0.975,
   transition: premiumSpring,
 };
+
+export const routeTransition = {
+  hidden: {
+    opacity: 0,
+    scale: 0.985,
+    filter: "blur(14px)",
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.6,
+      ease,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 1.015,
+    filter: "blur(14px)",
+    transition: {
+      duration: 0.4,
+      ease,
+    },
+  },
+};

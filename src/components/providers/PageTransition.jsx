@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { usePathname } from "next/navigation";
 
-import { ease } from "@/lib/motion";
+import { routeTransition } from "@/lib/motion";
 
 export default function PageTransition({
   children,
@@ -12,23 +12,16 @@ export default function PageTransition({
   const pathname = usePathname();
 
   return (
-    <motion.div
-      key={pathname}
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-      }}
-      exit={{
-        opacity: 0,
-      }}
-      transition={{
-        duration: 0.16,
-        ease,
-      }}
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence mode="popLayout" initial={false}>
+      <motion.div
+        key={pathname}
+        variants={routeTransition}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }

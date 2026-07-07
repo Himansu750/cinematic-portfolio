@@ -383,7 +383,7 @@ export default function HeroSection({
                   md:p-3
                 "
               >
-                <div
+                <motion.div
                   className="
                     relative
                     overflow-hidden
@@ -460,7 +460,7 @@ export default function HeroSection({
                       {card.title[1]}
                     </h2>
                   </div>
-                </div>
+                </motion.div>
 
                 <p
                   className="
