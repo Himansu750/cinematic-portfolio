@@ -2,6 +2,7 @@
 
 import {
   motion,
+  useMotionValue,
   useScroll,
   useSpring,
   useTransform,
@@ -39,21 +40,37 @@ const records = [
 ];
 
 export default function MusicProductionPage() {
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
   const { scrollYProgress } = useScroll();
   const smooth = useSpring(scrollYProgress, {
     stiffness: 86,
     damping: 24,
     mass: 0.42,
   });
+  const cursorX = useSpring(pointerX, { stiffness: 90, damping: 22, mass: 0.3 });
+  const cursorY = useSpring(pointerY, { stiffness: 90, damping: 22, mass: 0.3 });
 
   const discRotate = useTransform(smooth, [0, 1], [0, 560]);
   const greenX = useTransform(smooth, [0, 0.45, 1], ["-12vw", "18vw", "-8vw"]);
   const amberX = useTransform(smooth, [0, 0.5, 1], ["18vw", "-14vw", "12vw"]);
   const shapeScale = useTransform(smooth, [0, 0.4, 1], [1, 1.18, 0.94]);
   const heroY = useTransform(smooth, [0, 0.38], ["0vh", "-16vh"]);
+  const maskScale = useTransform(smooth, [0.08, 0.32, 0.58], [0.45, 1.18, 0.62]);
+  const maskOpacity = useTransform(smooth, [0, 0.12, 0.48, 0.7], [0, 0.82, 0.42, 0]);
+
+  function handlePointerMove(event) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - bounds.left - bounds.width / 2;
+    const y = event.clientY - bounds.top - bounds.height / 2;
+
+    pointerX.set((x / bounds.width) * 54);
+    pointerY.set((y / bounds.height) * 42);
+  }
 
   return (
     <main
+      onPointerMove={handlePointerMove}
       className="
         relative
         min-h-screen
@@ -75,7 +92,20 @@ export default function MusicProductionPage() {
       >
         <motion.div
           aria-hidden="true"
-          style={{ x: greenX, scale: shapeScale }}
+          style={{ x: greenX, y: cursorY, scale: shapeScale }}
+          animate={{
+            borderRadius: [
+              "44% 56% 48% 52% / 52% 38% 62% 48%",
+              "58% 42% 62% 38% / 39% 61% 43% 57%",
+              "47% 53% 39% 61% / 62% 42% 58% 38%",
+              "44% 56% 48% 52% / 52% 38% 62% 48%",
+            ],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
           className="
             pointer-events-none
             absolute
@@ -94,7 +124,20 @@ export default function MusicProductionPage() {
 
         <motion.div
           aria-hidden="true"
-          style={{ x: amberX }}
+          style={{ x: amberX, y: cursorX }}
+          animate={{
+            borderRadius: [
+              "50% 44% 56% 48% / 42% 58% 44% 56%",
+              "38% 62% 45% 55% / 59% 41% 63% 37%",
+              "60% 40% 54% 46% / 45% 55% 39% 61%",
+              "50% 44% 56% 48% / 42% 58% 44% 56%",
+            ],
+          }}
+          transition={{
+            duration: 7.2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
           className="
             pointer-events-none
             absolute
@@ -107,6 +150,29 @@ export default function MusicProductionPage() {
             opacity-90
             md:h-[64vh]
             md:w-[58vw]
+          "
+        />
+
+        <motion.div
+          aria-hidden="true"
+          style={{
+            opacity: maskOpacity,
+            scale: maskScale,
+            rotate: discRotate,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            right-[-18vw]
+            top-[38vh]
+            h-[54vh]
+            w-[54vh]
+            rounded-full
+            border-[34px]
+            border-[#159447]
+            bg-black
+            shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_40px_100px_rgba(0,0,0,0.42)]
+            mix-blend-screen
           "
         />
 
@@ -201,6 +267,21 @@ export default function MusicProductionPage() {
                 lg:w-[min(36vw,500px)]
               "
             >
+              <motion.div
+                aria-hidden="true"
+                style={{ rotate: discRotate }}
+                className="
+                  absolute
+                  -right-[12%]
+                  top-[10%]
+                  h-[30%]
+                  w-[30%]
+                  rounded-full
+                  bg-[#a8652a]
+                  shadow-[inset_0_0_0_18px_#050505,inset_0_0_0_22px_rgba(255,255,255,0.14)]
+                "
+              />
+
               <motion.div
                 style={{ rotate: discRotate }}
                 className="
@@ -299,6 +380,8 @@ function MusicPanel({
   record,
 }) {
   const reverse = index % 2 === 1;
+  const wipeFrom = reverse ? "100%" : "-100%";
+  const wipeTo = reverse ? "-100%" : "100%";
 
   return (
     <motion.article
@@ -337,6 +420,44 @@ function MusicPanel({
           duration-700
           group-hover:scale-110
         `}
+        animate={{
+          borderRadius: [
+            "50% 50% 50% 50% / 50% 50% 50% 50%",
+            "44% 56% 52% 48% / 60% 42% 58% 40%",
+            "58% 42% 46% 54% / 44% 62% 38% 56%",
+            "50% 50% 50% 50% / 50% 50% 50% 50%",
+          ],
+        }}
+        transition={{
+          duration: 6.8 + index * 0.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      <motion.div
+        aria-hidden="true"
+        initial={{ x: wipeFrom, opacity: 0 }}
+        whileInView={{ x: wipeTo, opacity: [0, 0.95, 0] }}
+        viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+        transition={{
+          duration: 1.15,
+          delay: 0.12,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className={`
+          pointer-events-none
+          absolute
+          top-0
+          z-30
+          h-full
+          w-[62%]
+          skew-x-[-8deg]
+          ${reverse ? "right-[-12%]" : "left-[-12%]"}
+          bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent)]
+          blur-[1px]
+          mix-blend-screen
+        `}
       />
 
       <div
@@ -359,6 +480,30 @@ function MusicPanel({
             bg-black
           "
         >
+          <motion.div
+            aria-hidden="true"
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              z-20
+              h-[58%]
+              w-[58%]
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              border-[18px]
+              border-black/70
+              bg-white/10
+              opacity-0
+              shadow-[inset_0_0_0_1px_rgba(255,255,255,0.22)]
+              transition
+              duration-500
+              group-hover:rotate-45
+              group-hover:opacity-80
+            "
+          />
+
           <LazyVideo
             src={record.video}
             poster={record.image}
@@ -419,6 +564,10 @@ function MusicPanel({
               font-medium
               text-white/86
               backdrop-blur-xl
+              transition
+              duration-300
+              hover:border-white/24
+              hover:bg-white/[0.1]
             "
           >
             Listen Study
