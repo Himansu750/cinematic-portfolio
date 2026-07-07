@@ -23,6 +23,7 @@ import { visualCategories } from "@/data/visualCategories";
 export default function VisualGrid() {
   const router = useRouter();
   const liquidRef = useRef(null);
+  const tunnelRef = useRef(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
 
@@ -98,8 +99,8 @@ export default function VisualGrid() {
   );
 
   const { scrollYProgress: tunnelScroll } = useScroll({
-    target: liquidRef,
-    offset: ["0.48 start", "end end"],
+    target: tunnelRef,
+    offset: ["start start", "end end"],
   });
 
   const tunnelProgress = useSpring(tunnelScroll, {
@@ -111,7 +112,7 @@ export default function VisualGrid() {
 
   const tunnelOpacity = useTransform(
     tunnelProgress,
-    [0, 0.12, 1],
+    [0, 0.1, 1],
     [0, 1, 1]
   );
 
@@ -155,11 +156,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[245vh]
+        min-h-[125vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[255vh]
+        lg:min-h-[135vh]
       "
     >
       <div
@@ -261,11 +262,44 @@ export default function VisualGrid() {
           "
         />
 
+      </div>
+    </section>
+
+    <section
+      ref={tunnelRef}
+      className="
+        relative
+        z-20
+        min-h-[178vh]
+        bg-black
+        text-white
+        [perspective:1200px]
+        lg:min-h-[188vh]
+      "
+    >
+      <div
+        className="
+          sticky
+          top-0
+          h-screen
+          overflow-hidden
+          bg-[#020403]
+        "
+      >
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_50%_44%,rgba(255,255,255,0.055),transparent_32%),linear-gradient(180deg,rgba(0,0,0,0.34),rgba(0,0,0,0)_34%,rgba(0,0,0,0.56))]
+          "
+        />
+
         <div
           className="
             absolute
             left-1/2
-            top-[55%]
+            top-[54%]
             z-20
             w-[82vw]
             -translate-x-1/2
@@ -305,7 +339,6 @@ export default function VisualGrid() {
             ))}
           </motion.div>
         </div>
-
       </div>
     </section>
     </>
@@ -328,14 +361,14 @@ function LiquidScrollRipple({
         left-1/2
         top-1/2
         z-30
-        h-[360px]
-        w-[360px]
+        h-[300px]
+        w-[300px]
         -translate-x-1/2
         -translate-y-1/2
         transform-gpu
         will-change-transform
-        md:h-[500px]
-        md:w-[500px]
+        md:h-[420px]
+        md:w-[420px]
       "
     >
       <motion.div
@@ -424,10 +457,10 @@ function LiquidScrollRipple({
             cy="50%"
             r="58%"
           >
-            <stop offset="0%" stopColor="rgba(90,230,255,0.34)" />
-            <stop offset="38%" stopColor="rgba(33,181,255,0.24)" />
-            <stop offset="72%" stopColor="rgba(13,87,189,0.16)" />
-            <stop offset="100%" stopColor="rgba(0,12,48,0)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+            <stop offset="38%" stopColor="rgba(255,255,255,0.1)" />
+            <stop offset="72%" stopColor="rgba(255,255,255,0.035)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </radialGradient>
 
           <linearGradient
@@ -437,15 +470,15 @@ function LiquidScrollRipple({
             y1="0"
             y2="1"
           >
-            <stop offset="0%" stopColor="rgba(99,239,255,0.1)" />
-            <stop offset="45%" stopColor="rgba(99,239,255,0.78)" />
-            <stop offset="100%" stopColor="rgba(37,111,255,0.12)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.05)" />
+            <stop offset="45%" stopColor="rgba(255,255,255,0.56)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.06)" />
           </linearGradient>
 
           <radialGradient id="liquid-scroll-core">
-            <stop offset="0%" stopColor="rgba(204,255,255,0.86)" />
-            <stop offset="42%" stopColor="rgba(77,228,255,0.34)" />
-            <stop offset="100%" stopColor="rgba(0,28,84,0)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.62)" />
+            <stop offset="42%" stopColor="rgba(255,255,255,0.18)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </radialGradient>
         </defs>
 
@@ -513,7 +546,7 @@ function LiquidScrollRipple({
         <motion.path
           d="M51 112C80 88 117 73 164 91M58 138C93 125 127 125 162 146M85 54C93 82 90 115 75 158M137 48C124 83 122 127 143 164"
           fill="none"
-          stroke="rgba(141,243,255,0.3)"
+          stroke="rgba(255,255,255,0.2)"
           strokeLinecap="round"
           strokeWidth="1.2"
           filter="url(#liquid-scroll-distortion)"
