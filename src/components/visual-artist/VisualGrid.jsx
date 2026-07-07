@@ -52,49 +52,49 @@ export default function VisualGrid() {
 
   const promptOpacity = useTransform(
     progress,
-    [0, 0.12, 0.42, 0.52],
+    [0, 0.08, 0.28, 0.38],
     [1, 1, 1, 0]
   );
 
   const rippleScale = useTransform(
     progress,
-    [0, 0.34, 0.72],
+    [0, 0.24, 0.52],
     [0.82, 1.08, 0.92]
   );
 
   const rippleY = useTransform(
     progress,
-    [0, 0.5, 0.74],
+    [0, 0.34, 0.54],
     ["0vh", "-3vh", "-10vh"]
   );
 
   const rippleOpacity = useTransform(
     progress,
-    [0, 0.18, 0.58, 0.78],
+    [0, 0.12, 0.42, 0.56],
     [1, 1, 0.9, 0]
   );
 
   const haloOpacity = useTransform(
     progress,
-    [0, 0.22, 0.72],
+    [0, 0.16, 0.54],
     [0.22, 0.52, 0]
   );
 
   const haloScale = useTransform(
     progress,
-    [0, 0.56],
+    [0, 0.42],
     [0.8, 1.08]
   );
 
   const glassOpacity = useTransform(
     progress,
-    [0, 0.3, 0.68],
+    [0, 0.18, 0.5],
     [0.28, 0.2, 0]
   );
 
   const glassY = useTransform(
     progress,
-    [0, 0.68],
+    [0, 0.5],
     ["0vh", "-14vh"]
   );
 
@@ -118,13 +118,13 @@ export default function VisualGrid() {
 
   const tunnelY = useTransform(
     tunnelProgress,
-    [0, 0.28, 1],
+    [0, 0.2, 1],
     ["18vh", "2vh", "2vh"]
   );
 
   const tunnelScale = useTransform(
     tunnelProgress,
-    [0, 0.34, 1],
+    [0, 0.24, 1],
     [0.86, 1, 1]
   );
 
@@ -156,11 +156,11 @@ export default function VisualGrid() {
       className="
         relative
         z-10
-        min-h-[125vh]
+        min-h-[104vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[135vh]
+        lg:min-h-[112vh]
       "
     >
       <div
@@ -270,11 +270,11 @@ export default function VisualGrid() {
       className="
         relative
         z-20
-        min-h-[178vh]
+        min-h-[132vh]
         bg-black
         text-white
         [perspective:1200px]
-        lg:min-h-[188vh]
+        lg:min-h-[142vh]
       "
     >
       <div
